@@ -1,0 +1,2414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>J&D Vantage Quant </title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+    
+    <!-- Anime.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    
+    <!-- Three.js for 3D effects -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- EmailJS CDN -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            emailjs.init({
+                publicKey: "yGskjt_nKqYxtfG0w",
+            });
+        })();
+    </script>
+
+    <style>
+        :root {
+            --primary-color: #2c2c2c;
+            --secondary-color: #4a4a4a;
+            --accent-color: #6b6b6b;
+            --dark-bg: #f8f8f8;
+            --card-bg: #ffffff;
+            --text-primary: #2c2c2c;
+            --text-secondary: #4a4a4a;
+            --gradient-primary: linear-gradient(135deg, #2c2c2c 0%, #4a4a4a 100%);
+            --gradient-secondary: linear-gradient(135deg, #4a4a4a 0%, #6b6b6b 100%);
+            --gradient-dark: linear-gradient(135deg, #ffffff 0%, #f8f8f8 100%);
+            --primary-gold: #2c2c2c;
+            --gold-light: #4a4a4a;
+            --gold-dark: #1a1a1a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* 3D Background Canvas */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.1;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 4px;
+        }
+
+        /* Header Styles */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(44, 44, 44, 0.2);
+            z-index: 1000;
+            transition: all 0.2s ease;
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-text {
+            font-family: 'Georgia', serif;
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: #2c2c2c;
+            text-shadow: 
+                1px 1px 0px rgba(255,255,255,0.3),
+                -1px -1px 0px rgba(0,0,0,0.1);
+            letter-spacing: 0.5px;
+        }
+        
+        .logo-text .jd-part {
+            font-size: 2.2rem;
+            font-weight: 900;
+        }
+        
+        .logo-text .vantage-quant {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #2c2c2c;
+            margin-left: 0.5rem;
+            letter-spacing: 1px;
+        }
+
+        .site-logo {
+            display: none;
+        }
+
+        /* Navigation */
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            transition: all 0.2s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+            background: rgba(44, 44, 44, 0.1);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transition: all 0.2s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-links a:hover::after {
+            width: 80%;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 1001;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .mobile-menu-btn:hover {
+            background: rgba(44, 44, 44, 0.1);
+        }
+
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.98);
+            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .mobile-menu-links {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .mobile-menu-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 600;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu-links a:hover {
+            color: var(--primary-color);
+            background: rgba(44, 44, 44, 0.1);
+        }
+
+        .mobile-menu-close {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 2rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .mobile-menu-close:hover {
+            background: rgba(44, 44, 44, 0.1);
+        }
+
+        /* Mobile Menu Responsive */
+        @media (max-width: 480px) {
+            .mobile-menu-links a {
+                font-size: 1.3rem;
+                padding: 0.875rem 1.5rem;
+            }
+            
+            .mobile-menu-close {
+                top: 1.5rem;
+                right: 1.5rem;
+                font-size: 1.75rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .mobile-menu-links a {
+                font-size: 1.2rem;
+                padding: 0.75rem 1.25rem;
+            }
+            
+            .mobile-menu-close {
+                top: 1rem;
+                right: 1rem;
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Main Content */
+        main {
+            margin-top: 80px;
+            min-height: calc(100vh - 80px);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 1200px;
+            padding: 2rem;
+            z-index: 2;
+        }
+
+        /* Ensure visual sits below buttons nicely */
+        .hero-visual {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(3rem, 8vw, 8rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 2rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            opacity: 0;
+            transform: translateY(100px);
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        /* Cards */
+        .card-3d {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid rgba(44, 44, 44, 0.2);
+            transition: all 0.2s ease;
+            position: relative;
+            box-shadow: 0 4px 12px rgba(44, 44, 44, 0.1);
+        }
+
+        .card-3d:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(44, 44, 44, 0.15);
+            border-color: rgba(44, 44, 44, 0.3);
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: #ffffff;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(44, 44, 44, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary-color);
+            padding: 1rem 2rem;
+            border: 2px solid var(--primary-color);
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-color);
+            color: #ffffff;
+            transform: translateY(-2px);
+        }
+
+        /* Sections */
+        .section {
+            padding: 6rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Grid Layouts */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        /* Performance Charts */
+        .chart-container {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid rgba(44, 44, 44, 0.2);
+            margin: 2rem 0;
+            position: relative;
+            height: 400px;
+            box-shadow: 0 4px 12px rgba(44, 44, 44, 0.1);
+        }
+
+        .chart-container canvas {
+            max-height: 300px !important;
+        }
+
+        /* Offerings page layout and sizing */
+        .offerings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2.5rem;
+        }
+
+        .offerings-card {
+            padding: 1.25rem;
+            border-radius: 14px;
+        }
+
+        .offerings-card h3 {
+            font-size: clamp(1.4rem, 2.3vw, 1.8rem);
+            margin-bottom: 0.75rem;
+        }
+
+        .offerings-card p {
+            font-size: clamp(0.95rem, 1.6vw, 1.05rem);
+            line-height: 1.6;
+            margin-bottom: 1.25rem;
+        }
+
+        .offerings-card .btn-primary,
+        .offerings-card .btn-secondary {
+            padding: 0.75rem 1.25rem;
+            font-size: 0.95rem;
+        }
+
+        /* Compact chart for card 1 */
+        .chart-compact {
+            height: 200px;
+            padding: 1rem;
+        }
+
+        .chart-compact canvas {
+            max-height: 160px !important;
+        }
+
+        /* Responsive table improvements */
+        .data-table {
+            overflow-x: auto;
+            display: block;
+        }
+
+        .data-table table {
+            min-width: 600px;
+        }
+
+        /* Responsive chart improvements */
+        @media (max-width: 1024px) {
+            .chart-container {
+                overflow-x: auto;
+            }
+            
+            .chart-container canvas {
+                min-width: 500px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .chart-container {
+                overflow-x: auto;
+            }
+            
+            .chart-container canvas {
+                min-width: 400px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .chart-container {
+                overflow-x: auto;
+            }
+            
+            .chart-container canvas {
+                min-width: 350px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .chart-container {
+                overflow-x: auto;
+            }
+            
+            .chart-container canvas {
+                min-width: 300px;
+            }
+        }
+
+        /* Footer */
+        footer {
+            background: var(--gradient-dark);
+            border-top: 1px solid rgba(44, 44, 44, 0.1);
+            padding: 3rem 2rem 2rem;
+            text-align: center;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .social-link {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-dark);
+            border: 1px solid rgba(44, 44, 44, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .social-link:hover {
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(44, 44, 44, 0.15);
+        }
+
+        /* Responsive footer improvements */
+        @media (max-width: 768px) {
+            footer {
+                padding: 2.5rem 1.5rem 1.5rem;
+            }
+            
+            .social-links {
+                gap: 1rem;
+                margin: 1.5rem 0;
+            }
+            
+            .social-link {
+                width: 45px;
+                height: 45px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            footer {
+                padding: 2rem 1rem 1rem;
+            }
+            
+            .social-links {
+                gap: 0.75rem;
+                margin: 1.5rem 0;
+            }
+            
+            .social-link {
+                width: 40px;
+                height: 40px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            footer {
+                padding: 1.5rem 0.5rem 1rem;
+            }
+            
+            .social-links {
+                gap: 0.5rem;
+                margin: 1rem 0;
+            }
+            
+            .social-link {
+                width: 35px;
+                height: 35px;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .header-container {
+                padding: 1rem 1.5rem;
+            }
+            
+            .section {
+                padding: 5rem 1.5rem;
+            }
+            
+            .hero-content {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .hero-inner {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 2rem;
+            }
+            
+            .hero-title {
+                font-size: clamp(2.5rem, 6vw, 4rem);
+            }
+            
+            .hero-subtitle {
+                font-size: clamp(1rem, 2.5vw, 1.5rem);
+            }
+            
+            .cube-wrapper {
+                --size: clamp(120px, 25vw, 200px);
+            }
+            
+            .grid-3, .grid-2, .offerings-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .header-container {
+                padding: 0.75rem 1rem;
+            }
+            
+                    .logo-text {
+            font-size: 1.4rem;
+        }
+        
+        .logo-text .jd-part {
+            font-size: 1.6rem;
+        }
+        
+        .logo-text .vantage-quant {
+            font-size: 0.8rem;
+        }
+            
+            .hero-section {
+                height: auto;
+                min-height: 100vh;
+                padding: 2rem 0;
+            }
+            
+            .hero-content {
+                padding: 1rem;
+            }
+            
+            .hero-title {
+                font-size: clamp(2rem, 8vw, 3rem);
+                margin-bottom: 1.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: clamp(0.9rem, 3vw, 1.2rem);
+                margin-bottom: 2rem;
+            }
+            
+            .hero-buttons {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+                align-items: center;
+                margin-bottom: 1.75rem;
+            }
+            
+            .hero-buttons .btn-primary,
+            .hero-buttons .btn-secondary {
+                width: 100%;
+                max-width: 280px;
+                margin: 0;
+            }
+            
+            .hero-visual { margin-top: 1.25rem; }
+
+            .cube-wrapper {
+                --size: clamp(100px, 30vw, 150px);
+            }
+            
+            .cube-face i {
+                font-size: clamp(1.5rem, 4vw, 2rem);
+            }
+            
+            .cube-face span {
+                font-size: 0.8rem;
+            }
+            
+            .section {
+                padding: 3rem 1rem;
+            }
+            
+            .section-title {
+                font-size: clamp(2rem, 5vw, 2.5rem);
+                margin-bottom: 2rem;
+            }
+            
+            .grid-3, .grid-2, .offerings-grid {
+                grid-template-columns: 1fr;
+                gap: 1.25rem;
+                margin-top: 1.5rem;
+            }
+            .offerings-card { padding: 1rem; }
+            .chart-compact { height: 180px; padding: 1rem; }
+            .chart-compact canvas { max-height: 140px !important; }
+            
+            .card-3d {
+                padding: 1.25rem;
+            }
+            
+            .btn-primary, .btn-secondary {
+                padding: 0.875rem 1.5rem;
+                font-size: 1rem;
+            }
+            
+            .chart-container {
+                height: 300px;
+                padding: 1.5rem;
+            }
+            
+            .social-links {
+                gap: 0.75rem;
+            }
+            
+            .social-link {
+                width: 45px;
+                height: 45px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-container {
+                padding: 0.5rem 0.75rem;
+            }
+            
+            .logo-text {
+                font-size: 1.2rem;
+            }
+            
+            .logo-text .jd-part {
+                font-size: 1.4rem;
+            }
+            
+            .logo-text .vantage-quant {
+                font-size: 0.7rem;
+            }
+            
+            .hero-section { padding: 1rem 0; }
+            .hero-visual { margin-top: 1.75rem; }
+            
+            .hero-content {
+                padding: 0.75rem;
+            }
+            
+            .hero-title {
+                font-size: clamp(1.8rem, 7vw, 2.5rem);
+            }
+            
+            .hero-subtitle {
+                font-size: clamp(0.8rem, 2.5vw, 1rem);
+            }
+            
+            .section { padding: 2rem 0.75rem; }
+            
+            .section-title { font-size: clamp(1.5rem, 4vw, 2rem); }
+            .offerings-card { padding: 0.875rem; border-radius: 12px; }
+            .chart-compact { height: 160px; padding: 0.875rem; }
+            .chart-compact canvas { max-height: 120px !important; }
+            
+            .card-3d {
+                padding: 1rem;
+                border-radius: 12px;
+            }
+            
+            .btn-primary, .btn-secondary {
+                padding: 0.75rem 1.25rem;
+                font-size: 0.9rem;
+            }
+            
+            .chart-container {
+                height: 250px;
+                padding: 1rem;
+            }
+            
+            .form-input {
+                padding: 0.875rem;
+                font-size: 0.9rem;
+            }
+            
+            .social-link {
+                width: 40px;
+                height: 40px;
+            }
+            
+            footer {
+                padding: 2rem 1rem 1rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .hero-title {
+                font-size: 1.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 0.8rem;
+            }
+            
+            .section-title {
+                font-size: 1.3rem;
+            }
+            
+            .card-3d {
+                padding: 0.875rem;
+            }
+            
+            .btn-primary, .btn-secondary {
+                padding: 0.625rem 1rem;
+                font-size: 0.85rem;
+            }
+            
+            .offerings-card {
+                padding: 0.75rem;
+            }
+            
+            .chart-compact {
+                height: 140px;
+                padding: 0.75rem;
+            }
+            
+            .chart-compact canvas {
+                max-height: 100px !important;
+            }
+        }
+
+        /* Loading Animation */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--dark-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.3s ease;
+        }
+
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 3px solid rgba(44, 44, 44, 0.1);
+            border-top: 3px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Page Transitions */
+        .page-content {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s ease;
+        }
+
+        .page-content.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Custom Form Styles */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 1rem;
+            background: #ffffff;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            position: relative;
+            z-index: 10;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            background: #ffffff;
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 120px;
+            font-family: inherit;
+        }
+
+        /* Responsive form improvements */
+        @media (max-width: 1024px) {
+            .form-group {
+                margin-bottom: 1.5rem;
+            }
+            
+            .form-label {
+                font-size: 1rem;
+            }
+            
+            .form-input {
+                font-size: 16px; /* Prevents zoom on iOS */
+            }
+            
+            .form-textarea {
+                min-height: 120px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .form-group {
+                margin-bottom: 1.25rem;
+            }
+            
+            .form-label {
+                font-size: 0.9rem;
+            }
+            
+            .form-input {
+                font-size: 16px; /* Prevents zoom on iOS */
+            }
+            
+            .form-textarea {
+                min-height: 100px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .form-group {
+                margin-bottom: 1rem;
+            }
+            
+            .form-label {
+                font-size: 0.85rem;
+            }
+            
+            .form-input {
+                padding: 0.75rem;
+                font-size: 16px;
+            }
+            
+            .form-textarea {
+                min-height: 80px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .form-group {
+                margin-bottom: 0.875rem;
+            }
+            
+            .form-label {
+                font-size: 0.8rem;
+            }
+            
+            .form-input {
+                padding: 0.625rem;
+                font-size: 16px;
+            }
+            
+            .form-textarea {
+                min-height: 70px;
+            }
+        }
+
+        /* Table Styles */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 2rem 0;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(44, 44, 44, 0.1);
+        }
+
+        .data-table th {
+            background: rgba(44, 44, 44, 0.1);
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .data-table tr:hover {
+            background: rgba(44, 44, 44, 0.05);
+        }
+
+        /* ===== Futuristic 3D Cube Styles ===== */
+        .hero-inner {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: clamp(1.25rem, 3vw, 3rem);
+            align-items: center;
+            text-align: left;
+        }
+        @media (max-width: 1024px) {
+            .hero-inner { grid-template-columns: 1fr; text-align: center; }
+        }
+
+        .cube-wrapper {
+            --size: clamp(150px, 20vw, 300px);
+            position: relative;
+            width: var(--size);
+            height: var(--size);
+            margin: 0 auto;
+            perspective: 1200px;
+            will-change: transform;
+        }
+
+        .cube {
+            position: absolute;
+            inset: 0;
+            transform-style: preserve-3d;
+            animation: spinCube 30s linear infinite;
+            will-change: transform;
+        }
+        .cube-wrapper:hover .cube { animation-play-state: paused; }
+
+        .cube-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex; 
+            flex-direction: column;
+            align-items: center; 
+            justify-content: center;
+            gap: 0.35rem;
+            border-radius: 20px;
+            border: 1px solid rgba(44,44,44,0.35);
+            background:
+                radial-gradient(85% 85% at 50% 20%, rgba(255,255,255,0.1), transparent 60%),
+                linear-gradient(180deg, rgba(44,44,44,0.1), rgba(248,248,248,0.8));
+            box-shadow:
+                inset 0 0 30px rgba(44,44,44,0.1),
+                0 10px 40px rgba(44,44,44,0.15);
+            color: var(--text-primary);
+            cursor: pointer;
+            -webkit-user-select: none;
+            user-select: none;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+            -webkit-appearance: none;
+            appearance: none;
+            outline: none;
+        }
+        .cube-face:hover {
+            transform: translateZ(1px) scale(1.01);
+            box-shadow:
+                inset 0 0 30px rgba(44,44,44,0.15),
+                0 15px 50px rgba(44,44,44,0.2);
+            border-color: rgba(44,44,44,0.45);
+        }
+
+        .cube-face i { font-size: clamp(2rem, 5vw, 3.2rem); }
+        .cube-face span { font-weight: 700; letter-spacing: .5px; color: var(--text-secondary); }
+
+        .cube-face.front  { transform: translateZ(calc(var(--size) / 2)); }
+        .cube-face.back   { transform: rotateY(180deg) translateZ(calc(var(--size) / 2)); }
+        .cube-face.right  { transform: rotateY(90deg)  translateZ(calc(var(--size) / 2)); }
+        .cube-face.left   { transform: rotateY(-90deg) translateZ(calc(var(--size) / 2)); }
+        .cube-face.top    { transform: rotateX(90deg)  translateZ(calc(var(--size) / 2)); }
+        .cube-face.bottom { transform: rotateX(-90deg) translateZ(calc(var(--size) / 2)); }
+
+        .cube-face.front  { border-color: rgba(44,44,44,0.5); }
+        .cube-face.right  { border-color: rgba(74,74,74,0.5); }
+        .cube-face.left   { border-color: rgba(107,107,107,0.5); }
+        .cube-face.back   { border-color: rgba(44,44,44,0.6); }
+        .cube-face.top    { border-color: rgba(74,74,74,0.6); }
+        .cube-face.bottom { border-color: rgba(107,107,107,0.3); }
+
+        .cube-aura {
+            position: absolute;
+            inset: -10%;
+            border-radius: 50%;
+            background: radial-gradient(closest-side,
+                rgba(44,44,44,0.2),
+                rgba(74,74,74,0.1) 60%,
+                transparent 72%);
+            filter: blur(20px);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        @keyframes spinCube {
+            0%   { transform: rotateX(-5deg) rotateY(0deg); }
+            50%  { transform: rotateX(185deg) rotateY(180deg); }
+            100% { transform: rotateX(355deg) rotateY(360deg); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .cube { animation: none; }
+        }
+
+        /* Responsive cube improvements - Now handled in main responsive design */
+
+        /* ===== ALTERNATIVE 1: CONTAINER QUERIES ===== */
+        /* Modern approach - elements respond to their container size */
+        .container-query-demo {
+            container-type: inline-size;
+            container-name: card;
+        }
+
+        @container card (max-width: 400px) {
+            .card-3d {
+                padding: 1rem;
+                border-radius: 12px;
+            }
+            
+            .card-3d h3 {
+                font-size: 1.2rem;
+            }
+            
+            .card-3d p {
+                font-size: 0.9rem;
+            }
+        }
+
+        @container card (max-width: 300px) {
+            .card-3d {
+                padding: 0.75rem;
+                border-radius: 8px;
+            }
+            
+            .card-3d h3 {
+                font-size: 1rem;
+            }
+            
+            .card-3d p {
+                font-size: 0.8rem;
+            }
+        }
+
+        /* ===== ALTERNATIVE 2: FLUID TYPOGRAPHY & SPACING ===== */
+        /* Uses CSS custom properties for fluid scaling */
+        :root {
+            /* Fluid spacing system */
+            --space-xs: clamp(0.5rem, 1vw, 0.75rem);
+            --space-sm: clamp(0.75rem, 2vw, 1rem);
+            --space-md: clamp(1rem, 3vw, 1.5rem);
+            --space-lg: clamp(1.5rem, 4vw, 2rem);
+            --space-xl: clamp(2rem, 5vw, 3rem);
+            --space-2xl: clamp(3rem, 6vw, 4rem);
+            
+            /* Fluid typography */
+            --text-xs: clamp(0.75rem, 1.5vw, 0.875rem);
+            --text-sm: clamp(0.875rem, 2vw, 1rem);
+            --text-base: clamp(1rem, 2.5vw, 1.125rem);
+            --text-lg: clamp(1.125rem, 3vw, 1.25rem);
+            --text-xl: clamp(1.25rem, 3.5vw, 1.5rem);
+            --text-2xl: clamp(1.5rem, 4vw, 2rem);
+            --text-3xl: clamp(2rem, 5vw, 3rem);
+            --text-4xl: clamp(3rem, 6vw, 4rem);
+        }
+
+        /* ===== ALTERNATIVE 3: CSS GRID WITH AUTO-FIT ===== */
+        /* More flexible grid system */
+        .responsive-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+            gap: var(--space-md);
+            align-items: start;
+        }
+
+        .responsive-grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr));
+            gap: var(--space-lg);
+            align-items: start;
+        }
+
+        /* ===== ALTERNATIVE 4: ASPECT RATIO RESPONSIVE ===== */
+        /* Elements that maintain aspect ratios */
+        .aspect-responsive {
+            aspect-ratio: 16/9;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .aspect-square {
+            aspect-ratio: 1/1;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        /* ===== ALTERNATIVE 5: JAVASCRIPT-BASED RESPONSIVE ===== */
+        /* Dynamic responsive adjustments */
+        .js-responsive {
+            transition: all 0.3s ease;
+        }
+
+        /* ===== ENHANCED MOBILE-FIRST APPROACH ===== */
+        /* Start with mobile and scale up */
+        .mobile-first-card {
+            padding: var(--space-sm);
+            border-radius: 8px;
+            font-size: var(--text-sm);
+        }
+
+        @media (min-width: 480px) {
+            .mobile-first-card {
+                padding: var(--space-md);
+                border-radius: 12px;
+                font-size: var(--text-base);
+            }
+        }
+
+        @media (min-width: 768px) {
+            .mobile-first-card {
+                padding: var(--space-lg);
+                border-radius: 16px;
+                font-size: var(--text-lg);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .mobile-first-card {
+                padding: var(--space-xl);
+                border-radius: 20px;
+                font-size: var(--text-xl);
+            }
+        }
+
+        /* ===== FLEXIBLE LAYOUT SYSTEM ===== */
+        .flexible-layout {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-md);
+            align-items: stretch;
+        }
+
+        .flexible-item {
+            flex: 1 1 300px;
+            min-width: 0;
+            max-width: 100%;
+        }
+
+        /* ===== RESPONSIVE IMAGES ===== */
+        .responsive-image {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            border-radius: inherit;
+        }
+
+        /* ===== RESPONSIVE BUTTONS ===== */
+        .responsive-btn {
+            padding: var(--space-sm) var(--space-md);
+            font-size: var(--text-sm);
+            border-radius: 50px;
+            white-space: nowrap;
+            min-width: -webkit-min-content;
+            min-width: min-content;
+        }
+
+        @media (min-width: 480px) {
+            .responsive-btn {
+                padding: var(--space-md) var(--space-lg);
+                font-size: var(--text-base);
+            }
+        }
+
+        /* ===== RESPONSIVE NAVIGATION ===== */
+        .responsive-nav {
+            display: flex;
+            gap: var(--space-sm);
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .responsive-nav {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                background: rgba(26, 26, 26, 0.98);
+                -webkit-backdrop-filter: blur(20px);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                justify-content: center;
+                gap: var(--space-lg);
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+            }
+
+            .responsive-nav.active {
+                opacity: 1;
+                visibility: visible;
+            }
+        }
+
+        /* ===== RESPONSIVE CHARTS ===== */
+        .responsive-chart {
+            width: 100%;
+            height: clamp(250px, 50vh, 400px);
+            max-width: 100%;
+            overflow-x: auto;
+        }
+
+        .responsive-chart canvas {
+            width: 100% !important;
+            height: 100% !important;
+            min-width: 300px;
+        }
+
+        /* ===== RESPONSIVE FORMS ===== */
+        .responsive-form {
+            display: grid;
+            gap: var(--space-md);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .responsive-form input,
+        .responsive-form textarea {
+            padding: var(--space-sm);
+            font-size: var(--text-base);
+            border-radius: 8px;
+        }
+
+        @media (max-width: 480px) {
+            .responsive-form input,
+            .responsive-form textarea {
+                font-size: 16px; /* Prevents zoom on iOS */
+            }
+        }
+
+        /* ===== RESPONSIVE 3D CUBE ===== */
+        .responsive-cube {
+            --cube-size: clamp(80px, 25vw, 300px);
+            width: var(--cube-size);
+            height: var(--cube-size);
+        }
+
+        .responsive-cube .cube-face {
+            font-size: clamp(1rem, 3vw, 2rem);
+        }
+
+        .responsive-cube .cube-face span {
+            font-size: clamp(0.6rem, 1.5vw, 0.9rem);
+        }
+
+        /* ===== UTILITY CLASSES ===== */
+        .hide-mobile { display: none; }
+        .show-mobile { display: block; }
+        .hide-tablet { display: none; }
+        .show-tablet { display: block; }
+        .hide-desktop { display: none; }
+        .show-desktop { display: block; }
+
+        @media (min-width: 768px) {
+            .hide-mobile { display: block; }
+            .show-mobile { display: none; }
+        }
+
+        @media (min-width: 1024px) {
+            .hide-tablet { display: block; }
+            .show-tablet { display: none; }
+        }
+
+        @media (max-width: 1023px) {
+            .hide-desktop { display: block; }
+            .show-desktop { display: none; }
+        }
+
+        /* ===== PERFORMANCE OPTIMIZATIONS ===== */
+        .will-change-transform {
+            will-change: transform;
+        }
+
+        .will-change-opacity {
+            will-change: opacity;
+        }
+
+        .reduce-motion {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- 3D Background Canvas -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+                         <div class="logo-container">
+                 <span class="logo-text">
+                     <span class="jd-part">J&D</span>
+                     <span class="vantage-quant">VANTAGE QUANT</span>
+                 </span>
+             </div>
+            
+            <nav class="nav-links">
+                <a href="#home" onclick="navigateTo('home')">Home</a>
+                <a href="#offerings" onclick="navigateTo('offerings')">Offerings</a>
+                <a href="#about" onclick="navigateTo('about')">About</a>
+                <a href="#contact" onclick="navigateTo('contact')">Contact</a>
+            </nav>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open menu" title="Open menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Close menu" title="Close menu">
+            <i class="fas fa-times"></i>
+        </button>
+        <nav class="mobile-menu-links">
+            <a href="#home" onclick="navigateTo('home'); closeMobileMenu();">Home</a>
+            <a href="#offerings" onclick="navigateTo('offerings'); closeMobileMenu();">Offerings</a>
+            <a href="#about" onclick="navigateTo('about'); closeMobileMenu();">About</a>
+            <a href="#contact" onclick="navigateTo('contact'); closeMobileMenu();">Contact</a>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <main id="app-content">
+        <!-- Content will be loaded here -->
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="social-links">
+            <a href="https://discord.gg/X6ppaUUjCy" target="_blank" rel="noopener" class="social-link" title="Discord">
+                <i class="fab fa-discord"></i>
+            </a>
+            <a href="https://x.com/JD_Vantage_Cap" target="_blank" rel="noopener" class="social-link" title="Twitter/X">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://t.me/JDvantagecapital" target="_blank" rel="noopener" class="social-link" title="Telegram">
+                <i class="fab fa-telegram-plane"></i>
+            </a>
+            <a href="mailto:jdvantagecapital@gmail.com" class="social-link" title="Email">
+                <i class="fas fa-envelope"></i>
+            </a>
+        </div>
+                 <p>&copy; 2025 J&D Vantage Quant. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // 3D Background Animation with Three.js
+        let scene, camera, renderer, particles;
+
+        function init3DBackground() {
+            const canvas = document.getElementById('bg-canvas');
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: false });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+
+            // Create particles
+            const geometry = new THREE.BufferGeometry();
+            const particleCount = 500;
+            const positions = new Float32Array(particleCount * 3);
+
+            for (let i = 0; i < particleCount * 3; i++) {
+                positions[i] = (Math.random() - 0.5) * 1500;
+            }
+
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+            const material = new THREE.PointsMaterial({
+                color: 0x2c2c2c,
+                size: 1.5,
+                transparent: true,
+                opacity: 0.3
+            });
+
+            particles = new THREE.Points(geometry, material);
+            scene.add(particles);
+
+            camera.position.z = 1000;
+
+            animate3D();
+        }
+
+        function animate3D() {
+            requestAnimationFrame(animate3D);
+            
+            particles.rotation.x += 0.0003;
+            particles.rotation.y += 0.0006;
+            
+            renderer.render(scene, camera);
+        }
+
+        // Resize handler
+        window.addEventListener('resize', () => {
+            if (!camera || !renderer) return;
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // Page content definitions
+        const pages = {
+            home: `
+                <div class="page-content">
+                    <section class="hero-section">
+                        <div class="hero-content">
+                            <div class="hero-inner">
+                                <!-- Left: Copy -->
+                                <div class="hero-copy">
+                                                                         <h1 class="hero-title" id="heroTitle">J&D Vantage Quant</h1>
+                                    <p class="hero-subtitle" id="heroSubtitle">Revolutionary Algorithmic Trading Solutions</p>
+                                    <div class="hero-buttons" id="heroButtons">
+                                        <button class="btn-primary" onclick="navigateTo('offerings')">Explore Solutions</button>
+                                        <button class="btn-secondary" onclick="navigateTo('contact')">Get Started</button>
+                                    </div>
+                                </div>
+
+                                <!-- Right: Futuristic 3D Cube -->
+                                <div class="hero-visual">
+                                    <div class="cube-wrapper">
+                                        <div class="cube-aura"></div>
+                                        <div class="cube" id="heroCube">
+                                            <!-- Front: Chart -->
+                                            <button class="cube-face front"  data-target="offerings" aria-label="Performance">
+                                                <i class="fas fa-chart-line" style="color: var(--primary-color);"></i>
+                                                <span>Performance</span>
+                                            </button>
+                                            <!-- Right: Gold -->
+                                            <button class="cube-face right"  data-target="goldFxDetails" aria-label="GoldFX">
+                                                <i class="fas fa-gem" style="color: var(--primary-gold);"></i>
+                                                <span>Gold</span>
+                                            </button>
+                                            <!-- Left: Money -->
+                                            <button class="cube-face left"   data-target="offerings" aria-label="Returns">
+                                                <i class="fas fa-coins" style="color: var(--accent-color);"></i>
+                                                <span>Money</span>
+                                            </button>
+                                                                                         <!-- Back: Strategy -->
+                                             <button class="cube-face back"   data-target="offerings" aria-label="Strategy">
+                                                 <i class="fas fa-chart-bar" style="color: var(--secondary-color);"></i>
+                                                 <span>Strategy</span>
+                                             </button>
+                                            <!-- Top: Risk -->
+                                            <button class="cube-face top"    data-target="about" aria-label="Risk Management">
+                                                <i class="fas fa-shield-alt" style="color: var(--primary-gold);"></i>
+                                                <span>Risk</span>
+                                            </button>
+                                            <!-- Bottom: Contact -->
+                                            <button class="cube-face bottom" data-target="contact" aria-label="Contact">
+                                                <i class="fas fa-paper-plane" style="color: #9ca3af;"></i>
+                                                <span>Contact</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="section">
+                                                 <h2 class="section-title">Our Core Solutions</h2>
+                        <div class="grid-2">
+                            <div class="card-3d">
+                                <i class="fas fa-chart-line" style="font-size: 3rem; color: var(--primary-color); margin-bottom: 1rem;"></i>
+                                <h3 style="font-size: 1.5rem; margin-bottom: 1rem; color: var(--primary-color);">GoldFX Solutions</h3>
+                                <p style="color: var(--text-secondary); margin-bottom: 2rem;">Advanced algorithmic trading for gold markets with proven performance and consistent returns.</p>
+                                <button class="btn-secondary" onclick="navigateTo('goldFxDetails')">Learn More</button>
+                            </div>
+                            
+                            <div class="card-3d">
+                                <i class="fas fa-brain" style="font-size: 3rem; color: var(--accent-color); margin-bottom: 1rem;"></i>
+                                <h3 style="font-size: 1.5rem; margin-bottom: 1rem; color: var(--accent-color);">Custom Development</h3>
+                                <p style="color: var(--text-secondary); margin-bottom: 2rem;">Bespoke algorithmic strategies developed specifically for your trading requirements.</p>
+                                <button class="btn-secondary" onclick="navigateTo('offerings')">Get Quote</button>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            `,
+            
+            offerings: `
+                <div class="page-content">
+                    <section class="section">
+                                                 <h2 class="section-title">Our Solutions</h2>
+                        <div class="offerings-grid">
+                            <div class="card-3d offerings-card">
+                                <h3 style="font-size: 2rem; margin-bottom: 1rem; color: var(--primary-gold);">GoldFX Solutions</h3>
+                                <p style="color: var(--text-secondary); margin-bottom: 2rem;">Specialized algorithmic trading for gold markets with advanced technical analysis and risk management.</p>
+                                <div class="chart-container chart-compact">
+                                    <canvas id="performanceChart" style="position: relative; z-index: 2;"></canvas>
+                                </div>
+                                <button class="btn-primary" onclick="navigateTo('goldFxDetails')">View Details</button>
+                            </div>
+                            
+                            <div class="card-3d offerings-card">
+                                <h3 style="font-size: 2rem; margin-bottom: 1rem; color: var(--primary-gold);">Custom Development</h3>
+                                <p style="color: var(--text-secondary); margin-bottom: 2rem;">Tailored algorithmic solutions for your specific trading strategies.</p>
+                                <div style="background: rgba(255, 215, 0, 0.1); padding: 2rem; border-radius: 15px; margin: 2rem 0;">
+                                    <h4 style="color: var(--primary-gold); margin-bottom: 1rem;">Development Process</h4>
+                                    <ul style="color: var(--text-secondary); list-style: none; padding: 0;">
+                                        <li style="margin-bottom: 0.5rem;">• Strategy consultation</li>
+                                        <li style="margin-bottom: 0.5rem;">• Algorithm design</li>
+                                        <li style="margin-bottom: 0.5rem;">• Backtesting & optimization</li>
+                                        <li style="margin-bottom: 0.5rem;">• Deployment & support</li>
+                                    </ul>
+                                </div>
+                                <button class="btn-secondary" onclick="navigateTo('contact')">Request Quote</button>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            `,
+            
+            about: `
+                <div class="page-content">
+                    <section class="section">
+                                                 <h2 class="section-title">About J&D Vantage Quant</h2>
+                        <div class="grid-3">
+                            <div class="card-3d">
+                                <h3 style="font-size: 1.5rem; margin-bottom: 1rem; color: var(--primary-gold);">Our Mission</h3>
+                                <p style="color: var(--text-secondary);">To empower traders with cutting-edge algorithmic solutions that deliver consistent performance and sustainable growth in dynamic financial markets.</p>
+                            </div>
+                            <div class="card-3d">
+                                <h3 style="font-size: 1.5rem; margin-bottom: 1rem; color: var(--primary-gold);">Our Vision</h3>
+                                <p style="color: var(--text-secondary);">To be the leading force in algorithmic trading innovation, recognized for exceptional performance and unwavering commitment to client success.</p>
+                            </div>
+                            <div class="card-3d">
+                                <h3 style="font-size: 1.5rem; margin-bottom: 1rem; color: var(--primary-gold);">Our Values</h3>
+                                <ul style="color: var(--text-secondary); list-style: none; padding: 0;">
+                                    <li style="margin-bottom: 0.5rem;">• Innovation & Excellence</li>
+                                    <li style="margin-bottom: 0.5rem;">• Transparency & Integrity</li>
+                                    <li style="margin-bottom: 0.5rem;">• Client-Centric Approach</li>
+                                    <li style="margin-bottom: 0.5rem;">• Continuous Improvement</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="card-3d" style="margin-top: 3rem;">
+                            <h3 style="font-size: 2rem; margin-bottom: 2rem; color: var(--primary-gold); text-align: center;">Our Expert Team</h3>
+                            <div class="grid-3">
+                                <div style="text-align: center;">
+                                    <h4 style="color: var(--primary-gold); font-size: 1.3rem; margin-bottom: 0.5rem;">Sohil Dobariya</h4>
+                                    <p style="color: var(--text-secondary); font-weight: 600; margin-bottom: 1rem;">Technical Analyst</p>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem;">B.E. Mechanical Engineering with NISM certifications. Expert in technical analysis and market dynamics with UPSC 2023 Mains experience.</p>
+                                </div>
+                                <div style="text-align: center;">
+                                    <h4 style="color: var(--primary-gold); font-size: 1.3rem; margin-bottom: 0.5rem;">Alis Jodhani</h4>
+                                    <p style="color: var(--text-secondary); font-weight: 600; margin-bottom: 1rem;">Technical Expert</p>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem;">B.E. Information Technology with 3+ years in market analysis. Specializes in algorithmic strategy development and optimization.</p>
+                                </div>
+                                <div style="text-align: center;">
+                                    <h4 style="color: var(--primary-gold); font-size: 1.3rem; margin-bottom: 0.5rem;">Dishant Jodhani</h4>
+                                    <p style="color: var(--text-secondary); font-weight: 600; margin-bottom: 1rem;">Marketing Head</p>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem;">B.E. Computer Engineering with software development background. Leads marketing and client relations with technical expertise.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            `,
+            
+            contact: `
+                <div class="page-content">
+                    <section class="section">
+                        <h2 class="section-title">Contact Us</h2>
+                        <div style="max-width: 600px; margin: 0 auto;">
+                            <div class="card-3d" style="position: relative; z-index: 1;">
+                                <p style="text-align: center; color: var(--text-secondary); margin-bottom: 2rem;">
+                                    Get in touch with our team for personalized trading solutions.
+                                </p>
+                                <form id="contactForm" style="position: relative; z-index: 10;">
+                                    <div class="form-group">
+                                        <label class="form-label" for="contactName">Your Name</label>
+                                        <input type="text" id="contactName" name="user_name" class="form-input" required placeholder="Enter your full name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="contactEmail">Email Address</label>
+                                        <input type="email" id="contactEmail" name="user_email" class="form-input" required placeholder="your@email.com">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="contactSubject">Subject</label>
+                                        <input type="text" id="contactSubject" name="form_subject" class="form-input" required placeholder="What can we help you with?">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="contactMessage">Message</label>
+                                        <textarea id="contactMessage" name="user_message" class="form-input form-textarea" required placeholder="Tell us more about your requirements..."></textarea>
+                                    </div>
+                                    <button type="submit" class="btn-primary" style="width: 100%; position: relative; z-index: 10;">Send Message</button>
+                                </form>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            `,
+            
+            goldFxDetails: `
+                <div class="page-content">
+                    <section class="section">
+                        <h2 class="section-title">GoldFX Quant Strategy</h2>
+                        <p style="text-align: center; font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 3rem;">Advanced Algorithmic Trading for Gold Markets (XAUUSD)</p>
+                        
+                        <div class="card-3d" style="margin-bottom: 3rem;">
+                            <h3 style="font-size: 2rem; margin-bottom: 2rem; color: var(--primary-gold);">Key Performance Metrics</h3>
+                            <div class="grid-3">
+                                <div style="text-align: center; padding: 1rem;">
+                                    <h4 style="font-size: 2.5rem; color: var(--primary-gold); margin-bottom: 0.5rem;">$59,317</h4>
+                                    <p style="color: var(--text-secondary);">Total Net Profit</p>
+                                </div>
+                                <div style="text-align: center; padding: 1rem;">
+                                    <h4 style="font-size: 2.5rem; color: var(--primary-gold); margin-bottom: 0.5rem;">72.7%</h4>
+                                    <p style="color: var(--text-secondary);">Win Rate</p>
+                                </div>
+                                <div style="text-align: center; padding: 1rem;">
+                                    <h4 style="font-size: 2.5rem; color: var(--primary-gold); margin-bottom: 0.5rem;">18/18</h4>
+                                    <p style="color: var(--text-secondary);">Positive Months</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="chart-container">
+                            <h3 style="text-align: center; margin-bottom: 2rem; color: var(--primary-gold);">Monthly Performance</h3>
+                            <canvas id="monthlyChart" style="position: relative; z-index: 2;"></canvas>
+                        </div>
+                        
+                        <div class="card-3d" style="margin-top: 3rem;">
+                            <h3 style="font-size: 2rem; margin-bottom: 2rem; color: var(--primary-gold);">Strategy Overview</h3>
+                            <div class="grid-3">
+                                <div>
+                                    <h4 style="color: var(--primary-gold); margin-bottom: 1rem;">Market Focus</h4>
+                                    <p style="color: var(--text-secondary);">Gold Spot (XAUUSD)</p>
+                                </div>
+                                <div>
+                                    <h4 style="color: var(--primary-gold); margin-bottom: 1rem;">Platform</h4>
+                                    <p style="color: var(--text-secondary);">MetaTrader 5 (MT5)</p>
+                                </div>
+                                <div>
+                                    <h4 style="color: var(--primary-gold); margin-bottom: 1rem;">Execution</h4>
+                                    <p style="color: var(--text-secondary);">High-frequency automated</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="text-align: center; margin-top: 3rem;">
+                            <button class="btn-primary" onclick="navigateTo('contact')" style="margin-right: 1rem;">Get Started</button>
+                                                         <button class="btn-secondary" onclick="navigateTo('offerings')">View All Solutions</button>
+                        </div>
+                    </section>
+                </div>
+            `
+        };
+
+        // Chart data
+        const chartData = {
+            months: ['Jan 24', 'Feb 24', 'Mar 24', 'Apr 24', 'May 24', 'Jun 24', 'Jul 24', 'Aug 24', 'Sep 24', 'Oct 24', 'Nov 24', 'Dec 24', 'Jan 25', 'Feb 25', 'Mar 25', 'Apr 25', 'May 25', 'Jun 25'],
+            profits: [1046, 600, 1568, 3771, 2329, 1700, 2095, 2963, 2136, 2205, 3118, 1838, 1833, 3379, 2835, 10986, 9126, 5788]
+        };
+
+        // Navigation function
+        function navigateTo(pageId) {
+            const content = document.getElementById('app-content');
+            if (pages[pageId]) {
+                content.innerHTML = pages[pageId];
+                
+                // Animate page transition
+                const pageContent = content.querySelector('.page-content');
+                if (pageContent) {
+                    setTimeout(() => {
+                        pageContent.classList.add('active');
+                    }, 100);
+                }
+                
+                // Initialize page-specific features
+                if (pageId === 'home') {
+                    initHomeAnimations();
+                } else if (pageId === 'contact') {
+                    initContactForm();
+                } else if (pageId === 'offerings' || pageId === 'goldFxDetails') {
+                    setTimeout(initCharts, 500);
+                }
+                
+                // Update URL
+                window.location.hash = pageId;
+                
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        // Home page animations
+        function initHomeAnimations() {
+            anime.timeline()
+                .add({
+                    targets: '#heroTitle',
+                    opacity: [0, 1],
+                    translateY: [50, 0],
+                    duration: 600,
+                    easing: 'easeOutQuad'
+                })
+                .add({
+                    targets: '#heroSubtitle',
+                    opacity: [0, 1],
+                    translateY: [30, 0],
+                    duration: 500,
+                    easing: 'easeOutQuad'
+                }, '-=300')
+                .add({
+                    targets: '#heroButtons',
+                    opacity: [0, 1],
+                    translateY: [20, 0],
+                    duration: 400,
+                    easing: 'easeOutQuad'
+                }, '-=200');
+
+            // Animate cards
+            anime({
+                targets: '.card-3d',
+                opacity: [0, 1],
+                translateY: [30, 0],
+                delay: anime.stagger(100, {start: 800}),
+                duration: 500,
+                easing: 'easeOutQuad'
+            });
+        }
+
+        // Initialize charts
+        function initCharts() {
+            const monthlyCtx = document.getElementById('monthlyChart');
+            const performanceCtx = document.getElementById('performanceChart');
+            
+            if (monthlyCtx) {
+                                                 new Chart(monthlyCtx.getContext('2d'), {
+                    type: 'line',
+                    data: {
+                        labels: chartData.months,
+                        datasets: [{
+                            label: 'Monthly Profit (USD)',
+                            data: chartData.profits,
+                            borderColor: '#2c2c2c',
+                            backgroundColor: 'rgba(44, 44, 44, 0.1)',
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.3,
+                            pointBackgroundColor: '#2c2c2c',
+                            pointBorderColor: '#2c2c2c',
+                            pointRadius: 4
+                        }]
+                    },
+                     options: {
+                         responsive: true,
+                         maintainAspectRatio: false,
+                         interaction: {
+                             intersect: false,
+                             mode: 'index'
+                         },
+                         plugins: {
+                             legend: {
+                                 labels: { 
+                                     color: '#f9fafb',
+                                     font: { size: 14 }
+                                 }
+                             }
+                         },
+                         scales: {
+                                                           x: {
+                                  ticks: { 
+                                      color: '#4a4a4a',
+                                      maxTicksLimit: 8
+                                  },
+                                  grid: { 
+                                      color: 'rgba(44, 44, 44, 0.1)',
+                                      drawBorder: false
+                                  }
+                              },
+                              y: {
+                                  ticks: { 
+                                      color: '#4a4a4a',
+                                      callback: function(value) {
+                                          return '$' + Number(value).toLocaleString();
+                                      }
+                                  },
+                                  grid: { 
+                                      color: 'rgba(44, 44, 44, 0.1)',
+                                      drawBorder: false
+                                  }
+                              }
+                         }
+                     }
+                 });
+            }
+            
+                         if (performanceCtx) {
+                                 new Chart(performanceCtx.getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: chartData.months.slice(-6),
+                                                 datasets: [{
+                             label: 'Recent Performance (USD)',
+                             data: chartData.profits.slice(-6),
+                             backgroundColor: 'rgba(44, 44, 44, 0.8)',
+                             borderColor: '#2c2c2c',
+                             borderWidth: 1,
+                             borderRadius: 4,
+                             barThickness: 'flex',
+                             maxBarThickness: 25
+                         }]
+                    },
+                     options: {
+                         responsive: true,
+                         maintainAspectRatio: false,
+                         plugins: {
+                             legend: {
+                                 labels: { 
+                                     color: '#f9fafb',
+                                     font: { size: 14 }
+                                 }
+                             }
+                         },
+                         scales: {
+                                                           x: {
+                                  ticks: { color: '#4a4a4a' },
+                                  grid: { 
+                                      color: 'rgba(44, 44, 44, 0.1)',
+                                      drawBorder: false
+                                  }
+                              },
+                              y: {
+                                  ticks: { 
+                                      color: '#4a4a4a',
+                                      callback: function(value) {
+                                          return '$' + Number(value).toLocaleString();
+                                      }
+                                  },
+                                  grid: { 
+                                      color: 'rgba(44, 44, 44, 0.1)',
+                                      drawBorder: false
+                                  }
+                              }
+                         }
+                     }
+                 });
+             }
+        }
+
+        // Contact form initialization
+        function initContactForm() {
+            const form = document.getElementById('contactForm');
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // EmailJS integration
+                    emailjs.sendForm('service_aybz6rt', 'template_wtn2wi8', form)
+                        .then(() => {
+                            showNotification('Message sent successfully!', 'success');
+                            form.reset();
+                        })
+                        .catch(() => {
+                            showNotification('Failed to send message. Please try again.', 'error');
+                        });
+                });
+            }
+        }
+
+        // Notification system
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                                 background: ${type === 'success' ? 'var(--primary-color)' : '#ff4444'};
+                                 color: #ffffff;
+                padding: 1rem 2rem;
+                border-radius: 10px;
+                font-weight: 600;
+                z-index: 10000;
+                transform: translateX(400px);
+                transition: transform 0.3s ease;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(400px)';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // Mobile menu functions
+        function openMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Initialize application
+        function initApp() {
+            // Hide loading overlay
+            setTimeout(() => {
+                const overlay = document.getElementById('loadingOverlay');
+                overlay.style.opacity = '0';
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                }, 300);
+            }, 800);
+
+            // Initialize 3D background
+            init3DBackground();
+
+            // Load initial page
+            const hash = window.location.hash.substring(1);
+            navigateTo(hash || 'home');
+
+            // Handle hash changes
+            window.addEventListener('hashchange', () => {
+                const newHash = window.location.hash.substring(1);
+                if (newHash && pages[newHash]) {
+                    navigateTo(newHash);
+                }
+            });
+
+            // Add scroll effects
+            window.addEventListener('scroll', () => {
+                const header = document.querySelector('header');
+                                 if (window.scrollY > 100) {
+                     header.style.background = 'rgba(255, 255, 255, 0.98)';
+                 } else {
+                     header.style.background = 'rgba(255, 255, 255, 0.95)';
+                 }
+            });
+
+            // Click any cube face to navigate
+            document.addEventListener('click', (e) => {
+                const face = e.target.closest('.cube-face');
+                if (face && face.dataset.target) {
+                    navigateTo(face.dataset.target);
+                }
+            });
+
+            // Mobile menu event listeners
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileMenuClose = document.getElementById('mobileMenuClose');
+            const mobileMenu = document.getElementById('mobileMenu');
+
+            if (mobileMenuBtn) {
+                mobileMenuBtn.addEventListener('click', openMobileMenu);
+            }
+
+            if (mobileMenuClose) {
+                mobileMenuClose.addEventListener('click', closeMobileMenu);
+            }
+
+            if (mobileMenu) {
+                mobileMenu.addEventListener('click', (e) => {
+                    if (e.target === mobileMenu) {
+                        closeMobileMenu();
+                    }
+                });
+            }
+        }
+
+        // ===== ALTERNATIVE RESPONSIVE SOLUTIONS =====
+        
+        // JavaScript-based responsive system
+        class ResponsiveManager {
+            constructor() {
+                this.breakpoints = {
+                    mobile: 480,
+                    tablet: 768,
+                    desktop: 1024,
+                    large: 1200
+                };
+                this.currentBreakpoint = this.getCurrentBreakpoint();
+                this.init();
+            }
+
+            init() {
+                this.setupResizeListener();
+                this.setupOrientationListener();
+                this.applyResponsiveClasses();
+                this.setupTouchSupport();
+            }
+
+            getCurrentBreakpoint() {
+                const width = window.innerWidth;
+                if (width < this.breakpoints.mobile) return 'mobile';
+                if (width < this.breakpoints.tablet) return 'tablet';
+                if (width < this.breakpoints.desktop) return 'desktop';
+                if (width < this.breakpoints.large) return 'large';
+                return 'xl';
+            }
+
+            setupResizeListener() {
+                let resizeTimer;
+                window.addEventListener('resize', () => {
+                    clearTimeout(resizeTimer);
+                    resizeTimer = setTimeout(() => {
+                        const newBreakpoint = this.getCurrentBreakpoint();
+                        if (newBreakpoint !== this.currentBreakpoint) {
+                            this.currentBreakpoint = newBreakpoint;
+                            this.handleBreakpointChange();
+                        }
+                    }, 250);
+                });
+            }
+
+            setupOrientationListener() {
+                window.addEventListener('orientationchange', () => {
+                    setTimeout(() => {
+                        this.handleBreakpointChange();
+                    }, 500);
+                });
+            }
+
+            setupTouchSupport() {
+                // Add touch support for better mobile experience
+                document.addEventListener('touchstart', () => {}, { passive: true });
+                document.addEventListener('touchmove', () => {}, { passive: true });
+            }
+
+            handleBreakpointChange() {
+                this.applyResponsiveClasses();
+                this.adjustLayout();
+                this.optimizePerformance();
+            }
+
+            applyResponsiveClasses() {
+                const body = document.body;
+                body.className = body.className.replace(/breakpoint-\w+/g, '');
+                body.classList.add(`breakpoint-${this.currentBreakpoint}`);
+            }
+
+            adjustLayout() {
+                // Adjust 3D cube size based on screen size
+                const cube = document.querySelector('.cube-wrapper');
+                if (cube) {
+                    const sizes = {
+                        mobile: '80px',
+                        tablet: '120px',
+                        desktop: '200px',
+                        large: '250px',
+                        xl: '300px'
+                    };
+                    cube.style.setProperty('--size', sizes[this.currentBreakpoint] || '300px');
+                }
+
+                // Adjust chart container heights
+                const charts = document.querySelectorAll('.chart-container');
+                charts.forEach(chart => {
+                    const heights = {
+                        mobile: '250px',
+                        tablet: '300px',
+                        desktop: '350px',
+                        large: '400px',
+                        xl: '450px'
+                    };
+                    chart.style.height = heights[this.currentBreakpoint] || '400px';
+                });
+            }
+
+            optimizePerformance() {
+                // Reduce animations on mobile for better performance
+                const isMobile = this.currentBreakpoint === 'mobile';
+                const animatedElements = document.querySelectorAll('.cube, .card-3d');
+                
+                animatedElements.forEach(el => {
+                    if (isMobile) {
+                        el.style.animationPlayState = 'paused';
+                        el.classList.add('reduce-motion');
+                    } else {
+                        el.style.animationPlayState = 'running';
+                        el.classList.remove('reduce-motion');
+                    }
+                });
+            }
+        }
+
+        // Fluid responsive system
+        class FluidResponsive {
+            constructor() {
+                this.setupFluidScaling();
+                this.setupContainerQueries();
+            }
+
+            setupFluidScaling() {
+                // Calculate fluid scaling based on viewport
+                const updateFluidScaling = () => {
+                    const vw = window.innerWidth;
+                    const vh = window.innerHeight;
+                    const root = document.documentElement;
+                    
+                    // Dynamic fluid scaling
+                    const scale = Math.min(vw / 1920, vh / 1080, 1);
+                    root.style.setProperty('--fluid-scale', scale);
+                    
+                    // Responsive font scaling
+                    const fontSize = Math.max(14, Math.min(18, vw / 100));
+                    root.style.setProperty('--fluid-font-size', `${fontSize}px`);
+                };
+
+                updateFluidScaling();
+                window.addEventListener('resize', updateFluidScaling);
+            }
+
+            setupContainerQueries() {
+                // Polyfill for container queries if needed
+                if (!CSS.supports('container-type: inline-size')) {
+                    this.setupContainerQueryPolyfill();
+                }
+            }
+
+            setupContainerQueryPolyfill() {
+                // Simple container query polyfill
+                const containers = document.querySelectorAll('.container-query-demo');
+                containers.forEach(container => {
+                    const observer = new ResizeObserver(entries => {
+                        entries.forEach(entry => {
+                            const width = entry.contentRect.width;
+                            if (width < 300) {
+                                container.classList.add('container-small');
+                            } else if (width < 500) {
+                                container.classList.add('container-medium');
+                            } else {
+                                container.classList.add('container-large');
+                            }
+                        });
+                    });
+                    observer.observe(container);
+                });
+            }
+        }
+
+        // Adaptive loading system
+        class AdaptiveLoading {
+            constructor() {
+                this.setupAdaptiveLoading();
+            }
+
+            setupAdaptiveLoading() {
+                // Load different assets based on device capabilities
+                const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+                
+                if (connection) {
+                    if (connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g') {
+                        this.loadLowBandwidthAssets();
+                    } else if (connection.effectiveType === '3g') {
+                        this.loadMediumBandwidthAssets();
+                    } else {
+                        this.loadHighBandwidthAssets();
+                    }
+                }
+            }
+
+            loadLowBandwidthAssets() {
+                // Disable heavy animations and reduce particle count
+                const particles = document.querySelector('#bg-canvas');
+                if (particles) particles.style.opacity = '0.05';
+                
+                // Reduce 3D effects
+                document.body.classList.add('low-bandwidth');
+            }
+
+            loadMediumBandwidthAssets() {
+                // Moderate settings
+                const particles = document.querySelector('#bg-canvas');
+                if (particles) particles.style.opacity = '0.1';
+            }
+
+            loadHighBandwidthAssets() {
+                // Full experience
+                const particles = document.querySelector('#bg-canvas');
+                if (particles) particles.style.opacity = '0.1';
+            }
+        }
+
+        // Start the application when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            initApp();
+            
+            // Initialize alternative responsive systems
+            new ResponsiveManager();
+            new FluidResponsive();
+            new AdaptiveLoading();
+        });
+    </script>
+</body>
+</html>
