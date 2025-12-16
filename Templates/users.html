@@ -1,0 +1,496 @@
+﻿{% extends "base.html" %}
+{% block content %}
+<div class="page-header">
+    <h2>User <span>Management</span></h2>
+    <p>Manage developer and client access</p>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3><span class="icon">&#128100;</span> Users</h3>
+        <button class="btn btn-primary" onclick="showCreateModal()">+ Add User</button>
+    </div>
+    <div class="card-body">
+        <div class="users-table">
+            <div class="table-header">
+                <span>User</span>
+                <span>Role</span>
+                <span>Assigned Pairs</span>
+                <span>Last Login</span>
+                <span>Status</span>
+                <span>Actions</span>
+            </div>
+            <div id="users-list">
+                <div class="loading">Loading users...</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Create User Modal -->
+<div class="modal-overlay" id="create-modal" style="display:none;">
+    <div class="modal">
+        <div class="modal-header">
+            <h3>Create New User</h3>
+            <button class="modal-close" onclick="hideModal('create-modal')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" id="new-username" placeholder="Enter username">
+            </div>
+            <div class="form-group">
+                <label>Role</label>
+                <select id="new-role" onchange="togglePairSelect()">
+                    <option value="client">Client (Limited Access)</option>
+                    <option value="developer">Developer (Full Access)</option>
+                </select>
+            </div>
+            <div class="form-group" id="pair-select-group">
+                <label>Assigned Pairs</label>
+                <div class="pairs-checklist" id="pairs-checklist"></div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="hideModal('create-modal')">Cancel</button>
+            <button class="btn btn-primary" onclick="createUser()">Create User</button>
+        </div>
+    </div>
+</div>
+
+<!-- Password Modal -->
+<div class="modal-overlay" id="password-modal" style="display:none;">
+    <div class="modal">
+        <div class="modal-header">
+            <h3>&#128272; Generated Password</h3>
+            <button class="modal-close" onclick="hideModal('password-modal')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p style="margin-bottom:16px;color:var(--text-secondary);">Share this password securely with the user. It will not be shown again.</p>
+            <div class="password-display">
+                <span id="generated-password" class="mono"></span>
+                <button class="copy-btn" onclick="copyPassword()">&#128203; Copy</button>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" onclick="hideModal('password-modal')">Done</button>
+        </div>
+    </div>
+</div>
+
+<!-- Access Code Modal -->
+<div class="modal-overlay" id="code-modal" style="display:none;">
+    <div class="modal">
+        <div class="modal-header">
+            <h3>&#128273; Access Code Generated</h3>
+            <button class="modal-close" onclick="hideModal('code-modal')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p style="margin-bottom:16px;color:var(--text-secondary);">This 6-digit code expires in 30 minutes.</p>
+            <div class="code-display">
+                <span id="generated-code" class="mono"></span>
+            </div>
+            <p style="margin-top:16px;font-size:12px;color:var(--text-muted);">User can enter this code on the login page instead of password.</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" onclick="hideModal('code-modal')">Done</button>
+        </div>
+    </div>
+</div>
+
+<!-- Edit User Modal -->
+<div class="modal-overlay" id="edit-modal" style="display:none;">
+    <div class="modal">
+        <div class="modal-header">
+            <h3>Edit User</h3>
+            <button class="modal-close" onclick="hideModal('edit-modal')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <input type="hidden" id="edit-user-id">
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" id="edit-username" disabled>
+            </div>
+            <div class="form-group">
+                <label>Role</label>
+                <select id="edit-role" onchange="toggleEditPairSelect()">
+                    <option value="client">Client (Limited Access)</option>
+                    <option value="developer">Developer (Full Access)</option>
+                </select>
+            </div>
+            <div class="form-group" id="edit-pair-select-group">
+                <label>Assigned Pairs</label>
+                <div class="pairs-checklist" id="edit-pairs-checklist"></div>
+            </div>
+            <div class="form-group">
+                <label>Status</label>
+                <select id="edit-active">
+                    <option value="true">Active</option>
+                    <option value="false">Disabled</option>
+                </select>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="hideModal('edit-modal')">Cancel</button>
+            <button class="btn btn-primary" onclick="updateUser()">Save Changes</button>
+        </div>
+    </div>
+</div>
+
+<style>
+.users-table { width: 100%; }
+.table-header {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1.5fr 1.2fr 0.8fr 1.5fr;
+    padding: 14px 16px;
+    background: var(--bg-dark);
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+}
+.user-row {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1.5fr 1.2fr 0.8fr 1.5fr;
+    padding: 16px;
+    border-bottom: 1px solid var(--border);
+    align-items: center;
+}
+.user-row:hover { background: var(--bg-hover); }
+.user-info { display: flex; flex-direction: column; gap: 4px; }
+.user-name { font-weight: 600; color: var(--text-bright); }
+.user-created { font-size: 11px; color: var(--text-muted); }
+.role-badge {
+    display: inline-flex;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+.role-developer { background: rgba(168, 85, 247, 0.15); color: var(--accent-purple); }
+.role-client { background: rgba(0, 245, 255, 0.15); color: var(--accent-cyan); }
+.status-badge { padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; }
+.status-active { background: rgba(16, 185, 129, 0.15); color: var(--accent-green); }
+.status-disabled { background: rgba(239, 68, 68, 0.15); color: var(--accent-red); }
+.action-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
+.action-btn {
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--bg-dark);
+    color: var(--text-secondary);
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+}
+.action-btn:hover { border-color: var(--accent-cyan); color: var(--accent-cyan); }
+.action-btn.danger:hover { border-color: var(--accent-red); color: var(--accent-red); }
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(4px);
+}
+.modal {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    width: 100%;
+    max-width: 480px;
+    overflow: hidden;
+}
+.modal-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg-elevated);
+}
+.modal-header h3 { font-size: 16px; color: var(--text-bright); }
+.modal-close {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 24px;
+    cursor: pointer;
+    line-height: 1;
+}
+.modal-close:hover { color: var(--text-bright); }
+.modal-body { padding: 24px; }
+.modal-footer {
+    padding: 16px 24px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+.password-display, .code-display {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    background: var(--bg-dark);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+}
+.password-display span, .code-display span {
+    flex: 1;
+    font-size: 18px;
+    color: var(--accent-cyan);
+    word-break: break-all;
+}
+.code-display span { font-size: 32px; letter-spacing: 8px; text-align: center; }
+.copy-btn {
+    padding: 8px 16px;
+    background: var(--bg-hover);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-secondary);
+    font-size: 12px;
+    cursor: pointer;
+    font-family: inherit;
+}
+.copy-btn:hover { border-color: var(--accent-cyan); color: var(--accent-cyan); }
+.pairs-checklist {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 200px;
+    overflow-y: auto;
+    padding: 12px;
+    background: var(--bg-dark);
+    border-radius: 10px;
+}
+.pair-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    background: var(--bg-elevated);
+    border-radius: 8px;
+}
+.pair-checkbox input { width: 18px; height: 18px; accent-color: var(--accent-cyan); }
+.pair-checkbox label { flex: 1; font-size: 13px; color: var(--text-primary); cursor: pointer; }
+.loading { padding: 40px; text-align: center; color: var(--text-muted); }
+.pairs-list { font-size: 12px; color: var(--text-secondary); }
+</style>
+
+<script>
+let allPairs = [];
+let allUsers = [];
+
+function loadUsers() {
+    fetch('/api/users')
+        .then(r => r.json())
+        .then(users => {
+            allUsers = users;
+            renderUsers(users);
+        });
+}
+
+function loadConfig() {
+    fetch('/api/config')
+        .then(r => r.json())
+        .then(config => {
+            allPairs = config.pairs || [];
+            renderPairOptions();
+        });
+}
+
+function renderUsers(users) {
+    const container = document.getElementById('users-list');
+    if (!users.length) {
+        container.innerHTML = '<div class="loading">No users found</div>';
+        return;
+    }
+    let html = '';
+    users.forEach(user => {
+        const assignedPairs = user.assigned_pairs || [];
+        const pairsText = user.role === 'developer' ? 'All Pairs' : 
+            (assignedPairs.length ? assignedPairs.map(i => `Pair ${i+1}`).join(', ') : 'None');
+        const lastLogin = user.last_login ? new Date(user.last_login).toLocaleString() : 'Never';
+        html += `
+            <div class="user-row">
+                <div class="user-info">
+                    <span class="user-name">${user.username}</span>
+                    <span class="user-created">Created: ${new Date(user.created_at).toLocaleDateString()}</span>
+                </div>
+                <div><span class="role-badge role-${user.role}">${user.role}</span></div>
+                <div class="pairs-list">${pairsText}</div>
+                <div style="font-size:12px;color:var(--text-secondary)">${lastLogin}</div>
+                <div><span class="status-badge status-${user.active ? 'active' : 'disabled'}">${user.active ? 'Active' : 'Disabled'}</span></div>
+                <div class="action-buttons">
+                    <button class="action-btn" onclick="editUser('${user.id}')">Edit</button>
+                    <button class="action-btn" onclick="resetUserPassword('${user.id}')">Reset PW</button>
+                    <button class="action-btn" onclick="generateCode('${user.id}')">Gen Code</button>
+                    <button class="action-btn danger" onclick="deleteUserConfirm('${user.id}', '${user.username}')">Delete</button>
+                </div>
+            </div>
+        `;
+    });
+    container.innerHTML = html;
+}
+
+function renderPairOptions() {
+    const html = allPairs.map((pair, i) => `
+        <div class="pair-checkbox">
+            <input type="checkbox" id="pair-${i}" value="${i}">
+            <label for="pair-${i}">Pair ${i+1}: ${pair.master_account || 'Master'}  ${pair.child_account || 'Child'}</label>
+        </div>
+    `).join('') || '<div style="color:var(--text-muted);font-size:12px;">No pairs configured</div>';
+    document.getElementById('pairs-checklist').innerHTML = html;
+    document.getElementById('edit-pairs-checklist').innerHTML = html.replace(/pair-/g, 'edit-pair-');
+}
+
+function showCreateModal() {
+    document.getElementById('new-username').value = '';
+    document.getElementById('new-role').value = 'client';
+    togglePairSelect();
+    document.querySelectorAll('#pairs-checklist input').forEach(cb => cb.checked = false);
+    document.getElementById('create-modal').style.display = 'flex';
+}
+
+function hideModal(id) {
+    document.getElementById(id).style.display = 'none';
+}
+
+function togglePairSelect() {
+    const role = document.getElementById('new-role').value;
+    document.getElementById('pair-select-group').style.display = role === 'client' ? 'block' : 'none';
+}
+
+function toggleEditPairSelect() {
+    const role = document.getElementById('edit-role').value;
+    document.getElementById('edit-pair-select-group').style.display = role === 'client' ? 'block' : 'none';
+}
+
+function createUser() {
+    const username = document.getElementById('new-username').value.trim();
+    const role = document.getElementById('new-role').value;
+    const assignedPairs = [];
+    if (role === 'client') {
+        document.querySelectorAll('#pairs-checklist input:checked').forEach(cb => {
+            assignedPairs.push(parseInt(cb.value));
+        });
+    }
+    if (!username) { alert('Username is required'); return; }
+    fetch('/api/users', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ username, role, assigned_pairs: assignedPairs })
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data.success) {
+            hideModal('create-modal');
+            document.getElementById('generated-password').textContent = data.password;
+            document.getElementById('password-modal').style.display = 'flex';
+            loadUsers();
+        } else {
+            alert(data.error || 'Failed to create user');
+        }
+    });
+}
+
+function editUser(userId) {
+    const user = allUsers.find(u => u.id === userId);
+    if (!user) return;
+    document.getElementById('edit-user-id').value = userId;
+    document.getElementById('edit-username').value = user.username;
+    document.getElementById('edit-role').value = user.role;
+    document.getElementById('edit-active').value = user.active.toString();
+    toggleEditPairSelect();
+    document.querySelectorAll('#edit-pairs-checklist input').forEach(cb => {
+        cb.checked = (user.assigned_pairs || []).includes(parseInt(cb.value));
+    });
+    document.getElementById('edit-modal').style.display = 'flex';
+}
+
+function updateUser() {
+    const userId = document.getElementById('edit-user-id').value;
+    const role = document.getElementById('edit-role').value;
+    const active = document.getElementById('edit-active').value === 'true';
+    const assignedPairs = [];
+    if (role === 'client') {
+        document.querySelectorAll('#edit-pairs-checklist input:checked').forEach(cb => {
+            assignedPairs.push(parseInt(cb.value));
+        });
+    }
+    fetch(`/api/users/${userId}`, {
+        method: 'PUT',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ role, active, assigned_pairs: assignedPairs })
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data.success) {
+            hideModal('edit-modal');
+            loadUsers();
+        } else {
+            alert(data.error || 'Failed to update user');
+        }
+    });
+}
+
+function resetUserPassword(userId) {
+    if (!confirm('Reset password for this user?')) return;
+    fetch(`/api/users/${userId}/reset-password`, { method: 'POST' })
+        .then(r => r.json())
+        .then(data => {
+            if (data.success) {
+                document.getElementById('generated-password').textContent = data.password;
+                document.getElementById('password-modal').style.display = 'flex';
+            } else {
+                alert(data.error || 'Failed to reset password');
+            }
+        });
+}
+
+function generateCode(userId) {
+    fetch(`/api/users/${userId}/access-code`, { method: 'POST' })
+        .then(r => r.json())
+        .then(data => {
+            if (data.success) {
+                document.getElementById('generated-code').textContent = data.code;
+                document.getElementById('code-modal').style.display = 'flex';
+            } else {
+                alert(data.error || 'Failed to generate code');
+            }
+        });
+}
+
+function deleteUserConfirm(userId, username) {
+    if (confirm(`Delete user "${username}"? This cannot be undone.`)) {
+        fetch(`/api/users/${userId}`, { method: 'DELETE' })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) loadUsers();
+                else alert(data.error || 'Failed to delete user');
+            });
+    }
+}
+
+function copyPassword() {
+    const pw = document.getElementById('generated-password').textContent;
+    navigator.clipboard.writeText(pw);
+    document.querySelector('.copy-btn').textContent = ' Copied!';
+    setTimeout(() => document.querySelector('.copy-btn').textContent = ' Copy', 2000);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    loadUsers();
+    loadConfig();
+});
+</script>
+{% endblock %}

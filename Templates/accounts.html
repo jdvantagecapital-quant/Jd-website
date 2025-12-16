@@ -1,0 +1,734 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-header">
+    <h2>Account <span>Pairs</span></h2>
+    <p>Configure master and child trading account pairs</p>
+</div>
+
+<!-- Pairs List -->
+<div class="card pairs-list-card">
+    <div class="card-header">
+        <h3><span class="icon">📋</span> Configured Pairs</h3>
+        <button class="btn btn-primary btn-sm" onclick="showAddPairModal()">
+            ➕ Add New Pair
+        </button>
+    </div>
+    <div class="card-body">
+        <div class="pairs-list" id="pairs-list">
+            <!-- Pairs will be rendered here -->
+        </div>
+        <div class="pairs-empty" id="pairs-empty" style="display: none;">
+            <div class="empty-icon">🔗</div>
+            <div class="empty-text">No pairs configured yet</div>
+            <button class="btn btn-primary" onclick="showAddPairModal()">Add Your First Pair</button>
+        </div>
+    </div>
+</div>
+
+<!-- Add/Edit Pair Modal -->
+<div class="modal-overlay" id="pair-modal" style="display: none;">
+    <div class="modal">
+        <div class="modal-header">
+            <h3 id="modal-title">➕ Add New Pair</h3>
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+            <input type="hidden" id="edit-index" value="-1">
+            
+            <div class="connection-visual">
+                <div class="terminal-card master">
+                    <div class="terminal-header">
+                        <div class="terminal-icon">📡</div>
+                        <div class="terminal-title">MASTER TERMINAL</div>
+                    </div>
+                    <div class="terminal-body">
+                        <div class="form-group">
+                            <label>Terminal Path</label>
+                            <input type="text" id="master_terminal" placeholder="C:\Program Files\MetaTrader 5\terminal64.exe">
+                        </div>
+                        <div class="form-group">
+                            <label>Account Number</label>
+                            <input type="number" id="master_account" placeholder="123456">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="connection-arrow">
+                    <div class="arrow-icon">⚡</div>
+                </div>
+                
+                <div class="terminal-card child">
+                    <div class="terminal-header">
+                        <div class="terminal-icon">📥</div>
+                        <div class="terminal-title">CHILD TERMINAL</div>
+                    </div>
+                    <div class="terminal-body">
+                        <div class="form-group">
+                            <label>Terminal Path</label>
+                            <input type="text" id="child_terminal" placeholder="C:\Users\...\MetaTrader 5\terminal64.exe">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Account Number</label>
+                                <input type="number" id="child_account" placeholder="789012">
+                            </div>
+                            <div class="form-group">
+                                <label>Server</label>
+                                <input type="text" id="child_server" placeholder="Broker-Server">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" id="child_password" placeholder="••••••••">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-section">
+                <h4>Copy Settings</h4>
+                <div class="settings-row">
+                    <div class="form-group">
+                        <label>Copy Mode</label>
+                        <div class="mode-selector">
+                            <label class="mode-option">
+                                <input type="radio" name="copy_mode" value="normal" checked>
+                                <div class="mode-card">
+                                    <div class="mode-icon">📈</div>
+                                    <div class="mode-name">Normal</div>
+                                </div>
+                            </label>
+                            <label class="mode-option">
+                                <input type="radio" name="copy_mode" value="reverse">
+                                <div class="mode-card">
+                                    <div class="mode-icon">🔄</div>
+                                    <div class="mode-name">Reverse</div>
+                                </div>
+                            </label>
+                            <label class="mode-option">
+                                <input type="radio" name="copy_mode" value="only_buy">
+                                <div class="mode-card">
+                                    <div class="mode-icon">📈</div>
+                                    <div class="mode-name">Only Buy</div>
+                                </div>
+                            </label>
+                            <label class="mode-option">
+                                <input type="radio" name="copy_mode" value="only_sell">
+                                <div class="mode-card">
+                                    <div class="mode-icon">📉</div>
+                                    <div class="mode-name">Only Sell</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="settings-row">
+                    <div class="form-group" style="flex:1">
+                        <label>Lot Multiplier</label>
+                        <input type="number" id="lot_multiplier" value="1" step="0.1" min="0.01">
+                    </div>
+                    <div class="form-group" style="flex:1">
+                        <label>Start Date</label>
+                        <input type="date" id="start_date">
+                    </div>
+                    <div class="form-group" style="flex:1">
+                        <label>End Date</label>
+                        <input type="date" id="end_date">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+            <button class="btn btn-primary" onclick="savePair()">💾 Save Pair</button>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Pairs List Card */
+.pairs-list-card .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pairs-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.pair-item {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    background: var(--bg-dark);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    transition: all 0.3s;
+}
+
+.pair-item:hover {
+    border-color: var(--border-glow);
+}
+
+.pair-item.active {
+    border-color: var(--accent-cyan);
+    box-shadow: 0 0 20px rgba(0, 245, 255, 0.1);
+}
+
+.pair-number {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+    border-radius: 10px;
+    font-weight: 700;
+    color: #000;
+    margin-right: 20px;
+}
+
+.pair-accounts {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.pair-account {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.pair-account-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+}
+
+.pair-account-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--text-bright);
+}
+
+.pair-arrow {
+    color: var(--accent-cyan);
+    font-size: 20px;
+    margin: 0 12px;
+}
+
+.pair-info {
+    display: flex;
+    gap: 24px;
+    margin-left: auto;
+    margin-right: 24px;
+}
+
+.pair-info-item {
+    text-align: center;
+}
+
+.pair-info-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+}
+
+.pair-info-value {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.pair-info-value.mode { color: var(--accent-cyan); }
+.pair-info-value.lot { color: var(--accent-purple); }
+
+.pair-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-right: 16px;
+}
+
+.pair-status.active {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--accent-green);
+}
+
+.pair-status.inactive {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--accent-red);
+}
+
+.pair-status.pending {
+    background: rgba(245, 158, 11, 0.1);
+    color: var(--accent-orange);
+}
+
+.pair-status::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+.pair-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.pair-action-btn {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.pair-action-btn:hover {
+    border-color: var(--border-glow);
+    color: var(--text-bright);
+}
+
+.pair-action-btn.delete:hover {
+    border-color: var(--accent-red);
+    color: var(--accent-red);
+}
+
+/* Empty State */
+.pairs-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.empty-icon {
+    font-size: 64px;
+    margin-bottom: 16px;
+    opacity: 0.5;
+}
+
+.empty-text {
+    color: var(--text-muted);
+    margin-bottom: 24px;
+}
+
+/* Modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+}
+
+.modal {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    width: 100%;
+    max-width: 900px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px;
+    border-bottom: 1px solid var(--border);
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.modal-close {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-muted);
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.modal-close:hover {
+    border-color: var(--accent-red);
+    color: var(--accent-red);
+}
+
+.modal-body {
+    padding: 24px;
+}
+
+.modal-section {
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+}
+
+.modal-section h4 {
+    margin: 0 0 16px 0;
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.settings-row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 24px;
+    border-top: 1px solid var(--border);
+}
+
+/* Connection Visual in Modal */
+.connection-visual {
+    display: flex;
+    align-items: stretch;
+    gap: 16px;
+}
+
+.terminal-card {
+    flex: 1;
+    background: var(--bg-dark);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+}
+
+.terminal-card.master { border-color: rgba(0, 245, 255, 0.3); }
+.terminal-card.child { border-color: rgba(168, 85, 247, 0.3); }
+
+.terminal-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+}
+
+.terminal-card.master .terminal-header { background: rgba(0, 245, 255, 0.05); }
+.terminal-card.child .terminal-header { background: rgba(168, 85, 247, 0.05); }
+
+.terminal-icon { font-size: 18px; }
+
+.terminal-title {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--text-muted);
+}
+
+.terminal-card.master .terminal-title { color: var(--accent-cyan); }
+.terminal-card.child .terminal-title { color: var(--accent-purple); }
+
+.terminal-body { padding: 16px; }
+
+.connection-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.arrow-icon {
+    font-size: 24px;
+    color: var(--accent-cyan);
+    animation: pulse-glow 2s infinite;
+}
+
+@keyframes pulse-glow {
+    0%, 100% { opacity: 1; filter: drop-shadow(0 0 5px var(--accent-cyan)); }
+    50% { opacity: 0.7; filter: drop-shadow(0 0 15px var(--accent-cyan)); }
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+/* Mode Selector in Modal */
+.mode-selector {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.mode-option { cursor: pointer; }
+.mode-option input { display: none; }
+
+.mode-card {
+    padding: 12px 8px;
+    background: var(--bg-dark);
+    border-radius: 8px;
+    border: 2px solid var(--border);
+    text-align: center;
+    transition: all 0.3s;
+}
+
+.mode-card:hover { border-color: var(--border-glow); }
+
+.mode-option input:checked + .mode-card {
+    border-color: var(--accent-cyan);
+    background: rgba(0, 245, 255, 0.05);
+    box-shadow: 0 0 15px rgba(0, 245, 255, 0.2);
+}
+
+.mode-icon { font-size: 20px; margin-bottom: 4px; }
+.mode-name { font-size: 11px; font-weight: 600; color: var(--text-bright); }
+
+@media (max-width: 768px) {
+    .connection-visual { flex-direction: column; }
+    .mode-selector { grid-template-columns: repeat(2, 1fr); }
+    .pair-info { display: none; }
+    .pair-accounts { flex-direction: column; gap: 8px; }
+    .pair-arrow { transform: rotate(90deg); }
+}
+</style>
+
+<script>
+let config = { pairs: [], settings: {} };
+
+async function loadConfig() {
+    try {
+        const response = await fetch('/api/config');
+        config = await response.json();
+        renderPairsList();
+    } catch (e) {
+        console.error('Load error:', e);
+    }
+}
+
+function renderPairsList() {
+    const list = document.getElementById('pairs-list');
+    const empty = document.getElementById('pairs-empty');
+    
+    if (!config.pairs || config.pairs.length === 0) {
+        list.style.display = 'none';
+        empty.style.display = 'flex';
+        return;
+    }
+    
+    list.style.display = 'flex';
+    empty.style.display = 'none';
+    
+    const today = new Date().toISOString().split('T')[0];
+    
+    list.innerHTML = config.pairs.map((pair, index) => {
+        let status = 'active';
+        let statusText = 'Active';
+        
+        if (pair.end_date && pair.end_date < today) {
+            status = 'inactive';
+            statusText = 'Expired';
+        } else if (pair.start_date && pair.start_date > today) {
+            status = 'pending';
+            statusText = 'Pending';
+        }
+        
+        const modeDisplay = {
+            'normal': 'Normal',
+            'reverse': 'Reverse', 
+            'only_buy': 'Buy Only',
+            'only_sell': 'Sell Only'
+        }[pair.copy_mode] || 'Normal';
+        
+        return `
+            <div class="pair-item ${status === 'active' ? 'active' : ''}">
+                <div class="pair-number">${index + 1}</div>
+                <div class="pair-accounts">
+                    <div class="pair-account">
+                        <span class="pair-account-label">Master</span>
+                        <span class="pair-account-value">${pair.master_account || 'Not Set'}</span>
+                    </div>
+                    <span class="pair-arrow">→</span>
+                    <div class="pair-account">
+                        <span class="pair-account-label">Child</span>
+                        <span class="pair-account-value">${pair.child_account || 'Not Set'}</span>
+                    </div>
+                </div>
+                <div class="pair-info">
+                    <div class="pair-info-item">
+                        <div class="pair-info-label">Mode</div>
+                        <div class="pair-info-value mode">${modeDisplay}</div>
+                    </div>
+                    <div class="pair-info-item">
+                        <div class="pair-info-label">Lot</div>
+                        <div class="pair-info-value lot">${pair.lot_multiplier || 1}x</div>
+                    </div>
+                </div>
+                <div class="pair-status ${status}">
+                    ${statusText}
+                </div>
+                <div class="pair-actions">
+                    <button class="pair-action-btn" onclick="editPair(${index})" title="Edit">✏️</button>
+                    <button class="pair-action-btn delete" onclick="deletePair(${index})" title="Delete">🗑️</button>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+function showAddPairModal() {
+    document.getElementById('modal-title').textContent = '➕ Add New Pair';
+    document.getElementById('edit-index').value = -1;
+    clearForm();
+    document.getElementById('pair-modal').style.display = 'flex';
+}
+
+function editPair(index) {
+    const pair = config.pairs[index];
+    document.getElementById('modal-title').textContent = '✏️ Edit Pair';
+    document.getElementById('edit-index').value = index;
+    
+    document.getElementById('master_terminal').value = pair.master_terminal || '';
+    document.getElementById('master_account').value = pair.master_account || '';
+    document.getElementById('child_terminal').value = pair.child_terminal || '';
+    document.getElementById('child_account').value = pair.child_account || '';
+    document.getElementById('child_server').value = pair.child_server || '';
+    document.getElementById('child_password').value = pair.child_password || '';
+    document.getElementById('lot_multiplier').value = pair.lot_multiplier || 1;
+    document.getElementById('start_date').value = pair.start_date || '';
+    document.getElementById('end_date').value = pair.end_date || '';
+    
+    const mode = pair.copy_mode || 'normal';
+    const modeRadio = document.querySelector(`input[name="copy_mode"][value="${mode}"]`);
+    if (modeRadio) modeRadio.checked = true;
+    
+    document.getElementById('pair-modal').style.display = 'flex';
+}
+
+function closeModal() {
+    document.getElementById('pair-modal').style.display = 'none';
+}
+
+function clearForm() {
+    document.getElementById('master_terminal').value = '';
+    document.getElementById('master_account').value = '';
+    document.getElementById('child_terminal').value = '';
+    document.getElementById('child_account').value = '';
+    document.getElementById('child_server').value = '';
+    document.getElementById('child_password').value = '';
+    document.getElementById('lot_multiplier').value = 1;
+    document.getElementById('start_date').value = '';
+    document.getElementById('end_date').value = '';
+    document.querySelector('input[name="copy_mode"][value="normal"]').checked = true;
+}
+
+async function savePair() {
+    const pair = {
+        master_terminal: document.getElementById('master_terminal').value,
+        master_account: parseInt(document.getElementById('master_account').value) || 0,
+        child_terminal: document.getElementById('child_terminal').value,
+        child_account: parseInt(document.getElementById('child_account').value) || 0,
+        child_server: document.getElementById('child_server').value,
+        child_password: document.getElementById('child_password').value,
+        lot_multiplier: parseFloat(document.getElementById('lot_multiplier').value) || 1,
+        copy_mode: document.querySelector('input[name="copy_mode"]:checked')?.value || 'normal',
+        start_date: document.getElementById('start_date').value || '',
+        end_date: document.getElementById('end_date').value || ''
+    };
+    
+    const editIndex = parseInt(document.getElementById('edit-index').value);
+    
+    if (!config.pairs) config.pairs = [];
+    
+    if (editIndex >= 0) {
+        config.pairs[editIndex] = pair;
+    } else {
+        config.pairs.push(pair);
+    }
+    
+    try {
+        const response = await fetch('/api/config', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(config)
+        });
+        
+        const data = await response.json();
+        if (data.success) {
+            closeModal();
+            renderPairsList();
+        }
+    } catch (e) {
+        alert('Error saving: ' + e.message);
+    }
+}
+
+async function deletePair(index) {
+    if (!confirm('Delete this pair?')) return;
+    
+    config.pairs.splice(index, 1);
+    
+    try {
+        const response = await fetch('/api/config', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(config)
+        });
+        
+        const data = await response.json();
+        if (data.success) {
+            renderPairsList();
+        }
+    } catch (e) {
+        alert('Error deleting: ' + e.message);
+    }
+}
+
+// Close modal on escape key
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeModal();
+});
+
+// Close modal on backdrop click
+document.getElementById('pair-modal').addEventListener('click', (e) => {
+    if (e.target.classList.contains('modal-overlay')) closeModal();
+});
+
+loadConfig();
+</script>
+{% endblock %}

@@ -1,0 +1,398 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-header">
+    <h2>System <span>Settings</span></h2>
+    <p>Configure global copier behavior</p>
+</div>
+
+<div class="settings-grid">
+    <div class="card">
+        <div class="card-header">
+            <h3><span class="icon">⚡</span> Performance</h3>
+        </div>
+        <div class="card-body">
+            <div class="setting-item">
+                <div class="setting-info">
+                    <div class="setting-name">Copy Interval</div>
+                    <div class="setting-desc">How often to check for new positions (milliseconds)</div>
+                </div>
+                <div class="setting-control">
+                    <input type="number" id="copy_interval" value="50" min="10" max="1000">
+                    <span class="unit">ms</span>
+                </div>
+            </div>
+            
+            <div class="setting-item">
+                <div class="setting-info">
+                    <div class="setting-name">Retry Attempts</div>
+                    <div class="setting-desc">Number of retries on failed orders</div>
+                </div>
+                <div class="setting-control">
+                    <input type="number" id="retry_attempts" value="3" min="1" max="10">
+                </div>
+            </div>
+            
+            <div class="setting-item">
+                <div class="setting-info">
+                    <div class="setting-name">Slippage Points</div>
+                    <div class="setting-desc">Maximum allowed price slippage</div>
+                </div>
+                <div class="setting-control">
+                    <input type="number" id="slippage" value="20" min="1" max="100">
+                    <span class="unit">pts</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card">
+        <div class="card-header">
+            <h3><span class="icon">🔄</span> Order Handling</h3>
+        </div>
+        <div class="card-body">
+            <div class="setting-item">
+                <div class="setting-info">
+                    <div class="setting-name">Filling Mode</div>
+                    <div class="setting-desc">Order filling type for your broker</div>
+                </div>
+                <div class="setting-control">
+                    <select id="filling_mode">
+                        <option value="FOK">Fill or Kill (FOK)</option>
+                        <option value="IOC">Immediate or Cancel (IOC)</option>
+                        <option value="RETURN">Return Mode</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="setting-item toggle">
+                <div class="setting-info">
+                    <div class="setting-name">Copy Close Orders</div>
+                    <div class="setting-desc">Automatically close child positions when master closes</div>
+                </div>
+                <div class="setting-control">
+                    <label class="switch">
+                        <input type="checkbox" id="copy_closes" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="setting-item toggle">
+                <div class="setting-info">
+                    <div class="setting-name">Comment Tracking</div>
+                    <div class="setting-desc">Add master ticket to child order comment</div>
+                </div>
+                <div class="setting-control">
+                    <label class="switch">
+                        <input type="checkbox" id="comment_tracking" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card full-width">
+        <div class="card-header">
+            <h3><span class="icon">📊</span> System Information</h3>
+        </div>
+        <div class="card-body">
+            <div class="system-info-grid">
+                <div class="sys-item">
+                    <div class="sys-icon">🐍</div>
+                    <div class="sys-details">
+                        <div class="sys-label">Python Version</div>
+                        <div class="sys-value" id="python_version">Loading...</div>
+                    </div>
+                </div>
+                <div class="sys-item">
+                    <div class="sys-icon">📡</div>
+                    <div class="sys-details">
+                        <div class="sys-label">MT5 Package</div>
+                        <div class="sys-value" id="mt5_version">Loading...</div>
+                    </div>
+                </div>
+                <div class="sys-item">
+                    <div class="sys-icon">🌐</div>
+                    <div class="sys-details">
+                        <div class="sys-label">Flask Server</div>
+                        <div class="sys-value" id="flask_version">Loading...</div>
+                    </div>
+                </div>
+                <div class="sys-item">
+                    <div class="sys-icon">⏱️</div>
+                    <div class="sys-details">
+                        <div class="sys-label">IPC Method</div>
+                        <div class="sys-value">Memory Mapped (~15ms)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="action-bar">
+    <button class="btn btn-outline" onclick="resetSettings()">
+        🔄 Reset to Defaults
+    </button>
+    <button class="btn btn-primary btn-lg" onclick="saveSettings()">
+        💾 Save Settings
+    </button>
+</div>
+
+<style>
+.settings-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+}
+
+.settings-grid .full-width {
+    grid-column: 1 / -1;
+}
+
+.setting-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.setting-item:last-child {
+    border-bottom: none;
+}
+
+.setting-info {
+    flex: 1;
+}
+
+.setting-name {
+    font-weight: 600;
+    color: var(--text-bright);
+    margin-bottom: 4px;
+}
+
+.setting-desc {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.setting-control {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.setting-control input[type="number"],
+.setting-control select {
+    width: 120px;
+    padding: 10px 14px;
+    background: var(--bg-dark);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-bright);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    text-align: center;
+}
+
+.setting-control select {
+    width: 200px;
+    text-align: left;
+}
+
+.unit {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-family: 'JetBrains Mono', monospace;
+}
+
+/* Toggle Switch */
+.switch {
+    position: relative;
+    width: 52px;
+    height: 28px;
+}
+
+.switch input {
+    display: none;
+}
+
+.slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--bg-dark);
+    border: 1px solid var(--border);
+    border-radius: 28px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.slider:before {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    left: 4px;
+    top: 3px;
+    background: var(--text-muted);
+    border-radius: 50%;
+    transition: all 0.3s;
+}
+
+.switch input:checked + .slider {
+    background: rgba(0, 245, 255, 0.15);
+    border-color: var(--accent-cyan);
+}
+
+.switch input:checked + .slider:before {
+    transform: translateX(24px);
+    background: var(--accent-cyan);
+    box-shadow: 0 0 10px var(--accent-cyan);
+}
+
+/* System Info */
+.system-info-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.sys-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px;
+    background: var(--bg-dark);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+}
+
+.sys-icon {
+    font-size: 28px;
+}
+
+.sys-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+}
+
+.sys-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--accent-cyan);
+}
+
+/* Action Bar */
+.action-bar {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    padding: 32px 0;
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    padding: 16px 32px;
+}
+
+.btn-outline:hover {
+    border-color: var(--border-glow);
+    color: var(--text-bright);
+}
+
+.btn-lg {
+    padding: 18px 48px;
+    font-size: 16px;
+}
+
+@media (max-width: 900px) {
+    .settings-grid {
+        grid-template-columns: 1fr;
+    }
+    .system-info-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .system-info-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+<script>
+async function loadSettings() {
+    try {
+        const response = await fetch('/api/config');
+        const config = await response.json();
+        
+        if (config.settings) {
+            document.getElementById('copy_interval').value = config.settings.copy_interval || 50;
+            document.getElementById('retry_attempts').value = config.settings.retry_attempts || 3;
+            document.getElementById('slippage').value = config.settings.slippage || 20;
+            document.getElementById('filling_mode').value = config.settings.filling_mode || 'FOK';
+            document.getElementById('copy_closes').checked = config.settings.copy_closes !== false;
+            document.getElementById('comment_tracking').checked = config.settings.comment_tracking !== false;
+        }
+        
+        // Get system info
+        document.getElementById('python_version').textContent = '3.13.5';
+        document.getElementById('mt5_version').textContent = '5.0.4424';
+        document.getElementById('flask_version').textContent = 'Running on :5000';
+    } catch (e) {
+        console.error('Load error:', e);
+    }
+}
+
+async function saveSettings() {
+    try {
+        const response = await fetch('/api/config');
+        const config = await response.json();
+        
+        config.settings = {
+            copy_interval: parseInt(document.getElementById('copy_interval').value) || 50,
+            retry_attempts: parseInt(document.getElementById('retry_attempts').value) || 3,
+            slippage: parseInt(document.getElementById('slippage').value) || 20,
+            filling_mode: document.getElementById('filling_mode').value || 'FOK',
+            copy_closes: document.getElementById('copy_closes').checked,
+            comment_tracking: document.getElementById('comment_tracking').checked
+        };
+        
+        const saveResponse = await fetch('/api/config', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(config)
+        });
+        
+        const data = await saveResponse.json();
+        if (data.success) {
+            alert('Settings saved!');
+        }
+    } catch (e) {
+        alert('Error saving: ' + e.message);
+    }
+}
+
+function resetSettings() {
+    document.getElementById('copy_interval').value = 50;
+    document.getElementById('retry_attempts').value = 3;
+    document.getElementById('slippage').value = 20;
+    document.getElementById('filling_mode').value = 'FOK';
+    document.getElementById('copy_closes').checked = true;
+    document.getElementById('comment_tracking').checked = true;
+}
+
+loadSettings();
+</script>
+{% endblock %}

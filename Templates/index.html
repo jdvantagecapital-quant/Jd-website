@@ -1,0 +1,320 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-header">
+    <h2>Trade <span>Copier</span></h2>
+    <p>Ultra-fast MT5 trade copying with SL/TP</p>
+</div>
+<div class="status-section">
+    <div class="status-display">
+        <div class="status-indicator" id="status-indicator">
+            <span class="status-dot"></span>
+            <span class="status-text" id="status-text">Stopped</span>
+        </div>
+    </div>
+    <div class="control-buttons">
+        <button class="btn btn-success btn-lg" id="start-btn">Start Copier</button>
+        <button class="btn btn-danger btn-lg" id="stop-btn" style="display:none;">Stop Copier</button>
+    </div>
+</div>
+<div class="accounts-grid">
+    <div class="account-card master">
+        <div class="account-header">
+            <div class="account-type">MASTER</div>
+            <div class="account-number" id="master-account">Loading...</div>
+            <div class="account-status" id="master-status"><span class="conn-dot"></span><span>Disconnected</span></div>
+        </div>
+        <div class="account-stats">
+            <div class="stat-row">
+                <div class="stat-item"><span class="stat-label">Balance</span><span class="stat-value" id="master-balance">$0.00</span></div>
+                <div class="stat-item"><span class="stat-label">Equity</span><span class="stat-value" id="master-equity">$0.00</span></div>
+            </div>
+        </div>
+        <div class="positions-section">
+            <div class="section-tabs">
+                <button class="tab-btn active" data-tab="master-live">Live</button>
+                <button class="tab-btn" data-tab="master-closed">Closed</button>
+                <button class="tab-btn" data-tab="master-activity">Activity</button>
+            </div>
+            <div class="tab-content" id="master-live">
+                <div class="positions-header"><span>Symbol</span><span>Type</span><span>Lots</span><span>Price</span><span>P/L</span></div>
+                <div class="positions-list" id="master-positions"><div class="empty-positions">No positions</div></div>
+                <div class="positions-summary"><span>Total P/L:</span><span class="total-pl" id="master-live-pl">$0.00</span></div>
+            </div>
+            <div class="tab-content" id="master-closed" style="display:none;">
+                <div class="positions-header"><span>Symbol</span><span>Type</span><span>Lots</span><span>Price</span><span>P/L</span></div>
+                <div class="positions-list" id="master-closed-positions"><div class="empty-positions">No closed trades</div></div>
+                <div class="positions-summary"><span>Today P/L:</span><span class="total-pl" id="master-closed-pl">$0.00</span></div>
+            </div>
+            <div class="tab-content" id="master-activity" style="display:none;">
+                <div class="activity-log" id="master-activity-log"><div class="empty-positions">No activity</div></div>
+            </div>
+        </div>
+    </div>
+    <div class="sync-arrow"><div class="arrow-icon">&#9889;</div><div class="sync-latency">~15ms</div></div>
+    <div class="account-card child">
+        <div class="account-header">
+            <div class="account-type">CHILD</div>
+            <div class="account-number" id="child-account">Loading...</div>
+            <div class="account-status" id="child-status"><span class="conn-dot"></span><span>Disconnected</span></div>
+        </div>
+        <div class="account-stats">
+            <div class="stat-row">
+                <div class="stat-item"><span class="stat-label">Balance</span><span class="stat-value" id="child-balance">$0.00</span></div>
+                <div class="stat-item"><span class="stat-label">Equity</span><span class="stat-value" id="child-equity">$0.00</span></div>
+            </div>
+        </div>
+        <div class="positions-section">
+            <div class="section-tabs">
+                <button class="tab-btn active" data-tab="child-live">Live</button>
+                <button class="tab-btn" data-tab="child-closed">Closed</button>
+                <button class="tab-btn" data-tab="child-activity">Activity</button>
+            </div>
+            <div class="tab-content" id="child-live">
+                <div class="positions-header"><span>Symbol</span><span>Type</span><span>Lots</span><span>Price</span><span>P/L</span></div>
+                <div class="positions-list" id="child-positions"><div class="empty-positions">No positions</div></div>
+                <div class="positions-summary"><span>Total P/L:</span><span class="total-pl" id="child-live-pl">$0.00</span></div>
+            </div>
+            <div class="tab-content" id="child-closed" style="display:none;">
+                <div class="positions-header"><span>Symbol</span><span>Type</span><span>Lots</span><span>Price</span><span>P/L</span></div>
+                <div class="positions-list" id="child-closed-positions"><div class="empty-positions">No closed trades</div></div>
+                <div class="positions-summary"><span>Today P/L:</span><span class="total-pl" id="child-closed-pl">$0.00</span></div>
+            </div>
+            <div class="tab-content" id="child-activity" style="display:none;">
+                <div class="activity-log" id="child-activity-log"><div class="empty-positions">No activity</div></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="summary-section">
+    <div class="summary-card"><div class="summary-icon">&#128202;</div><div class="summary-content"><div class="summary-label">Total Copied</div><div class="summary-value" id="total-copied">0</div></div></div>
+    <div class="summary-card"><div class="summary-icon">&#9989;</div><div class="summary-content"><div class="summary-label">Successful</div><div class="summary-value success" id="total-success">0</div></div></div>
+    <div class="summary-card"><div class="summary-icon">&#10060;</div><div class="summary-content"><div class="summary-label">Failed</div><div class="summary-value error" id="total-failed">0</div></div></div>
+    <div class="summary-card"><div class="summary-icon">&#128176;</div><div class="summary-content"><div class="summary-label">Combined P/L</div><div class="summary-value" id="combined-pl">$0.00</div></div></div>
+</div>
+<style>
+.status-section{display:flex;justify-content:space-between;align-items:center;padding:24px;background:var(--bg-card);border:1px solid var(--border);border-radius:16px;margin-bottom:24px}
+.status-indicator{display:flex;align-items:center;gap:12px;padding:12px 24px;background:var(--bg-dark);border-radius:30px;border:1px solid var(--border)}
+.status-dot{width:12px;height:12px;border-radius:50%;background:var(--accent-red)}
+.status-indicator.running .status-dot{background:var(--accent-green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(16,185,129,0.7)}50%{box-shadow:0 0 0 8px rgba(16,185,129,0)}}
+.status-text{font-weight:600;font-size:14px}
+.control-buttons{display:flex;gap:12px}
+.btn-lg{padding:14px 32px;font-size:15px;cursor:pointer;border:none;border-radius:8px;color:#fff}
+.btn-success{background:linear-gradient(135deg,#10b981,#059669)}
+.btn-danger{background:linear-gradient(135deg,#ef4444,#dc2626)}
+.btn-lg:disabled{opacity:0.6;cursor:not-allowed}
+.accounts-grid{display:grid;grid-template-columns:1fr auto 1fr;gap:24px;margin-bottom:24px}
+.account-card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;overflow:hidden}
+.account-card.master{border-color:rgba(0,245,255,0.3)}
+.account-card.child{border-color:rgba(168,85,247,0.3)}
+.account-header{display:flex;align-items:center;gap:16px;padding:20px;border-bottom:1px solid var(--border)}
+.account-card.master .account-header{background:rgba(0,245,255,0.03)}
+.account-card.child .account-header{background:rgba(168,85,247,0.03)}
+.account-type{font-size:10px;font-weight:700;letter-spacing:2px;color:var(--text-muted)}
+.account-card.master .account-type{color:var(--accent-cyan)}
+.account-card.child .account-type{color:var(--accent-purple)}
+.account-number{font-family:monospace;font-size:16px;font-weight:600;color:var(--text-bright);flex:1}
+.account-status{display:flex;align-items:center;gap:8px;padding:6px 12px;background:rgba(239,68,68,0.1);border-radius:20px;font-size:11px;color:var(--accent-red)}
+.account-status.connected{background:rgba(16,185,129,0.1);color:var(--accent-green)}
+.conn-dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+.account-stats{padding:16px 20px;border-bottom:1px solid var(--border)}
+.stat-row{display:flex;gap:24px}
+.stat-item{flex:1}
+.stat-label{display:block;font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+.stat-value{font-family:monospace;font-size:18px;font-weight:600;color:var(--text-bright)}
+.positions-section{padding:16px 20px}
+.section-tabs{display:flex;gap:6px;margin-bottom:16px}
+.tab-btn{flex:1;padding:8px 12px;background:var(--bg-dark);border:1px solid var(--border);border-radius:8px;color:var(--text-muted);font-size:11px;font-weight:600;cursor:pointer}
+.tab-btn:hover{border-color:var(--border-glow);color:var(--text-bright)}
+.tab-btn.active{background:linear-gradient(135deg,var(--accent-cyan),var(--accent-purple));border-color:transparent;color:#000}
+.positions-header{display:grid;grid-template-columns:1.2fr 0.8fr 0.8fr 1fr 1fr;padding:10px 12px;background:var(--bg-dark);border-radius:8px;font-size:10px;font-weight:600;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px}
+.positions-list{max-height:180px;overflow-y:auto}
+.position-row{display:grid;grid-template-columns:1.2fr 0.8fr 0.8fr 1fr 1fr;padding:10px 12px;border-bottom:1px solid var(--border);font-size:13px}
+.position-row .symbol{font-weight:600;color:var(--text-bright)}
+.position-row .type{font-weight:600}
+.position-row .type.buy{color:var(--accent-green)}
+.position-row .type.sell{color:var(--accent-red)}
+.position-row .lots,.position-row .price{font-family:monospace}
+.position-row .pl{font-family:monospace;font-weight:600}
+.position-row .pl.profit{color:var(--accent-green)}
+.position-row .pl.loss{color:var(--accent-red)}
+.empty-positions{padding:30px;text-align:center;color:var(--text-muted);font-size:13px}
+.positions-summary{display:flex;justify-content:space-between;align-items:center;padding:12px;margin-top:12px;background:var(--bg-dark);border-radius:8px}
+.total-pl{font-family:monospace;font-weight:700;font-size:16px}
+.total-pl.profit{color:var(--accent-green)}
+.total-pl.loss{color:var(--accent-red)}
+.activity-log{max-height:240px;overflow-y:auto}
+.activity-item{display:flex;gap:10px;padding:10px 12px;border-bottom:1px solid var(--border);font-size:12px}
+.activity-time{font-family:monospace;font-size:10px;color:var(--text-muted);min-width:60px}
+.activity-badge{padding:2px 8px;border-radius:4px;font-size:9px;font-weight:700;text-transform:uppercase}
+.activity-badge.trade{background:rgba(16,185,129,0.2);color:var(--accent-green)}
+.activity-badge.close{background:rgba(239,68,68,0.2);color:var(--accent-red)}
+.activity-badge.signal{background:rgba(0,245,255,0.2);color:var(--accent-cyan)}
+.activity-badge.error{background:rgba(239,68,68,0.2);color:var(--accent-red)}
+.activity-badge.info{background:rgba(168,85,247,0.2);color:var(--accent-purple)}
+.activity-message{flex:1;color:var(--text-secondary)}
+.sync-arrow{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px 0}
+.arrow-icon{font-size:32px;color:var(--accent-cyan)}
+.sync-latency{margin-top:12px;padding:6px 12px;background:var(--bg-dark);border:1px solid var(--border);border-radius:20px;font-family:monospace;font-size:11px;color:var(--accent-cyan)}
+.summary-section{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.summary-card{display:flex;align-items:center;gap:16px;padding:20px;background:var(--bg-card);border:1px solid var(--border);border-radius:12px}
+.summary-icon{font-size:28px}
+.summary-label{font-size:11px;color:var(--text-muted);text-transform:uppercase;margin-bottom:4px}
+.summary-value{font-family:monospace;font-size:20px;font-weight:700;color:var(--text-bright)}
+.summary-value.success{color:var(--accent-green)}
+.summary-value.error{color:var(--accent-red)}
+@media(max-width:1200px){.accounts-grid{grid-template-columns:1fr}.sync-arrow{transform:rotate(90deg);padding:30px 0}.summary-section{grid-template-columns:repeat(2,1fr)}}
+</style>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll(".tab-btn").forEach(function(btn) {
+        btn.addEventListener("click", function() {
+            var tabId = this.getAttribute("data-tab");
+            var parent = this.closest(".positions-section");
+            parent.querySelectorAll(".tab-btn").forEach(function(b) { b.classList.remove("active"); });
+            parent.querySelectorAll(".tab-content").forEach(function(c) { c.style.display = "none"; });
+            this.classList.add("active");
+            document.getElementById(tabId).style.display = "block";
+        });
+    });
+    document.getElementById("start-btn").addEventListener("click", function() {
+        var btn = this;
+        btn.disabled = true;
+        btn.textContent = "Starting...";
+        fetch("/api/start", { method: "POST" })
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+                if (data.success) { updateStatus(); }
+                else { alert("Failed: " + (data.error || "Unknown")); }
+            })
+            .catch(function(e) { alert("Error: " + e); })
+            .finally(function() { btn.disabled = false; btn.textContent = "Start Copier"; });
+    });
+    document.getElementById("stop-btn").addEventListener("click", function() {
+        var btn = this;
+        btn.disabled = true;
+        btn.textContent = "Stopping...";
+        fetch("/api/stop", { method: "POST" })
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+                if (data.success) { updateStatus(); }
+                else { alert("Failed: " + (data.error || "Unknown")); }
+            })
+            .catch(function(e) { alert("Error: " + e); })
+            .finally(function() { btn.disabled = false; btn.textContent = "Stop Copier"; });
+    });
+    function formatPL(val) {
+        var n = parseFloat(val) || 0;
+        return { text: (n >= 0 ? "+" : "-") + "$" + Math.abs(n).toFixed(2), cls: n >= 0 ? "profit" : "loss" };
+    }
+    function renderPositions(positions, containerId, plId) {
+        var container = document.getElementById(containerId);
+        if (!positions || positions.length === 0) {
+            container.innerHTML = "<div class=\"empty-positions\">No positions</div>";
+            document.getElementById(plId).textContent = "$0.00";
+            return;
+        }
+        var total = 0;
+        var html = "";
+        positions.forEach(function(pos) {
+            var pl = parseFloat(pos.profit) || 0;
+            total += pl;
+            var plf = formatPL(pl);
+            var type = pos.type === 0 ? "buy" : "sell";
+            html += "<div class=\"position-row\"><span class=\"symbol\">" + pos.symbol + "</span><span class=\"type " + type + "\">" + (pos.type === 0 ? "BUY" : "SELL") + "</span><span class=\"lots\">" + (pos.volume || 0).toFixed(2) + "</span><span class=\"price\">" + (pos.price_open || pos.price_close || 0).toFixed(5) + "</span><span class=\"pl " + plf.cls + "\">" + plf.text + "</span></div>";
+        });
+        container.innerHTML = html;
+        var tf = formatPL(total);
+        document.getElementById(plId).textContent = tf.text;
+        document.getElementById(plId).className = "total-pl " + tf.cls;
+    }
+    function renderActivity(activities, containerId) {
+        var container = document.getElementById(containerId);
+        if (!activities || activities.length === 0) {
+            container.innerHTML = "<div class=\"empty-positions\">No activity</div>";
+            return;
+        }
+        var html = "";
+        activities.forEach(function(act) {
+            var badge = (act.type || "info").toLowerCase();
+            html += "<div class=\"activity-item\"><span class=\"activity-time\">" + act.time + "</span><span class=\"activity-badge " + badge + "\">" + (act.type || "INFO") + "</span><span class=\"activity-message\">" + act.message + "</span></div>";
+        });
+        container.innerHTML = html;
+    }
+    function updateStatus() {
+        fetch("/api/status")
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+                var indicator = document.getElementById("status-indicator");
+                var statusText = document.getElementById("status-text");
+                var startBtn = document.getElementById("start-btn");
+                var stopBtn = document.getElementById("stop-btn");
+                if (data.running) {
+                    indicator.classList.add("running");
+                    statusText.textContent = "Running";
+                    startBtn.style.display = "none";
+                    stopBtn.style.display = "inline-flex";
+                } else {
+                    indicator.classList.remove("running");
+                    statusText.textContent = "Stopped";
+                    startBtn.style.display = "inline-flex";
+                    stopBtn.style.display = "none";
+                }
+                if (data.master) {
+                    document.getElementById("master-account").textContent = data.master.account || "Not Set";
+                    document.getElementById("master-balance").textContent = "$" + (data.master.balance || 0).toFixed(2);
+                    document.getElementById("master-equity").textContent = "$" + (data.master.equity || 0).toFixed(2);
+                    var ms = document.getElementById("master-status");
+                    if (data.master.connected) {
+                        ms.classList.add("connected");
+                        ms.innerHTML = "<span class=\"conn-dot\"></span><span>Connected</span>";
+                    } else {
+                        ms.classList.remove("connected");
+                        ms.innerHTML = "<span class=\"conn-dot\"></span><span>Disconnected</span>";
+                    }
+                    renderPositions(data.master.positions, "master-positions", "master-live-pl");
+                    renderPositions(data.master.closed_today, "master-closed-positions", "master-closed-pl");
+                }
+                if (data.child) {
+                    document.getElementById("child-account").textContent = data.child.account || "Not Set";
+                    document.getElementById("child-balance").textContent = "$" + (data.child.balance || 0).toFixed(2);
+                    document.getElementById("child-equity").textContent = "$" + (data.child.equity || 0).toFixed(2);
+                    var cs = document.getElementById("child-status");
+                    if (data.child.connected) {
+                        cs.classList.add("connected");
+                        cs.innerHTML = "<span class=\"conn-dot\"></span><span>Connected</span>";
+                    } else {
+                        cs.classList.remove("connected");
+                        cs.innerHTML = "<span class=\"conn-dot\"></span><span>Disconnected</span>";
+                    }
+                    renderPositions(data.child.positions, "child-positions", "child-live-pl");
+                    renderPositions(data.child.closed_today, "child-closed-positions", "child-closed-pl");
+                }
+                if (data.stats) {
+                    document.getElementById("total-copied").textContent = data.stats.total || 0;
+                    document.getElementById("total-success").textContent = data.stats.success || 0;
+                    document.getElementById("total-failed").textContent = data.stats.failed || 0;
+                    var cpl = ((data.master && data.master.live_pl) || 0) + ((data.child && data.child.live_pl) || 0);
+                    var cpf = formatPL(cpl);
+                    document.getElementById("combined-pl").textContent = cpf.text;
+                    document.getElementById("combined-pl").className = "summary-value " + cpf.cls;
+                }
+            })
+            .catch(function(e) { console.error("Status error:", e); });
+    }
+    function updateActivity() {
+        fetch("/api/activity")
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+                renderActivity(data.master, "master-activity-log");
+                renderActivity(data.child, "child-activity-log");
+            })
+            .catch(function(e) { console.error("Activity error:", e); });
+    }
+    updateStatus();
+    updateActivity();
+    setInterval(updateStatus, 1000);
+    setInterval(updateActivity, 2000);
+});
+</script>
+{% endblock %}

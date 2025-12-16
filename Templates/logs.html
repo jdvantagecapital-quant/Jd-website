@@ -1,0 +1,447 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-header">
+    <h2>Activity <span>Logs</span></h2>
+    <p>Real-time trade copying history</p>
+</div>
+
+<div class="logs-toolbar">
+    <div class="toolbar-left">
+        <div class="filter-group">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="trade">Trades</button>
+            <button class="filter-btn" data-filter="close">Closes</button>
+            <button class="filter-btn" data-filter="error">Errors</button>
+        </div>
+    </div>
+    <div class="toolbar-right">
+        <button class="btn btn-outline btn-sm" onclick="exportLogs()">
+            📄 Export
+        </button>
+        <button class="btn btn-outline btn-sm" onclick="clearLogs()">
+            🗑️ Clear
+        </button>
+        <button class="btn btn-primary btn-sm" onclick="refreshLogs()">
+            🔄 Refresh
+        </button>
+    </div>
+</div>
+
+<div class="card logs-container">
+    <div class="logs-header">
+        <div class="log-col time">Time</div>
+        <div class="log-col type">Type</div>
+        <div class="log-col symbol">Symbol</div>
+        <div class="log-col direction">Direction</div>
+        <div class="log-col volume">Volume</div>
+        <div class="log-col price">Price</div>
+        <div class="log-col status">Status</div>
+    </div>
+    <div class="logs-body" id="logs-body">
+        <!-- Logs will be inserted here -->
+    </div>
+</div>
+
+<div class="logs-stats">
+    <div class="log-stat">
+        <span class="stat-value" id="total-logs">0</span>
+        <span class="stat-label">Total</span>
+    </div>
+    <div class="log-stat success">
+        <span class="stat-value" id="success-logs">0</span>
+        <span class="stat-label">Success</span>
+    </div>
+    <div class="log-stat error">
+        <span class="stat-value" id="error-logs">0</span>
+        <span class="stat-label">Errors</span>
+    </div>
+</div>
+
+<style>
+.logs-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.filter-group {
+    display: flex;
+    gap: 8px;
+    background: var(--bg-dark);
+    padding: 6px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+}
+
+.filter-btn {
+    padding: 8px 16px;
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    font-size: 13px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.filter-btn:hover {
+    color: var(--text-bright);
+}
+
+.filter-btn.active {
+    background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+    color: #000;
+    font-weight: 600;
+}
+
+.toolbar-right {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-sm {
+    padding: 10px 16px;
+    font-size: 13px;
+}
+
+.logs-container {
+    overflow: hidden;
+}
+
+.logs-header {
+    display: grid;
+    grid-template-columns: 140px 80px 100px 80px 80px 100px 1fr;
+    padding: 16px 20px;
+    background: var(--bg-dark);
+    border-bottom: 1px solid var(--border);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+}
+
+.logs-body {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.log-entry {
+    display: grid;
+    grid-template-columns: 140px 80px 100px 80px 80px 100px 1fr;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    transition: background 0.2s;
+}
+
+.log-entry:hover {
+    background: rgba(0, 245, 255, 0.02);
+}
+
+.log-entry.error {
+    background: rgba(239, 68, 68, 0.05);
+}
+
+.log-entry .time {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--text-muted);
+    font-size: 12px;
+}
+
+.log-entry .type {
+    font-weight: 600;
+}
+
+.log-entry .type.trade { color: var(--accent-cyan); }
+.log-entry .type.close { color: var(--accent-purple); }
+.log-entry .type.error { color: var(--accent-red); }
+
+.log-entry .symbol {
+    font-weight: 600;
+    color: var(--text-bright);
+}
+
+.log-entry .direction {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    text-align: center;
+    width: fit-content;
+}
+
+.log-entry .direction.buy {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--accent-green);
+}
+
+.log-entry .direction.sell {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--accent-red);
+}
+
+.log-entry .volume {
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.log-entry .price {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--text-secondary);
+}
+
+.log-entry .status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.status-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.status-badge.success {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--accent-green);
+}
+
+.status-badge.failed {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--accent-red);
+}
+
+.status-badge::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+/* Empty State */
+.logs-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    color: var(--text-muted);
+}
+
+.logs-empty-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    opacity: 0.5;
+}
+
+.logs-empty-text {
+    font-size: 14px;
+}
+
+/* Stats */
+.logs-stats {
+    display: flex;
+    justify-content: center;
+    gap: 48px;
+    padding: 24px 0;
+}
+
+.log-stat {
+    text-align: center;
+}
+
+.log-stat .stat-value {
+    display: block;
+    font-size: 28px;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--text-bright);
+}
+
+.log-stat.success .stat-value { color: var(--accent-green); }
+.log-stat.error .stat-value { color: var(--accent-red); }
+
+.log-stat .stat-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Scrollbar */
+.logs-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.logs-body::-webkit-scrollbar-track {
+    background: var(--bg-dark);
+}
+
+.logs-body::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 3px;
+}
+
+.logs-body::-webkit-scrollbar-thumb:hover {
+    background: var(--border-glow);
+}
+
+@media (max-width: 900px) {
+    .logs-header,
+    .log-entry {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+    .logs-header {
+        display: none;
+    }
+    .log-entry .log-col::before {
+        content: attr(data-label);
+        display: inline-block;
+        width: 80px;
+        color: var(--text-muted);
+        font-size: 11px;
+    }
+}
+</style>
+
+<script>
+let logs = [];
+let currentFilter = 'all';
+
+function renderLogs() {
+    const body = document.getElementById('logs-body');
+    const filtered = currentFilter === 'all' 
+        ? logs 
+        : logs.filter(l => l.type === currentFilter);
+    
+    if (filtered.length === 0) {
+        body.innerHTML = `
+            <div class="logs-empty">
+                <div class="logs-empty-icon">📋</div>
+                <div class="logs-empty-text">No logs to display</div>
+            </div>
+        `;
+        return;
+    }
+    
+    body.innerHTML = filtered.map(log => `
+        <div class="log-entry ${log.type}">
+            <div class="log-col time" data-label="Time">${log.time}</div>
+            <div class="log-col type ${log.type}" data-label="Type">${log.type.toUpperCase()}</div>
+            <div class="log-col symbol" data-label="Symbol">${log.symbol || '-'}</div>
+            <div class="log-col direction ${log.direction}" data-label="Dir">
+                ${log.direction ? log.direction.toUpperCase() : '-'}
+            </div>
+            <div class="log-col volume" data-label="Volume">${log.volume || '-'}</div>
+            <div class="log-col price" data-label="Price">${log.price || '-'}</div>
+            <div class="log-col status" data-label="Status">
+                <span class="status-badge ${log.success ? 'success' : 'failed'}">
+                    ${log.success ? 'Success' : 'Failed'}
+                </span>
+            </div>
+        </div>
+    `).join('');
+    
+    // Update stats
+    document.getElementById('total-logs').textContent = logs.length;
+    document.getElementById('success-logs').textContent = logs.filter(l => l.success).length;
+    document.getElementById('error-logs').textContent = logs.filter(l => !l.success).length;
+}
+
+function refreshLogs() {
+    fetch('/api/activity')
+        .then(r => r.json())
+        .then(data => {
+            logs = [];
+            // Parse child activity
+            (data.child || []).forEach(item => {
+                const log = {
+                    time: item.time,
+                    date: item.date,
+                    type: item.type.toLowerCase(),
+                    message: item.message,
+                    success: item.type !== 'ERROR'
+                };
+                // Parse message for details
+                const msg = item.message;
+                if (msg.includes('OPENED') || msg.includes('CLOSED') || msg.includes('FAILED')) {
+                    const parts = msg.match(/(OPENED|CLOSED|FAILED)\s+(BUY|SELL)\s+([\d.]+)\s+(\w+)/);
+                    if (parts) {
+                        log.direction = parts[2].toLowerCase();
+                        log.volume = parts[3];
+                        log.symbol = parts[4];
+                        const priceMatch = msg.match(/@\s*([\d.]+)/);
+                        if (priceMatch) log.price = priceMatch[1];
+                    }
+                }
+                logs.push(log);
+            });
+            renderLogs();
+        })
+        .catch(err => console.error('Failed to load logs:', err));
+}
+
+// Auto-refresh on page load
+refreshLogs();
+setInterval(refreshLogs, 5000);
+
+function clearLogs() {
+    if (confirm('Clear all logs?')) {
+        logs = [];
+        renderLogs();
+    }
+}
+
+function exportLogs() {
+    const csv = logs.map(l => 
+        `${l.time},${l.type},${l.symbol},${l.direction},${l.volume},${l.price},${l.success}`
+    ).join('\n');
+    
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'copier_logs.csv';
+    a.click();
+}
+
+// Filter buttons
+document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentFilter = btn.dataset.filter;
+        renderLogs();
+    });
+});
+
+// Initial render
+renderLogs();
+</script>
+{% endblock %}
+def kill_process(proc):
+    if proc is None:
+        return
+    try:
+        import subprocess
+        # Kill process tree (including console window)
+        subprocess.run(['taskkill', '/F', '/T', '/PID', str(proc.pid)], 
+                      capture_output=True, timeout=5)
+    except:
+        try:
+            proc.terminate()
+            proc.wait(timeout=2)
+        except:
+            try:
+                proc.kill()
+                proc.wait(timeout=1)
+            except:
+                pass
