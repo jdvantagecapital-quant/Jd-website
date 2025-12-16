@@ -12,9 +12,6 @@ master_activity.json
 pair_stats.json
 copier_status.json
 
-# Executables
-*.exe
-
 # Python
 __pycache__/
 *.py[cod]
