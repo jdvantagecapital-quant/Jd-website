@@ -1925,8 +1925,8 @@
             justify-content: center;
             gap: 0.5rem;
             border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            background: rgba(4, 4, 6, 0.85);
+            border: 2px solid transparent;
+            background: rgba(4, 4, 6, 0.9);
             color: var(--text-primary);
             cursor: pointer;
             -webkit-user-select: none;
@@ -1935,11 +1935,39 @@
             -webkit-appearance: none;
             appearance: none;
             outline: none;
+            background-clip: padding-box;
+        }
+        .cube-face::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border-radius: 18px;
+            background: linear-gradient(90deg, 
+                #00d4ff, #0099ff, #00d4ff, #00ffff, #00d4ff);
+            background-size: 300% 100%;
+            animation: neonBorderFlow 3s linear infinite;
+            z-index: -1;
+            opacity: 0.8;
+            pointer-events: none;
+        }
+        @keyframes neonBorderFlow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 300% 50%; }
+        }
+        @keyframes pulseGlow {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 30px currentColor; }
+            50% { transform: scale(1.05); box-shadow: 0 0 50px currentColor, 0 0 80px currentColor; }
         }
         .cube-face:hover {
-            border-color: rgba(0, 212, 255, 0.5);
-            background: rgba(4, 4, 6, 0.9);
-            box-shadow: 0 0 30px rgba(0, 212, 255, 0.2);
+            background: rgba(4, 4, 6, 0.95);
+            box-shadow: 0 0 40px rgba(0, 212, 255, 0.4);
+        }
+        .cube-face:hover::before {
+            opacity: 1;
+            filter: brightness(1.3);
         }
 
         .cube-face i { 
@@ -2625,9 +2653,9 @@
                                     </a>
                                     <h2 class="hero-title" id="heroTitle" style="font-size: clamp(1.5rem, 4vw, 2.5rem); font-weight: 600; letter-spacing: -1px; margin-bottom: 1.5rem;">Trade Smarter with <span class="highlight">Precision</span></h2>
                                     <p class="hero-subtitle" id="heroSubtitle" style="font-family: 'Plus Jakarta Sans', sans-serif; color: var(--text-secondary); font-size: 1.15rem; max-width: 480px; line-height: 1.75;">Institutional-grade quantitative strategies, transparent operations, and complete capital control — accessible from just $300.</p>
-                                    <div class="hero-buttons" id="heroButtons">
-                                        <button class="btn-primary" onclick="navigateTo('offerings')"><i class="fas fa-chart-line"></i> View Solutions</button>
-                                        <button class="btn-secondary" onclick="navigateTo('howItWorks')">How It Works</button>
+                                    <div class="hero-buttons" id="heroButtons" style="display: flex; flex-wrap: wrap; gap: 1.5rem; margin-top: 2rem;">
+                                        <button class="btn-primary" onclick="navigateTo('offerings')" style="min-width: 180px;"><i class="fas fa-chart-line"></i> View Solutions</button>
+                                        <button class="btn-primary" onclick="navigateTo('howItWorks')" style="min-width: 180px;"><i class="fas fa-play-circle"></i> How It Works</button>
                                     </div>
                                 </div>
 
@@ -2880,25 +2908,40 @@
                         
                         <!-- Team Section -->
                         <div class="card-3d" style="margin-top: 4rem;">
-                            <h3 style="font-size: 2rem; margin-bottom: 0.5rem; color: var(--primary-gold); text-align: center;">Our Expert Team</h3>
+                            <h3 style="font-size: 2rem; margin-bottom: 0.5rem; background: linear-gradient(135deg, #00d4ff, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-align: center;">Our Expert Team</h3>
                             <p style="text-align: center; color: var(--text-secondary); margin-bottom: 3rem;">Seasoned market strategists and technologists committed to your financial advancement</p>
                             <div class="grid-3">
                                 <div style="text-align: center; padding: 1.5rem;">
-                                    <div style="width: 100px; height: 100px; background: linear-gradient(135deg, var(--primary-gold), var(--gold-dark)); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 2.5rem; color: #0a0a0a; font-weight: 700;">SD</div>
-                                    <h4 style="color: var(--primary-gold); font-size: 1.3rem; margin-bottom: 0.5rem;">Sohil Dobariya</h4>
-                                    <p style="color: var(--text-secondary); font-weight: 600; margin-bottom: 1rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Technical Analyst</p>
+                                    <div style="width: 110px; height: 110px; background: linear-gradient(135deg, #00d4ff 0%, #0099ff 50%, #a855f7 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 2.5rem; color: #0a0a0a; font-weight: 800; letter-spacing: -1px; box-shadow: 0 0 30px rgba(0, 212, 255, 0.4); animation: pulseGlow 2s ease-in-out infinite;">
+                                        <span style="background: linear-gradient(180deg, #fff, #e0e0e0); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-shadow: none;">SD</span>
+                                    </div>
+                                    <h4 style="font-size: 1.4rem; margin-bottom: 0.5rem;">
+                                        <span style="background: linear-gradient(90deg, #00d4ff, #00ffff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 700;">Sohil</span>
+                                        <span style="color: var(--text-primary); font-weight: 500;"> Dobariya</span>
+                                    </h4>
+                                    <p style="color: var(--accent-cyan); font-weight: 600; margin-bottom: 1rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Founder & Lead Strategist</p>
                                     <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6;">B.E. Mechanical Engineering with NISM certifications. Expert in technical analysis and market dynamics.</p>
                                 </div>
                                 <div style="text-align: center; padding: 1.5rem;">
-                                    <div style="width: 100px; height: 100px; background: linear-gradient(135deg, var(--primary-gold), var(--gold-dark)); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 2.5rem; color: #0a0a0a; font-weight: 700;">AJ</div>
-                                    <h4 style="color: var(--primary-gold); font-size: 1.3rem; margin-bottom: 0.5rem;">Alis Jodhani</h4>
-                                    <p style="color: var(--text-secondary); font-weight: 600; margin-bottom: 1rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Technical Expert</p>
+                                    <div style="width: 110px; height: 110px; background: linear-gradient(135deg, #a855f7 0%, #8b5cf6 50%, #6366f1 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 2.5rem; color: #0a0a0a; font-weight: 800; letter-spacing: -1px; box-shadow: 0 0 30px rgba(168, 85, 247, 0.4); animation: pulseGlow 2s ease-in-out infinite 0.3s;">
+                                        <span style="background: linear-gradient(180deg, #fff, #e0e0e0); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-shadow: none;">AJ</span>
+                                    </div>
+                                    <h4 style="font-size: 1.4rem; margin-bottom: 0.5rem;">
+                                        <span style="background: linear-gradient(90deg, #a855f7, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 700;">Alis</span>
+                                        <span style="color: var(--text-primary); font-weight: 500;"> Jodhani</span>
+                                    </h4>
+                                    <p style="color: var(--accent-purple); font-weight: 600; margin-bottom: 1rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Technical Expert</p>
                                     <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6;">B.E. Information Technology with 3+ years in market analysis. Specializes in algorithmic strategy development.</p>
                                 </div>
                                 <div style="text-align: center; padding: 1.5rem;">
-                                    <div style="width: 100px; height: 100px; background: linear-gradient(135deg, var(--primary-gold), var(--gold-dark)); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 2.5rem; color: #0a0a0a; font-weight: 700;">DJ</div>
-                                    <h4 style="color: var(--primary-gold); font-size: 1.3rem; margin-bottom: 0.5rem;">Dishant Jodhani</h4>
-                                    <p style="color: var(--text-secondary); font-weight: 600; margin-bottom: 1rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Marketing Head</p>
+                                    <div style="width: 110px; height: 110px; background: linear-gradient(135deg, #f97316 0%, #fb923c 50%, #fbbf24 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 2.5rem; color: #0a0a0a; font-weight: 800; letter-spacing: -1px; box-shadow: 0 0 30px rgba(249, 115, 22, 0.4); animation: pulseGlow 2s ease-in-out infinite 0.6s;">
+                                        <span style="background: linear-gradient(180deg, #fff, #e0e0e0); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-shadow: none;">DJ</span>
+                                    </div>
+                                    <h4 style="font-size: 1.4rem; margin-bottom: 0.5rem;">
+                                        <span style="background: linear-gradient(90deg, #f97316, #fbbf24); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 700;">Dishant</span>
+                                        <span style="color: var(--text-primary); font-weight: 500;"> Jodhani</span>
+                                    </h4>
+                                    <p style="color: var(--warning-amber); font-weight: 600; margin-bottom: 1rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Marketing Head</p>
                                     <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6;">B.E. Computer Engineering with software development background. Leads marketing and client relations.</p>
                                 </div>
                             </div>
