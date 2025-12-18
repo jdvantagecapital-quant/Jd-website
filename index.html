@@ -2402,37 +2402,221 @@
             inset: -20%;
             border-radius: 50%;
             background: 
-                radial-gradient(circle at 30% 30%, rgba(0, 212, 255, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 70% 70%, rgba(168, 85, 247, 0.06) 0%, transparent 50%);
-            filter: blur(50px);
+                radial-gradient(circle at 50% 50%, rgba(0, 212, 255, 0.06) 0%, transparent 60%);
+            filter: blur(40px);
             z-index: -2;
             pointer-events: none;
-            animation: cubeGlow 6s ease-in-out infinite;
+            animation: cubeGlow 8s ease-in-out infinite;
         }
 
         @keyframes cubeGlow {
-            0%, 100% { opacity: 0.4; transform: scale(1) rotate(0deg); }
-            50% { opacity: 0.6; transform: scale(1.05) rotate(180deg); }
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.02); }
         }
 
-        /* Cube Orbit Ring */
-        .cube-wrapper::after {
+        /* ===== CIRCUIT EMANATING EFFECT ===== */
+        .circuit-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300vw;
+            height: 300vh;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: -3;
+            overflow: visible;
+        }
+
+        /* Circuit Line Base Style */
+        .circuit-line {
+            position: absolute;
+            background: linear-gradient(90deg, 
+                rgba(0, 212, 255, 0.03) 0%,
+                rgba(0, 212, 255, 0.08) 50%,
+                rgba(0, 212, 255, 0.03) 100%
+            );
+            transform-origin: left center;
+        }
+
+        /* Light pulse traveling along lines */
+        .circuit-line::before {
             content: '';
             position: absolute;
-            top: -35%;
-            left: -35%;
-            width: 170%;
-            height: 170%;
-            border: 1px dashed rgba(0, 212, 255, 0.15);
+            width: 80px;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent 0%,
+                rgba(0, 212, 255, 0.4) 30%,
+                rgba(100, 220, 255, 0.8) 50%,
+                rgba(0, 212, 255, 0.4) 70%,
+                transparent 100%
+            );
+            animation: pulseTravelOut var(--pulse-duration, 4s) ease-in-out infinite;
+            animation-delay: var(--pulse-delay, 0s);
+            filter: blur(2px);
             border-radius: 50%;
-            animation: orbitSpin 30s linear infinite;
-            pointer-events: none;
-            z-index: -1;
         }
 
-        @keyframes orbitSpin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+        @keyframes pulseTravelOut {
+            0% { left: -80px; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { left: 100%; opacity: 0; }
+        }
+
+        /* Horizontal Lines - Right */
+        .circuit-line.h-right-1 { top: 50%; left: 50%; width: 50vw; height: 2px; --pulse-delay: 0s; --pulse-duration: 5s; }
+        .circuit-line.h-right-2 { top: 40%; left: 55%; width: 45vw; height: 1px; --pulse-delay: 0.8s; --pulse-duration: 4.5s; }
+        .circuit-line.h-right-3 { top: 60%; left: 55%; width: 45vw; height: 1px; --pulse-delay: 1.6s; --pulse-duration: 4.2s; }
+        .circuit-line.h-right-4 { top: 30%; left: 60%; width: 40vw; height: 1px; --pulse-delay: 2.4s; --pulse-duration: 5.5s; }
+        .circuit-line.h-right-5 { top: 70%; left: 60%; width: 40vw; height: 1px; --pulse-delay: 3.2s; --pulse-duration: 4.8s; }
+
+        /* Horizontal Lines - Left */
+        .circuit-line.h-left-1 { top: 50%; right: 50%; width: 50vw; height: 2px; transform-origin: right center; --pulse-delay: 0.4s; --pulse-duration: 5s; }
+        .circuit-line.h-left-2 { top: 35%; right: 55%; width: 45vw; height: 1px; transform-origin: right center; --pulse-delay: 1.2s; --pulse-duration: 4.3s; }
+        .circuit-line.h-left-3 { top: 65%; right: 55%; width: 45vw; height: 1px; transform-origin: right center; --pulse-delay: 2s; --pulse-duration: 4.7s; }
+        .circuit-line.h-left-4 { top: 25%; right: 60%; width: 40vw; height: 1px; transform-origin: right center; --pulse-delay: 2.8s; --pulse-duration: 5.2s; }
+        .circuit-line.h-left-5 { top: 75%; right: 60%; width: 40vw; height: 1px; transform-origin: right center; --pulse-delay: 3.6s; --pulse-duration: 4.4s; }
+
+        /* Left side pulses travel right-to-left */
+        .circuit-line.h-left-1::before,
+        .circuit-line.h-left-2::before,
+        .circuit-line.h-left-3::before,
+        .circuit-line.h-left-4::before,
+        .circuit-line.h-left-5::before {
+            animation-name: pulseTravelOutReverse;
+        }
+
+        @keyframes pulseTravelOutReverse {
+            0% { right: -80px; left: auto; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { right: 100%; left: auto; opacity: 0; }
+        }
+
+        /* Vertical Lines - Top */
+        .circuit-line.v-top-1 { left: 50%; bottom: 50%; width: 2px; height: 50vh; transform: rotate(0deg); --pulse-delay: 0.2s; --pulse-duration: 5.3s; }
+        .circuit-line.v-top-2 { left: 45%; bottom: 55%; width: 1px; height: 45vh; --pulse-delay: 1s; --pulse-duration: 4.6s; }
+        .circuit-line.v-top-3 { left: 55%; bottom: 55%; width: 1px; height: 45vh; --pulse-delay: 1.8s; --pulse-duration: 4.9s; }
+        .circuit-line.v-top-4 { left: 40%; bottom: 60%; width: 1px; height: 40vh; --pulse-delay: 2.6s; --pulse-duration: 5.1s; }
+        .circuit-line.v-top-5 { left: 60%; bottom: 60%; width: 1px; height: 40vh; --pulse-delay: 3.4s; --pulse-duration: 4.5s; }
+
+        /* Vertical pulses travel bottom-to-top */
+        .circuit-line.v-top-1::before,
+        .circuit-line.v-top-2::before,
+        .circuit-line.v-top-3::before,
+        .circuit-line.v-top-4::before,
+        .circuit-line.v-top-5::before {
+            width: 100%;
+            height: 80px;
+            background: linear-gradient(180deg, 
+                transparent 0%,
+                rgba(0, 212, 255, 0.4) 30%,
+                rgba(100, 220, 255, 0.8) 50%,
+                rgba(0, 212, 255, 0.4) 70%,
+                transparent 100%
+            );
+            animation-name: pulseTravelUp;
+        }
+
+        @keyframes pulseTravelUp {
+            0% { bottom: -80px; top: auto; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { bottom: 100%; top: auto; opacity: 0; }
+        }
+
+        /* Vertical Lines - Bottom */
+        .circuit-line.v-bottom-1 { left: 50%; top: 50%; width: 2px; height: 50vh; --pulse-delay: 0.6s; --pulse-duration: 5.4s; }
+        .circuit-line.v-bottom-2 { left: 42%; top: 55%; width: 1px; height: 45vh; --pulse-delay: 1.4s; --pulse-duration: 4.8s; }
+        .circuit-line.v-bottom-3 { left: 58%; top: 55%; width: 1px; height: 45vh; --pulse-delay: 2.2s; --pulse-duration: 5s; }
+        .circuit-line.v-bottom-4 { left: 35%; top: 60%; width: 1px; height: 40vh; --pulse-delay: 3s; --pulse-duration: 4.6s; }
+        .circuit-line.v-bottom-5 { left: 65%; top: 60%; width: 1px; height: 40vh; --pulse-delay: 3.8s; --pulse-duration: 5.2s; }
+
+        /* Bottom vertical pulses travel top-to-bottom */
+        .circuit-line.v-bottom-1::before,
+        .circuit-line.v-bottom-2::before,
+        .circuit-line.v-bottom-3::before,
+        .circuit-line.v-bottom-4::before,
+        .circuit-line.v-bottom-5::before {
+            width: 100%;
+            height: 80px;
+            background: linear-gradient(0deg, 
+                transparent 0%,
+                rgba(0, 212, 255, 0.4) 30%,
+                rgba(100, 220, 255, 0.8) 50%,
+                rgba(0, 212, 255, 0.4) 70%,
+                transparent 100%
+            );
+            animation-name: pulseTravelDown;
+        }
+
+        @keyframes pulseTravelDown {
+            0% { top: -80px; bottom: auto; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { top: 100%; bottom: auto; opacity: 0; }
+        }
+
+        /* Diagonal Lines */
+        .circuit-line.diag-tr { top: 40%; left: 55%; width: 60vw; height: 1px; transform: rotate(-25deg); --pulse-delay: 0.5s; --pulse-duration: 6s; }
+        .circuit-line.diag-br { top: 60%; left: 55%; width: 60vw; height: 1px; transform: rotate(25deg); --pulse-delay: 1.5s; --pulse-duration: 5.5s; }
+        .circuit-line.diag-tl { top: 40%; right: 55%; width: 60vw; height: 1px; transform: rotate(25deg); transform-origin: right center; --pulse-delay: 2.5s; --pulse-duration: 5.8s; }
+        .circuit-line.diag-bl { top: 60%; right: 55%; width: 60vw; height: 1px; transform: rotate(-25deg); transform-origin: right center; --pulse-delay: 3.5s; --pulse-duration: 5.3s; }
+
+        .circuit-line.diag-tl::before,
+        .circuit-line.diag-bl::before {
+            animation-name: pulseTravelOutReverse;
+        }
+
+        /* Circuit Node Points - small glowing dots where lines meet */
+        .circuit-node {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: rgba(0, 212, 255, 0.6);
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.4), 0 0 20px rgba(0, 212, 255, 0.2);
+            animation: nodeGlow 3s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes nodeGlow {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.5); }
+        }
+
+        /* Node positions scattered around */
+        .circuit-node.n1 { top: 30%; left: 20%; animation-delay: 0s; }
+        .circuit-node.n2 { top: 70%; left: 25%; animation-delay: 0.5s; }
+        .circuit-node.n3 { top: 25%; right: 20%; animation-delay: 1s; }
+        .circuit-node.n4 { top: 75%; right: 25%; animation-delay: 1.5s; }
+        .circuit-node.n5 { top: 20%; left: 50%; animation-delay: 2s; }
+        .circuit-node.n6 { bottom: 20%; left: 45%; animation-delay: 2.5s; }
+        .circuit-node.n7 { top: 50%; left: 15%; animation-delay: 3s; }
+        .circuit-node.n8 { top: 50%; right: 15%; animation-delay: 3.5s; }
+
+        /* Mobile responsiveness for circuit */
+        @media (max-width: 768px) {
+            .circuit-container {
+                width: 200vw;
+                height: 200vh;
+            }
+            .circuit-line::before {
+                width: 50px;
+            }
+            .circuit-node {
+                width: 4px;
+                height: 4px;
+            }
+        }
+
+        /* Reduced motion preference */
+        @media (prefers-reduced-motion: reduce) {
+            .circuit-line::before,
+            .circuit-node {
+                animation: none;
+            }
         }
 
         @keyframes spinCube {
@@ -3049,6 +3233,47 @@
 
                                 <!-- Right: Futuristic 3D Cube -->
                                 <div class="hero-visual">
+                                    <!-- Circuit Emanating Effect -->
+                                    <div class="circuit-container">
+                                        <!-- Horizontal Lines - Right -->
+                                        <div class="circuit-line h-right-1"></div>
+                                        <div class="circuit-line h-right-2"></div>
+                                        <div class="circuit-line h-right-3"></div>
+                                        <div class="circuit-line h-right-4"></div>
+                                        <div class="circuit-line h-right-5"></div>
+                                        <!-- Horizontal Lines - Left -->
+                                        <div class="circuit-line h-left-1"></div>
+                                        <div class="circuit-line h-left-2"></div>
+                                        <div class="circuit-line h-left-3"></div>
+                                        <div class="circuit-line h-left-4"></div>
+                                        <div class="circuit-line h-left-5"></div>
+                                        <!-- Vertical Lines - Top -->
+                                        <div class="circuit-line v-top-1"></div>
+                                        <div class="circuit-line v-top-2"></div>
+                                        <div class="circuit-line v-top-3"></div>
+                                        <div class="circuit-line v-top-4"></div>
+                                        <div class="circuit-line v-top-5"></div>
+                                        <!-- Vertical Lines - Bottom -->
+                                        <div class="circuit-line v-bottom-1"></div>
+                                        <div class="circuit-line v-bottom-2"></div>
+                                        <div class="circuit-line v-bottom-3"></div>
+                                        <div class="circuit-line v-bottom-4"></div>
+                                        <div class="circuit-line v-bottom-5"></div>
+                                        <!-- Diagonal Lines -->
+                                        <div class="circuit-line diag-tr"></div>
+                                        <div class="circuit-line diag-br"></div>
+                                        <div class="circuit-line diag-tl"></div>
+                                        <div class="circuit-line diag-bl"></div>
+                                        <!-- Circuit Nodes -->
+                                        <div class="circuit-node n1"></div>
+                                        <div class="circuit-node n2"></div>
+                                        <div class="circuit-node n3"></div>
+                                        <div class="circuit-node n4"></div>
+                                        <div class="circuit-node n5"></div>
+                                        <div class="circuit-node n6"></div>
+                                        <div class="circuit-node n7"></div>
+                                        <div class="circuit-node n8"></div>
+                                    </div>
                                     <div class="cube-wrapper">
                                         <div class="cube-aura"></div>
                                         <div class="cube" id="heroCube">
