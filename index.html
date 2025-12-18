@@ -638,11 +638,18 @@
             left: 0;
             width: 100%;
             height: 100vh;
+            height: 100dvh; /* Dynamic viewport height for mobile browsers */
             background: rgba(4, 4, 6, 0.98);
             -webkit-backdrop-filter: blur(20px);
             backdrop-filter: blur(20px);
             display: flex;
+            flex-direction: column;
             align-items: center;
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior: contain;
+            padding: 5rem 1rem 2rem;
             justify-content: center;
             z-index: 1000;
             opacity: 0;
@@ -660,6 +667,9 @@
             flex-direction: column;
             gap: 0.5rem;
             text-align: center;
+            width: 100%;
+            max-width: 400px;
+            padding-bottom: 2rem;
         }
 
         .mobile-menu-links a {
@@ -715,7 +725,7 @@
         .mobile-accordion-content {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.3s ease;
+            transition: max-height 0.4s ease;
             display: flex;
             flex-direction: column;
             gap: 0.25rem;
@@ -723,8 +733,9 @@
         }
 
         .mobile-accordion-content.active {
-            max-height: 400px;
+            max-height: 500px;
             padding-bottom: 1rem;
+            overflow-y: auto;
         }
 
         .mobile-accordion-content a {
@@ -1631,25 +1642,33 @@
             }
             
             .hero-visual { 
-                margin-top: 1rem;
+                margin-top: 2.5rem;
+                margin-bottom: 1.5rem;
+                padding: 1rem 0;
             }
             
-            /* Cube - Smaller on mobile */
+            /* Cube - Properly sized on mobile */
             .cube-wrapper {
-                --size: 100px !important;
+                --size: 130px !important;
+                margin: 0 auto;
             }
             
             .cube-face {
-                border-radius: 10px;
+                border-radius: 12px;
             }
             
             .cube-face i {
-                font-size: 1.2rem !important;
+                font-size: 1.5rem !important;
             }
             
             .cube-face span {
-                font-size: 0.55rem !important;
+                font-size: 0.6rem !important;
                 letter-spacing: 1px;
+            }
+            
+            .cube-aura {
+                width: 200% !important;
+                height: 200% !important;
             }
             
             /* Buttons - Stack on mobile */
@@ -1759,16 +1778,21 @@
                 font-size: 0.85rem !important;
             }
             
+            .hero-visual {
+                margin-top: 2rem;
+                margin-bottom: 1rem;
+            }
+            
             .cube-wrapper {
-                --size: 80px !important;
+                --size: 110px !important;
             }
             
             .cube-face i {
-                font-size: 1rem !important;
+                font-size: 1.3rem !important;
             }
             
             .cube-face span {
-                font-size: 0.5rem !important;
+                font-size: 0.55rem !important;
             }
             
             .section-title {
@@ -2290,18 +2314,30 @@
             box-shadow: 
                 0 0 10px rgba(0, 212, 255, 0.2),
                 inset 0 0 20px rgba(0, 0, 0, 0.3);
-            animation: neonBorderPulse 2s ease-in-out infinite;
+            animation: neonBorderPulse 4s ease-in-out infinite;
             pointer-events: auto;
             z-index: 10;
         }
         @keyframes neonBorderPulse {
-            0%, 100% { 
-                border-color: rgba(0, 212, 255, 0.4);
-                box-shadow: 0 0 10px rgba(0, 212, 255, 0.2), inset 0 0 20px rgba(0, 0, 0, 0.3);
+            0% { 
+                border-color: rgba(0, 212, 255, 0.3);
+                box-shadow: 0 0 8px rgba(0, 212, 255, 0.15), inset 0 0 15px rgba(0, 0, 0, 0.2);
+            }
+            25% { 
+                border-color: rgba(0, 212, 255, 0.5);
+                box-shadow: 0 0 12px rgba(0, 212, 255, 0.25), inset 0 0 18px rgba(0, 0, 0, 0.25);
             }
             50% { 
-                border-color: rgba(0, 212, 255, 0.8);
-                box-shadow: 0 0 20px rgba(0, 212, 255, 0.4), 0 0 40px rgba(0, 212, 255, 0.2), inset 0 0 20px rgba(0, 0, 0, 0.3);
+                border-color: rgba(0, 212, 255, 0.65);
+                box-shadow: 0 0 18px rgba(0, 212, 255, 0.35), 0 0 30px rgba(0, 212, 255, 0.15), inset 0 0 20px rgba(0, 0, 0, 0.25);
+            }
+            75% { 
+                border-color: rgba(0, 212, 255, 0.5);
+                box-shadow: 0 0 12px rgba(0, 212, 255, 0.25), inset 0 0 18px rgba(0, 0, 0, 0.25);
+            }
+            100% { 
+                border-color: rgba(0, 212, 255, 0.3);
+                box-shadow: 0 0 8px rgba(0, 212, 255, 0.15), inset 0 0 15px rgba(0, 0, 0, 0.2);
             }
         }
         @keyframes pulseGlow {
