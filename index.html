@@ -1889,6 +1889,7 @@
             margin: 0 auto;
             perspective: 1200px;
             will-change: transform;
+            cursor: pointer;
         }
 
         .cube {
@@ -1897,6 +1898,7 @@
             transform-style: preserve-3d;
             animation: spinCube 30s linear infinite;
             will-change: transform;
+            pointer-events: auto;
         }
         .cube-wrapper:hover .cube { animation-play-state: paused; }
 
@@ -1924,6 +1926,8 @@
                 0 0 10px rgba(0, 212, 255, 0.2),
                 inset 0 0 20px rgba(0, 0, 0, 0.3);
             animation: neonBorderPulse 2s ease-in-out infinite;
+            pointer-events: auto;
+            z-index: 10;
         }
         @keyframes neonBorderPulse {
             0%, 100% { 
@@ -1997,7 +2001,7 @@
                 radial-gradient(circle at 30% 30%, rgba(0, 212, 255, 0.08) 0%, transparent 50%),
                 radial-gradient(circle at 70% 70%, rgba(168, 85, 247, 0.06) 0%, transparent 50%);
             filter: blur(50px);
-            z-index: -1;
+            z-index: -2;
             pointer-events: none;
             animation: cubeGlow 6s ease-in-out infinite;
         }
@@ -2018,6 +2022,8 @@
             border: 1px dashed rgba(0, 212, 255, 0.15);
             border-radius: 50%;
             animation: orbitSpin 30s linear infinite;
+            pointer-events: none;
+            z-index: -1;
         }
 
         @keyframes orbitSpin {
@@ -2641,35 +2647,35 @@
                                         <div class="cube-aura"></div>
                                         <div class="cube" id="heroCube">
                                             <!-- Front: Chart -->
-                                            <button class="cube-face front" onclick="navigateTo('offerings')" aria-label="Solutions">
+                                            <div class="cube-face front" data-page="offerings" role="button" tabindex="0">
                                                 <i class="fas fa-chart-line"></i>
                                                 <span>Solutions</span>
-                                            </button>
+                                            </div>
                                             <!-- Right: GoldFX -->
-                                            <button class="cube-face right" onclick="navigateTo('goldFxDetails')" aria-label="GoldFX">
+                                            <div class="cube-face right" data-page="goldFxDetails" role="button" tabindex="0">
                                                 <i class="fas fa-gem"></i>
                                                 <span>GoldFX</span>
-                                            </button>
+                                            </div>
                                             <!-- Left: Trade Copier -->
-                                            <button class="cube-face left" onclick="navigateTo('tradeCopier')" aria-label="Trade Copier">
+                                            <div class="cube-face left" data-page="tradeCopier" role="button" tabindex="0">
                                                 <i class="fas fa-bolt"></i>
                                                 <span>Copier</span>
-                                            </button>
+                                            </div>
                                             <!-- Back: Products -->
-                                            <button class="cube-face back" onclick="navigateTo('products')" aria-label="Products">
+                                            <div class="cube-face back" data-page="products" role="button" tabindex="0">
                                                 <i class="fas fa-box"></i>
                                                 <span>Products</span>
-                                            </button>
+                                            </div>
                                             <!-- Top: About -->
-                                            <button class="cube-face top" onclick="navigateTo('about')" aria-label="About">
+                                            <div class="cube-face top" data-page="about" role="button" tabindex="0">
                                                 <i class="fas fa-info-circle"></i>
                                                 <span>About</span>
-                                            </button>
+                                            </div>
                                             <!-- Bottom: Contact -->
-                                            <button class="cube-face bottom" onclick="navigateTo('contact')" aria-label="Contact">
+                                            <div class="cube-face bottom" data-page="contact" role="button" tabindex="0">
                                                 <i class="fas fa-paper-plane"></i>
                                                 <span>Contact</span>
-                                            </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -4546,20 +4552,35 @@
                 }
             });
 
-            // Click any cube face to navigate
-            // Cube face click handler - works with onclick attribute
-            document.querySelectorAll('.cube-face').forEach(face => {
-                face.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    const onclickAttr = this.getAttribute('onclick');
-                    if (onclickAttr) {
-                        const match = onclickAttr.match(/navigateTo\(['"]([^'"]+)['"]\)/);
-                        if (match) {
-                            navigateTo(match[1]);
+            // Cube face click handler - uses data-page attribute
+            function initCubeNavigation() {
+                document.querySelectorAll('.cube-face[data-page]').forEach(face => {
+                    // Click handler
+                    face.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        const page = this.getAttribute('data-page');
+                        if (page) {
+                            console.log('Cube face clicked:', page);
+                            navigateTo(page);
                         }
-                    }
+                    });
+                    
+                    // Keyboard handler for accessibility
+                    face.addEventListener('keydown', function(e) {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            const page = this.getAttribute('data-page');
+                            if (page) {
+                                navigateTo(page);
+                            }
+                        }
+                    });
                 });
-            });
+            }
+            
+            // Initialize cube navigation
+            initCubeNavigation();
 
             // Mobile menu event listeners
             const mobileMenuBtn = document.getElementById('mobileMenuBtn');
