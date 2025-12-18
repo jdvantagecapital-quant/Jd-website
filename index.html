@@ -2308,17 +2308,15 @@
             gap: 0.5rem;
             border-radius: 16px;
             /* Semi-transparent background */
-            background: rgba(4, 8, 16, 0.65);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            /* Constant glowing border like chip */
-            border: 2px solid rgba(0, 212, 255, 0.6);
-            /* Outer glow on all edges - chip style */
+            background: rgba(4, 8, 16, 0.6);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            /* Constant glowing border - always on */
+            border: 2px solid rgba(0, 212, 255, 0.5);
+            /* Subtle outer glow on edges only */
             box-shadow: 
-                0 0 15px rgba(0, 212, 255, 0.4),
-                0 0 30px rgba(0, 212, 255, 0.2),
-                0 0 45px rgba(0, 212, 255, 0.1),
-                inset 0 0 20px rgba(0, 212, 255, 0.05);
+                0 0 8px rgba(0, 212, 255, 0.3),
+                0 0 16px rgba(0, 212, 255, 0.15);
             color: var(--text-primary);
             cursor: pointer;
             -webkit-user-select: none;
@@ -2331,7 +2329,7 @@
             z-index: 10;
         }
 
-        /* Tron traveling highlight effect on top of base glow */
+        /* Tron traveling highlight - moves along the edge ONLY */
         .cube-face::before {
             content: '';
             position: absolute;
@@ -2341,40 +2339,20 @@
             background: conic-gradient(
                 from var(--border-angle),
                 transparent 0%,
-                transparent 30%,
-                rgba(0, 212, 255, 0.8) 35%,
-                rgba(100, 255, 255, 1) 40%,
-                rgba(168, 85, 247, 0.8) 45%,
-                transparent 50%,
+                transparent 35%,
+                rgba(0, 212, 255, 1) 40%,
+                rgba(100, 255, 255, 1) 45%,
+                rgba(168, 85, 247, 0.9) 50%,
+                transparent 55%,
                 transparent 100%
             );
+            /* This mask ensures gradient shows ONLY on the border, not inside */
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             -webkit-mask-composite: xor;
             mask-composite: exclude;
             animation: tronBorderTravel 3s linear infinite;
             pointer-events: none;
-        }
-
-        /* Glow trail following the tron light */
-        .cube-face::after {
-            content: '';
-            position: absolute;
-            inset: -6px;
-            border-radius: 22px;
-            background: conic-gradient(
-                from var(--border-angle),
-                transparent 0%,
-                transparent 32%,
-                rgba(0, 212, 255, 0.5) 38%,
-                rgba(100, 255, 255, 0.3) 42%,
-                transparent 48%,
-                transparent 100%
-            );
-            filter: blur(10px);
-            animation: tronBorderTravel 3s linear infinite;
-            pointer-events: none;
-            z-index: -1;
         }
         
         @keyframes tronBorderTravel {
@@ -2384,16 +2362,13 @@
         
         /* Hover effects - speed up the light and intensify glow */
         .cube-face:hover {
-            border-color: rgba(0, 212, 255, 0.9);
+            border-color: rgba(0, 212, 255, 0.8);
             box-shadow: 
-                0 0 20px rgba(0, 212, 255, 0.6),
-                0 0 40px rgba(0, 212, 255, 0.3),
-                0 0 60px rgba(0, 212, 255, 0.15),
-                inset 0 0 25px rgba(0, 212, 255, 0.1);
+                0 0 12px rgba(0, 212, 255, 0.5),
+                0 0 24px rgba(0, 212, 255, 0.25);
         }
         
-        .cube-face:hover::before,
-        .cube-face:hover::after {
+        .cube-face:hover::before {
             animation-duration: 1.5s;
         }
 
