@@ -1926,7 +1926,7 @@
             gap: 0.5rem;
             border-radius: 16px;
             border: 1px solid rgba(255, 255, 255, 0.15);
-            background: transparent;
+            background: rgba(4, 4, 6, 0.85);
             color: var(--text-primary);
             cursor: pointer;
             -webkit-user-select: none;
@@ -1937,8 +1937,9 @@
             outline: none;
         }
         .cube-face:hover {
-            border-color: rgba(0, 212, 255, 0.4);
-            box-shadow: 0 0 30px rgba(0, 212, 255, 0.15);
+            border-color: rgba(0, 212, 255, 0.5);
+            background: rgba(4, 4, 6, 0.9);
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.2);
         }
 
         .cube-face i { 
@@ -1965,7 +1966,7 @@
             font-weight: 600; 
             font-size: 0.7rem; 
             letter-spacing: 2px; 
-            color: rgba(255, 255, 255, 0.6); 
+            color: rgba(255, 255, 255, 0.7); 
             text-transform: uppercase;
         }
 
@@ -1977,12 +1978,12 @@
         .cube-face.bottom { transform: rotateX(-90deg) translateZ(calc(var(--size) / 2)); }
 
         /* Subtle border color variations */
-        .cube-face.front  { border-color: rgba(0, 212, 255, 0.2); }
-        .cube-face.right  { border-color: rgba(168, 85, 247, 0.18); }
-        .cube-face.left   { border-color: rgba(255, 107, 53, 0.15); }
-        .cube-face.back   { border-color: rgba(255, 255, 255, 0.1); }
-        .cube-face.top    { border-color: rgba(168, 85, 247, 0.18); }
-        .cube-face.bottom { border-color: rgba(255, 107, 53, 0.12); }
+        .cube-face.front  { border-color: rgba(0, 212, 255, 0.25); }
+        .cube-face.right  { border-color: rgba(168, 85, 247, 0.22); }
+        .cube-face.left   { border-color: rgba(255, 107, 53, 0.2); }
+        .cube-face.back   { border-color: rgba(255, 255, 255, 0.12); }
+        .cube-face.top    { border-color: rgba(168, 85, 247, 0.22); }
+        .cube-face.bottom { border-color: rgba(255, 107, 53, 0.15); }
 
         .cube-aura {
             position: absolute;
@@ -2619,6 +2620,9 @@
                             <div class="hero-inner">
                                 <!-- Left: Copy -->
                                 <div class="hero-copy">
+                                    <div style="margin-bottom: 1rem; opacity: 0;" id="heroLogo">
+                                        <span style="font-family: 'Manrope', sans-serif; font-size: 1.1rem; font-weight: 700; background: linear-gradient(135deg, #00d4ff, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: 1px;">J&D VANTAGE QUANT</span>
+                                    </div>
                                     <div class="profit-badge" id="heroBadge" style="margin-bottom: 1.5rem; opacity: 0;">+127.4% Annual Returns</div>
                                     <h1 class="hero-title" id="heroTitle">Trade Smarter<br>with <span class="highlight">Precision</span></h1>
                                     <p class="hero-subtitle" id="heroSubtitle" style="font-family: 'Plus Jakarta Sans', sans-serif; color: var(--text-secondary); font-size: 1.15rem; max-width: 480px; line-height: 1.75;">Institutional-grade quantitative strategies, transparent operations, and complete capital control — accessible from just $300.</p>
@@ -2634,33 +2638,33 @@
                                         <div class="cube-aura"></div>
                                         <div class="cube" id="heroCube">
                                             <!-- Front: Chart -->
-                                            <button class="cube-face front"  data-target="offerings" aria-label="Performance">
-                                                <i class="fas fa-chart-line" style="color: var(--primary-color);"></i>
-                                                <span>Performance</span>
+                                            <button class="cube-face front" onclick="navigateTo('offerings')" aria-label="Solutions">
+                                                <i class="fas fa-chart-line"></i>
+                                                <span>Solutions</span>
                                             </button>
-                                            <!-- Right: Gold -->
-                                            <button class="cube-face right"  data-target="goldFxDetails" aria-label="GoldFX">
-                                                <i class="fas fa-gem" style="color: var(--primary-gold);"></i>
-                                                <span>Gold</span>
+                                            <!-- Right: GoldFX -->
+                                            <button class="cube-face right" onclick="navigateTo('goldFxDetails')" aria-label="GoldFX">
+                                                <i class="fas fa-gem"></i>
+                                                <span>GoldFX</span>
                                             </button>
-                                            <!-- Left: Money -->
-                                            <button class="cube-face left"   data-target="offerings" aria-label="Returns">
-                                                <i class="fas fa-coins" style="color: var(--accent-color);"></i>
-                                                <span>Money</span>
+                                            <!-- Left: Trade Copier -->
+                                            <button class="cube-face left" onclick="navigateTo('tradeCopier')" aria-label="Trade Copier">
+                                                <i class="fas fa-bolt"></i>
+                                                <span>Copier</span>
                                             </button>
-                                                                                         <!-- Back: Strategy -->
-                                             <button class="cube-face back"   data-target="offerings" aria-label="Strategy">
-                                                 <i class="fas fa-chart-bar" style="color: var(--secondary-color);"></i>
-                                                 <span>Strategy</span>
-                                             </button>
-                                            <!-- Top: Risk -->
-                                            <button class="cube-face top"    data-target="about" aria-label="Risk Management">
-                                                <i class="fas fa-shield-alt" style="color: var(--primary-gold);"></i>
-                                                <span>Risk</span>
+                                            <!-- Back: Products -->
+                                            <button class="cube-face back" onclick="navigateTo('products')" aria-label="Products">
+                                                <i class="fas fa-box"></i>
+                                                <span>Products</span>
+                                            </button>
+                                            <!-- Top: About -->
+                                            <button class="cube-face top" onclick="navigateTo('about')" aria-label="About">
+                                                <i class="fas fa-info-circle"></i>
+                                                <span>About</span>
                                             </button>
                                             <!-- Bottom: Contact -->
-                                            <button class="cube-face bottom" data-target="contact" aria-label="Contact">
-                                                <i class="fas fa-paper-plane" style="color: #9ca3af;"></i>
+                                            <button class="cube-face bottom" onclick="navigateTo('contact')" aria-label="Contact">
+                                                <i class="fas fa-paper-plane"></i>
                                                 <span>Contact</span>
                                             </button>
                                         </div>
@@ -4171,13 +4175,20 @@
         function initHomeAnimations() {
             anime.timeline()
                 .add({
+                    targets: '#heroLogo',
+                    opacity: [0, 1],
+                    translateY: [15, 0],
+                    duration: 500,
+                    easing: 'easeOutQuad'
+                })
+                .add({
                     targets: '#heroBadge',
                     opacity: [0, 1],
                     translateY: [20, 0],
                     scale: [0.9, 1],
                     duration: 600,
                     easing: 'easeOutBack'
-                })
+                }, '-=200')
                 .add({
                     targets: '#heroTitle',
                     opacity: [0, 1],
