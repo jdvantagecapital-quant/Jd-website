@@ -1829,6 +1829,210 @@
                 transform: scale(0.95);
             }
         }
+        
+        /* ===== TRADE COPIER DASHBOARD RESPONSIVE ===== */
+        .copier-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .copier-status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .copier-status-buttons {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+        
+        .copier-accounts-grid {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 1.5rem;
+        }
+        
+        .copier-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+        
+        .copier-trades-table {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr 0.8fr 1fr 1fr;
+            font-size: 0.8rem;
+        }
+        
+        .copier-account-balance {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        /* Trade Copier Mobile Styles */
+        @media (max-width: 1024px) {
+            .copier-accounts-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .copier-stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .copier-sync-arrow {
+                display: flex;
+                justify-content: center;
+                padding: 1rem 0;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .copier-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .copier-status-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .copier-status-buttons {
+                width: 100%;
+            }
+            
+            .copier-status-buttons button {
+                flex: 1;
+                min-width: 120px;
+            }
+            
+            .copier-trades-table {
+                grid-template-columns: 1fr 0.8fr 0.8fr 1fr;
+                font-size: 0.7rem;
+            }
+            
+            .copier-trades-table span:nth-child(5n+4) {
+                display: none; /* Hide price column on smaller screens */
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .copier-stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 0.5rem;
+            }
+            
+            .copier-stat-item {
+                padding: 0.875rem !important;
+            }
+            
+            .copier-stat-item span:first-child {
+                font-size: 1.25rem !important;
+            }
+            
+            .copier-stat-value {
+                font-size: 1rem !important;
+            }
+            
+            .copier-trades-table {
+                grid-template-columns: 1.5fr 1fr 1fr;
+                font-size: 0.65rem;
+            }
+            
+            .copier-trades-table span:nth-child(5n+3),
+            .copier-trades-table span:nth-child(5n+4) {
+                display: none; /* Hide lots and price on mobile */
+            }
+            
+            .copier-account-balance {
+                gap: 1rem;
+            }
+            
+            .copier-account-balance > div {
+                flex: 1;
+                min-width: 80px;
+            }
+            
+            .copier-dashboard-padding {
+                padding: 1rem !important;
+            }
+            
+            .copier-card-header {
+                padding: 1rem !important;
+            }
+            
+            .copier-card-header h3 {
+                font-size: 1rem !important;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            .copier-stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .copier-trades-table {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .copier-trades-table span:nth-child(5n+2) {
+                display: none; /* Hide type on very small screens */
+            }
+        }
+        
+        /* ===== GENERAL PAGE CONTENT MOBILE STYLES ===== */
+        .page-content {
+            padding: 0;
+        }
+        
+        @media (max-width: 768px) {
+            .page-content .section {
+                padding: 1.5rem 1rem;
+            }
+            
+            .page-content .card-3d {
+                padding: 1rem;
+                border-radius: 12px;
+            }
+            
+            .page-content table {
+                font-size: 0.75rem;
+            }
+            
+            .page-content th,
+            .page-content td {
+                padding: 0.5rem 0.375rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .page-content .section {
+                padding: 1rem 0.75rem;
+            }
+            
+            .page-content .card-3d {
+                padding: 0.875rem;
+            }
+            
+            /* Make tables scrollable on mobile */
+            .table-responsive {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            .table-responsive table {
+                min-width: 500px;
+            }
+        }
 
         /* Loading Animation */
         .loading-overlay {
@@ -3943,44 +4147,42 @@
                         
                         <!-- Live Demo Section -->
                         <div class="card-3d" style="margin-bottom: 3rem; border-color: rgba(0, 212, 255, 0.3); padding: 0; overflow: hidden;">
-                            <div style="background: linear-gradient(180deg, rgba(0, 212, 255, 0.05) 0%, transparent 100%); padding: 1.5rem 2rem; border-bottom: 1px solid var(--border-color);">
-                                <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+                            <div class="copier-card-header" style="background: linear-gradient(180deg, rgba(0, 212, 255, 0.05) 0%, transparent 100%); padding: 1.5rem 2rem; border-bottom: 1px solid var(--border-color);">
+                                <div class="copier-header">
                                     <div style="display: flex; align-items: center; gap: 1rem;">
-                                        <div style="width: 48px; height: 48px; background: var(--gradient-primary); border-radius: 14px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);">
+                                        <div style="width: 48px; height: 48px; min-width: 48px; background: var(--gradient-primary); border-radius: 14px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);">
                                             <i class="fas fa-bolt" style="font-size: 1.25rem; color: #060d18;"></i>
                                         </div>
                                         <div>
-                                            <h3 style="font-family: 'Manrope', sans-serif; color: var(--text-primary); font-size: 1.25rem; font-weight: 700; margin-bottom: 0.25rem;">Trade Copier Dashboard</h3>
+                                            <h3 style="font-family: 'Manrope', sans-serif; color: var(--text-primary); font-size: clamp(1rem, 3vw, 1.25rem); font-weight: 700; margin-bottom: 0.25rem;">Trade Copier Dashboard</h3>
                                             <span style="color: var(--text-secondary); font-size: 0.85rem;">Live Demo Preview</span>
                                         </div>
                                     </div>
-                                    <div style="display: flex; align-items: center; gap: 0.75rem;">
-                                        <div style="display: flex; align-items: center; gap: 0.5rem; background: rgba(16, 185, 129, 0.15); padding: 0.5rem 1rem; border-radius: 20px;">
-                                            <span style="width: 8px; height: 8px; background: var(--success-green); border-radius: 50%; animation: pulse 2s infinite;"></span>
-                                            <span style="color: var(--success-green); font-size: 0.8rem; font-weight: 600;">DEMO MODE</span>
-                                        </div>
+                                    <div style="display: flex; align-items: center; gap: 0.5rem; background: rgba(16, 185, 129, 0.15); padding: 0.5rem 1rem; border-radius: 20px;">
+                                        <span style="width: 8px; height: 8px; background: var(--success-green); border-radius: 50%; animation: pulse 2s infinite;"></span>
+                                        <span style="color: var(--success-green); font-size: 0.8rem; font-weight: 600;">DEMO MODE</span>
                                     </div>
                                 </div>
                             </div>
                             
                             <!-- Dashboard Preview -->
-                            <div style="padding: 2rem; background: #05050a;">
+                            <div class="copier-dashboard-padding" style="padding: 2rem; background: #05050a;">
                                 <!-- Status Bar -->
-                                <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(12, 12, 18, 0.9); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem;">
+                                <div class="copier-status-bar" style="background: rgba(12, 12, 18, 0.9); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem;">
                                     <div style="display: flex; align-items: center; gap: 1rem;">
                                         <div style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: rgba(5, 5, 10, 0.8); border-radius: 20px; border: 1px solid var(--border-color);">
                                             <span style="width: 10px; height: 10px; background: var(--success-green); border-radius: 50%; box-shadow: 0 0 10px var(--success-green); animation: pulse 2s infinite;"></span>
                                             <span style="font-family: 'Instrument Sans', sans-serif; font-weight: 600; font-size: 0.85rem; color: var(--success-green);">Running</span>
                                         </div>
                                     </div>
-                                    <div style="display: flex; gap: 1rem;">
-                                        <button style="padding: 0.75rem 1.5rem; background: linear-gradient(135deg, #10b981, #059669); border: none; border-radius: 8px; color: #fff; font-weight: 600; cursor: not-allowed; opacity: 0.7;">Start Copier</button>
-                                        <button style="padding: 0.75rem 1.5rem; background: linear-gradient(135deg, #ef4444, #dc2626); border: none; border-radius: 8px; color: #fff; font-weight: 600; cursor: pointer;">Stop Copier</button>
+                                    <div class="copier-status-buttons">
+                                        <button style="padding: 0.75rem 1.5rem; background: linear-gradient(135deg, #10b981, #059669); border: none; border-radius: 8px; color: #fff; font-weight: 600; cursor: not-allowed; opacity: 0.7; font-size: 0.85rem;">Start Copier</button>
+                                        <button style="padding: 0.75rem 1.5rem; background: linear-gradient(135deg, #ef4444, #dc2626); border: none; border-radius: 8px; color: #fff; font-weight: 600; cursor: pointer; font-size: 0.85rem;">Stop Copier</button>
                                     </div>
                                 </div>
                                 
                                 <!-- Accounts Grid -->
-                                <div style="display: grid; grid-template-columns: 1fr auto 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                                <div class="copier-accounts-grid" style="margin-bottom: 1.5rem;">
                                     <!-- Master Account -->
                                     <div style="background: rgba(12, 12, 18, 0.9); border: 1px solid rgba(0, 212, 255, 0.25); border-radius: 12px; overflow: hidden;">
                                         <div style="display: flex; align-items: center; gap: 1rem; padding: 1.25rem; border-bottom: 1px solid var(--border-color); background: rgba(0, 212, 255, 0.03);">
@@ -3991,14 +4193,14 @@
                                                 <span style="color: var(--success-green); font-size: 0.7rem;">Connected</span>
                                             </div>
                                         </div>
-                                        <div style="padding: 1rem 1.25rem; display: flex; gap: 2rem; border-bottom: 1px solid var(--border-color);">
+                                        <div class="copier-account-balance" style="padding: 1rem 1.25rem; border-bottom: 1px solid var(--border-color);">
                                             <div>
                                                 <span style="display: block; font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.25rem;">Balance</span>
-                                                <span style="font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; font-weight: 600; color: var(--text-primary);">$12,450.00</span>
+                                                <span style="font-family: 'JetBrains Mono', monospace; font-size: clamp(0.9rem, 2.5vw, 1.1rem); font-weight: 600; color: var(--text-primary);">$12,450.00</span>
                                             </div>
                                             <div>
                                                 <span style="display: block; font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.25rem;">Equity</span>
-                                                <span style="font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; font-weight: 600; color: var(--text-primary);">$12,687.50</span>
+                                                <span style="font-family: 'JetBrains Mono', monospace; font-size: clamp(0.9rem, 2.5vw, 1.1rem); font-weight: 600; color: var(--text-primary);">$12,687.50</span>
                                             </div>
                                         </div>
                                         <div style="padding: 1rem 1.25rem;">
@@ -4006,23 +4208,23 @@
                                                 <button style="flex: 1; padding: 0.5rem; background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple)); border: none; border-radius: 6px; color: #000; font-size: 0.7rem; font-weight: 600;">Live</button>
                                                 <button style="flex: 1; padding: 0.5rem; background: rgba(5, 5, 10, 0.8); border: 1px solid var(--border-color); border-radius: 6px; color: var(--text-muted); font-size: 0.7rem; font-weight: 600;">Closed</button>
                                             </div>
-                                            <div style="background: rgba(5, 5, 10, 0.8); border-radius: 6px; padding: 0.75rem;">
-                                                <div style="display: grid; grid-template-columns: 1.2fr 0.8fr 0.8fr 1fr 1fr; padding: 0.5rem; font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600;">
+                                            <div style="background: rgba(5, 5, 10, 0.8); border-radius: 6px; padding: 0.75rem; overflow-x: auto;">
+                                                <div class="copier-trades-table" style="padding: 0.5rem; font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600;">
                                                     <span>Symbol</span><span>Type</span><span>Lots</span><span>Price</span><span>P/L</span>
                                                 </div>
-                                                <div style="display: grid; grid-template-columns: 1.2fr 0.8fr 0.8fr 1fr 1fr; padding: 0.5rem; font-size: 0.8rem; border-top: 1px solid var(--border-color);">
+                                                <div class="copier-trades-table" style="padding: 0.5rem; border-top: 1px solid var(--border-color);">
                                                     <span style="color: var(--text-primary); font-weight: 600;">XAUUSD</span>
                                                     <span style="color: var(--success-green); font-weight: 600;">BUY</span>
                                                     <span style="font-family: 'JetBrains Mono', monospace;">0.50</span>
                                                     <span style="font-family: 'JetBrains Mono', monospace;">2634.50</span>
-                                                    <span style="color: var(--success-green); font-weight: 600; font-family: 'JetBrains Mono', monospace;">+$237.50</span>
+                                                    <span style="color: var(--success-green); font-weight: 600; font-family: 'JetBrains Mono', monospace;">+$237</span>
                                                 </div>
-                                                <div style="display: grid; grid-template-columns: 1.2fr 0.8fr 0.8fr 1fr 1fr; padding: 0.5rem; font-size: 0.8rem; border-top: 1px solid var(--border-color);">
+                                                <div class="copier-trades-table" style="padding: 0.5rem; border-top: 1px solid var(--border-color);">
                                                     <span style="color: var(--text-primary); font-weight: 600;">EURUSD</span>
                                                     <span style="color: #ef4444; font-weight: 600;">SELL</span>
                                                     <span style="font-family: 'JetBrains Mono', monospace;">0.25</span>
                                                     <span style="font-family: 'JetBrains Mono', monospace;">1.0845</span>
-                                                    <span style="color: var(--success-green); font-weight: 600; font-family: 'JetBrains Mono', monospace;">+$42.00</span>
+                                                    <span style="color: var(--success-green); font-weight: 600; font-family: 'JetBrains Mono', monospace;">+$42</span>
                                                 </div>
                                             </div>
                                             <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; margin-top: 0.75rem; background: rgba(5, 5, 10, 0.8); border-radius: 6px;">
@@ -4033,7 +4235,7 @@
                                     </div>
                                     
                                     <!-- Sync Arrow -->
-                                    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem 0;">
+                                    <div class="copier-sync-arrow" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem 0;">
                                         <div style="font-size: 2rem; color: var(--accent-cyan);">⚡</div>
                                         <div style="margin-top: 0.75rem; padding: 0.5rem 1rem; background: rgba(5, 5, 10, 0.8); border: 1px solid var(--border-color); border-radius: 15px; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--accent-cyan);">~15ms</div>
                                     </div>
@@ -4048,14 +4250,14 @@
                                                 <span style="color: var(--success-green); font-size: 0.7rem;">Connected</span>
                                             </div>
                                         </div>
-                                        <div style="padding: 1rem 1.25rem; display: flex; gap: 2rem; border-bottom: 1px solid var(--border-color);">
+                                        <div class="copier-account-balance" style="padding: 1rem 1.25rem; border-bottom: 1px solid var(--border-color);">
                                             <div>
                                                 <span style="display: block; font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.25rem;">Balance</span>
-                                                <span style="font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; font-weight: 600; color: var(--text-primary);">$5,230.00</span>
+                                                <span style="font-family: 'JetBrains Mono', monospace; font-size: clamp(0.9rem, 2.5vw, 1.1rem); font-weight: 600; color: var(--text-primary);">$5,230.00</span>
                                             </div>
                                             <div>
                                                 <span style="display: block; font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.25rem;">Equity</span>
-                                                <span style="font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; font-weight: 600; color: var(--text-primary);">$5,369.75</span>
+                                                <span style="font-family: 'JetBrains Mono', monospace; font-size: clamp(0.9rem, 2.5vw, 1.1rem); font-weight: 600; color: var(--text-primary);">$5,369.75</span>
                                             </div>
                                         </div>
                                         <div style="padding: 1rem 1.25rem;">
@@ -4063,23 +4265,23 @@
                                                 <button style="flex: 1; padding: 0.5rem; background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple)); border: none; border-radius: 6px; color: #000; font-size: 0.7rem; font-weight: 600;">Live</button>
                                                 <button style="flex: 1; padding: 0.5rem; background: rgba(5, 5, 10, 0.8); border: 1px solid var(--border-color); border-radius: 6px; color: var(--text-muted); font-size: 0.7rem; font-weight: 600;">Closed</button>
                                             </div>
-                                            <div style="background: rgba(5, 5, 10, 0.8); border-radius: 6px; padding: 0.75rem;">
-                                                <div style="display: grid; grid-template-columns: 1.2fr 0.8fr 0.8fr 1fr 1fr; padding: 0.5rem; font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600;">
+                                            <div style="background: rgba(5, 5, 10, 0.8); border-radius: 6px; padding: 0.75rem; overflow-x: auto;">
+                                                <div class="copier-trades-table" style="padding: 0.5rem; font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600;">
                                                     <span>Symbol</span><span>Type</span><span>Lots</span><span>Price</span><span>P/L</span>
                                                 </div>
-                                                <div style="display: grid; grid-template-columns: 1.2fr 0.8fr 0.8fr 1fr 1fr; padding: 0.5rem; font-size: 0.8rem; border-top: 1px solid var(--border-color);">
+                                                <div class="copier-trades-table" style="padding: 0.5rem; border-top: 1px solid var(--border-color);">
                                                     <span style="color: var(--text-primary); font-weight: 600;">XAUUSD</span>
                                                     <span style="color: var(--success-green); font-weight: 600;">BUY</span>
                                                     <span style="font-family: 'JetBrains Mono', monospace;">0.50</span>
                                                     <span style="font-family: 'JetBrains Mono', monospace;">2634.50</span>
-                                                    <span style="color: var(--success-green); font-weight: 600; font-family: 'JetBrains Mono', monospace;">+$237.50</span>
+                                                    <span style="color: var(--success-green); font-weight: 600; font-family: 'JetBrains Mono', monospace;">+$237</span>
                                                 </div>
-                                                <div style="display: grid; grid-template-columns: 1.2fr 0.8fr 0.8fr 1fr 1fr; padding: 0.5rem; font-size: 0.8rem; border-top: 1px solid var(--border-color);">
+                                                <div class="copier-trades-table" style="padding: 0.5rem; border-top: 1px solid var(--border-color);">
                                                     <span style="color: var(--text-primary); font-weight: 600;">EURUSD</span>
                                                     <span style="color: #ef4444; font-weight: 600;">SELL</span>
                                                     <span style="font-family: 'JetBrains Mono', monospace;">0.25</span>
                                                     <span style="font-family: 'JetBrains Mono', monospace;">1.0845</span>
-                                                    <span style="color: var(--success-green); font-weight: 600; font-family: 'JetBrains Mono', monospace;">+$42.00</span>
+                                                    <span style="color: var(--success-green); font-weight: 600; font-family: 'JetBrains Mono', monospace;">+$42</span>
                                                 </div>
                                             </div>
                                             <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; margin-top: 0.75rem; background: rgba(5, 5, 10, 0.8); border-radius: 6px;">
@@ -4091,33 +4293,33 @@
                                 </div>
                                 
                                 <!-- Summary Stats -->
-                                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;">
-                                    <div style="display: flex; align-items: center; gap: 1rem; padding: 1.25rem; background: rgba(12, 12, 18, 0.9); border: 1px solid var(--border-color); border-radius: 10px;">
+                                <div class="copier-stats-grid">
+                                    <div class="copier-stat-item" style="display: flex; align-items: center; gap: 0.75rem; padding: 1.25rem; background: rgba(12, 12, 18, 0.9); border: 1px solid var(--border-color); border-radius: 10px;">
                                         <span style="font-size: 1.5rem;">📊</span>
                                         <div>
                                             <span style="display: block; font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.25rem;">Total Copied</span>
-                                            <span style="font-family: 'JetBrains Mono', monospace; font-size: 1.25rem; font-weight: 700; color: var(--text-primary);">247</span>
+                                            <span class="copier-stat-value" style="font-family: 'JetBrains Mono', monospace; font-size: 1.25rem; font-weight: 700; color: var(--text-primary);">247</span>
                                         </div>
                                     </div>
-                                    <div style="display: flex; align-items: center; gap: 1rem; padding: 1.25rem; background: rgba(12, 12, 18, 0.9); border: 1px solid var(--border-color); border-radius: 10px;">
+                                    <div class="copier-stat-item" style="display: flex; align-items: center; gap: 0.75rem; padding: 1.25rem; background: rgba(12, 12, 18, 0.9); border: 1px solid var(--border-color); border-radius: 10px;">
                                         <span style="font-size: 1.5rem;">✅</span>
                                         <div>
                                             <span style="display: block; font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.25rem;">Successful</span>
-                                            <span style="font-family: 'JetBrains Mono', monospace; font-size: 1.25rem; font-weight: 700; color: var(--success-green);">243</span>
+                                            <span class="copier-stat-value" style="font-family: 'JetBrains Mono', monospace; font-size: 1.25rem; font-weight: 700; color: var(--success-green);">243</span>
                                         </div>
                                     </div>
-                                    <div style="display: flex; align-items: center; gap: 1rem; padding: 1.25rem; background: rgba(12, 12, 18, 0.9); border: 1px solid var(--border-color); border-radius: 10px;">
+                                    <div class="copier-stat-item" style="display: flex; align-items: center; gap: 0.75rem; padding: 1.25rem; background: rgba(12, 12, 18, 0.9); border: 1px solid var(--border-color); border-radius: 10px;">
                                         <span style="font-size: 1.5rem;">❌</span>
                                         <div>
                                             <span style="display: block; font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.25rem;">Failed</span>
-                                            <span style="font-family: 'JetBrains Mono', monospace; font-size: 1.25rem; font-weight: 700; color: #ef4444;">4</span>
+                                            <span class="copier-stat-value" style="font-family: 'JetBrains Mono', monospace; font-size: 1.25rem; font-weight: 700; color: #ef4444;">4</span>
                                         </div>
                                     </div>
-                                    <div style="display: flex; align-items: center; gap: 1rem; padding: 1.25rem; background: rgba(12, 12, 18, 0.9); border: 1px solid var(--border-color); border-radius: 10px;">
+                                    <div class="copier-stat-item" style="display: flex; align-items: center; gap: 0.75rem; padding: 1.25rem; background: rgba(12, 12, 18, 0.9); border: 1px solid var(--border-color); border-radius: 10px;">
                                         <span style="font-size: 1.5rem;">💰</span>
                                         <div>
                                             <span style="display: block; font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.25rem;">Combined P/L</span>
-                                            <span style="font-family: 'JetBrains Mono', monospace; font-size: 1.25rem; font-weight: 700; color: var(--success-green);">+$419.25</span>
+                                            <span class="copier-stat-value" style="font-family: 'JetBrains Mono', monospace; font-size: 1.25rem; font-weight: 700; color: var(--success-green);">+$419.25</span>
                                         </div>
                                     </div>
                                 </div>
