@@ -2620,11 +2620,10 @@
                             <div class="hero-inner">
                                 <!-- Left: Copy -->
                                 <div class="hero-copy">
-                                    <div style="margin-bottom: 1rem; opacity: 0;" id="heroLogo">
-                                        <span style="font-family: 'Manrope', sans-serif; font-size: 1.1rem; font-weight: 700; background: linear-gradient(135deg, #00d4ff, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: 1px;">J&D VANTAGE QUANT</span>
-                                    </div>
-                                    <div class="profit-badge" id="heroBadge" style="margin-bottom: 1.5rem; opacity: 0;">+127.4% Annual Returns</div>
-                                    <h1 class="hero-title" id="heroTitle">Trade Smarter<br>with <span class="highlight">Precision</span></h1>
+                                    <a href="#home" onclick="navigateTo('home')" style="text-decoration: none; display: inline-block; margin-bottom: 1.5rem; opacity: 0;" id="heroLogo">
+                                        <span style="font-family: 'Manrope', sans-serif; font-size: clamp(3rem, 8vw, 6rem); font-weight: 800; background: linear-gradient(135deg, #00d4ff, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: -2px; line-height: 1.1; display: block;">J&D Vantage Quant</span>
+                                    </a>
+                                    <h2 class="hero-title" id="heroTitle" style="font-size: clamp(1.5rem, 4vw, 2.5rem); font-weight: 600; letter-spacing: -1px; margin-bottom: 1.5rem;">Trade Smarter with <span class="highlight">Precision</span></h2>
                                     <p class="hero-subtitle" id="heroSubtitle" style="font-family: 'Plus Jakarta Sans', sans-serif; color: var(--text-secondary); font-size: 1.15rem; max-width: 480px; line-height: 1.75;">Institutional-grade quantitative strategies, transparent operations, and complete capital control — accessible from just $300.</p>
                                     <div class="hero-buttons" id="heroButtons">
                                         <button class="btn-primary" onclick="navigateTo('offerings')"><i class="fas fa-chart-line"></i> View Solutions</button>
@@ -4177,18 +4176,10 @@
                 .add({
                     targets: '#heroLogo',
                     opacity: [0, 1],
-                    translateY: [15, 0],
-                    duration: 500,
+                    translateY: [30, 0],
+                    duration: 800,
                     easing: 'easeOutQuad'
                 })
-                .add({
-                    targets: '#heroBadge',
-                    opacity: [0, 1],
-                    translateY: [20, 0],
-                    scale: [0.9, 1],
-                    duration: 600,
-                    easing: 'easeOutBack'
-                }, '-=200')
                 .add({
                     targets: '#heroTitle',
                     opacity: [0, 1],
