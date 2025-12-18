@@ -2307,16 +2307,12 @@
             justify-content: center;
             gap: 0.5rem;
             border-radius: 16px;
-            /* Semi-transparent background */
-            background: rgba(4, 8, 16, 0.6);
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
-            /* Constant glowing border - always on */
-            border: 2px solid rgba(0, 212, 255, 0.5);
-            /* Subtle outer glow on edges only */
-            box-shadow: 
-                0 0 8px rgba(0, 212, 255, 0.3),
-                0 0 16px rgba(0, 212, 255, 0.15);
+            /* Solid dark background - NO transparency */
+            background: #04080c;
+            /* Thin dark border as base */
+            border: 2px solid rgba(30, 40, 50, 0.8);
+            /* No box-shadow glow - clean edges */
+            box-shadow: none;
             color: var(--text-primary);
             cursor: pointer;
             -webkit-user-select: none;
@@ -2329,7 +2325,7 @@
             z-index: 10;
         }
 
-        /* Tron traveling highlight - moves along the edge ONLY */
+        /* Tron traveling light - ONLY on border edges */
         .cube-face::before {
             content: '';
             position: absolute;
@@ -2339,14 +2335,14 @@
             background: conic-gradient(
                 from var(--border-angle),
                 transparent 0%,
-                transparent 35%,
-                rgba(0, 212, 255, 1) 40%,
-                rgba(100, 255, 255, 1) 45%,
-                rgba(168, 85, 247, 0.9) 50%,
-                transparent 55%,
+                transparent 40%,
+                rgba(0, 212, 255, 1) 45%,
+                rgba(100, 255, 255, 1) 50%,
+                rgba(168, 85, 247, 0.9) 55%,
+                transparent 60%,
                 transparent 100%
             );
-            /* This mask ensures gradient shows ONLY on the border, not inside */
+            /* Mask ensures gradient shows ONLY on border edge, nothing inside */
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             -webkit-mask-composite: xor;
@@ -2413,21 +2409,9 @@
 
         /* All faces use the same neon blue border animation */
 
+        /* Cube aura disabled - no center glow */
         .cube-aura {
-            position: absolute;
-            inset: -20%;
-            border-radius: 50%;
-            background: 
-                radial-gradient(circle at 50% 50%, rgba(0, 212, 255, 0.06) 0%, transparent 60%);
-            filter: blur(40px);
-            z-index: -2;
-            pointer-events: none;
-            animation: cubeGlow 8s ease-in-out infinite;
-        }
-
-        @keyframes cubeGlow {
-            0%, 100% { opacity: 0.3; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(1.02); }
+            display: none;
         }
 
         /* ===== CIRCUIT EMANATING EFFECT ===== */
@@ -3014,26 +2998,33 @@
                                 </a>
                             </div>
                             <div class="dropdown-section">
-                                <h4>Products</h4>
+                                <h4>Expert Advisors</h4>
+                                <a href="#goldClutch" onclick="navigateTo('goldClutch'); closeDropdowns();" style="border-left: 2px solid #ffd700;">
+                                    <i class="fas fa-hand-rock" style="color: #ffd700;"></i>
+                                    <div>
+                                        <span style="color: #ffd700;">GoldClutch EA</span>
+                                        <small>Swing Trading XAUUSD</small>
+                                    </div>
+                                </a>
+                                <a href="#goldShort" onclick="navigateTo('goldShort'); closeDropdowns();">
+                                    <i class="fas fa-arrow-trend-down" style="color: var(--accent-cyan);"></i>
+                                    <div>
+                                        <span>GoldShort EA</span>
+                                        <small>High-frequency scalping</small>
+                                    </div>
+                                </a>
+                                <a href="#goldShortSL" onclick="navigateTo('goldShortSL'); closeDropdowns();">
+                                    <i class="fas fa-shield-halved" style="color: var(--accent-purple);"></i>
+                                    <div>
+                                        <span>GoldShort SL</span>
+                                        <small>Protected scalping</small>
+                                    </div>
+                                </a>
                                 <a href="#tradeCopier" onclick="navigateTo('tradeCopier'); closeDropdowns();" style="border-left: 2px solid var(--accent-cyan);">
                                     <i class="fas fa-bolt" style="color: var(--accent-cyan);"></i>
                                     <div>
                                         <span style="color: var(--accent-cyan);">Trade Copier <span style="background: var(--gradient-primary); color: #060d18; padding: 0.1rem 0.4rem; border-radius: 3px; font-size: 0.55rem; margin-left: 0.25rem;">NEW</span></span>
                                         <small>Ultra-fast MT5 copying</small>
-                                    </div>
-                                </a>
-                                <a href="#indicators" onclick="navigateTo('indicators'); closeDropdowns();">
-                                    <i class="fas fa-chart-bar"></i>
-                                    <div>
-                                        <span>Indicators</span>
-                                        <small>Custom MT5 indicators</small>
-                                    </div>
-                                </a>
-                                <a href="#products" onclick="navigateTo('products'); closeDropdowns();">
-                                    <i class="fas fa-box"></i>
-                                    <div>
-                                        <span>EA Products</span>
-                                        <small>Expert advisors</small>
                                     </div>
                                 </a>
                             </div>
@@ -3108,9 +3099,10 @@
                 <div class="mobile-accordion-content">
                     <a href="#quantAccess" onclick="navigateTo('quantAccess'); closeMobileMenu();">Quant Access</a>
                     <a href="#goldFxDetails" onclick="navigateTo('goldFxDetails'); closeMobileMenu();">GoldFX Pro</a>
+                    <a href="#goldClutch" onclick="navigateTo('goldClutch'); closeMobileMenu();" style="color: #ffd700;">🤜 GoldClutch EA</a>
+                    <a href="#goldShort" onclick="navigateTo('goldShort'); closeMobileMenu();">📉 GoldShort EA</a>
+                    <a href="#goldShortSL" onclick="navigateTo('goldShortSL'); closeMobileMenu();" style="color: var(--accent-purple);">🛡️ GoldShort SL</a>
                     <a href="#tradeCopier" onclick="navigateTo('tradeCopier'); closeMobileMenu();" style="color: var(--accent-cyan);">⚡ Trade Copier</a>
-                    <a href="#indicators" onclick="navigateTo('indicators'); closeMobileMenu();">Indicators</a>
-                    <a href="#products" onclick="navigateTo('products'); closeMobileMenu();">EA Products</a>
                     <a href="#consultation" onclick="navigateTo('consultation'); closeMobileMenu();">Consultation</a>
                     <a href="#customDev" onclick="navigateTo('customDev'); closeMobileMenu();">Custom Development</a>
                 </div>
@@ -3240,7 +3232,7 @@
                                         <span style="font-family: 'Manrope', sans-serif; font-size: clamp(3rem, 8vw, 6rem); font-weight: 800; background: linear-gradient(135deg, #00d4ff, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: -2px; line-height: 1.1; display: block;">J&D Vantage Quant</span>
                                     </div>
                                     <h2 class="hero-title" id="heroTitle" style="font-size: clamp(1.5rem, 4vw, 2.5rem); font-weight: 600; letter-spacing: -1px; margin-bottom: 1.5rem;">Trade Smarter with <span class="highlight">Precision</span></h2>
-                                    <p class="hero-subtitle" id="heroSubtitle" style="font-family: 'Plus Jakarta Sans', sans-serif; color: var(--text-secondary); font-size: 1.15rem; max-width: 480px; line-height: 1.75;">Institutional-grade quantitative strategies, transparent operations, and complete capital control — accessible from just $300.</p>
+                                    <p class="hero-subtitle" id="heroSubtitle" style="font-family: 'Plus Jakarta Sans', sans-serif; color: var(--text-secondary); font-size: 1.15rem; max-width: 480px; line-height: 1.75;">Institutional-grade algorithmic trading solutions with verified performance. Your Capital, Your Control.</p>
                                     <div class="hero-buttons" id="heroButtons" style="display: flex; flex-wrap: wrap; gap: 1.5rem; margin-top: 2rem;">
                                         <button class="btn-primary" onclick="navigateTo('offerings')" style="min-width: 180px;"><i class="fas fa-chart-line"></i> View Solutions</button>
                                         <button class="btn-primary" onclick="navigateTo('howItWorks')" style="min-width: 180px;"><i class="fas fa-play-circle"></i> How It Works</button>
@@ -3350,58 +3342,222 @@
                         </div>
                     </section>
 
-                    <!-- Solutions Section -->
+                    <!-- EA Comparison Section -->
                     <section class="section">
-                        <h2 class="section-title">Trading Solutions</h2>
-                        <p class="section-subtitle">Choose the solution that fits your investment goals</p>
+                        <h2 class="section-title">Expert Advisors Comparison</h2>
+                        <p class="section-subtitle">Backtested performance data from verified strategy tests (2025)</p>
+                        
+                        <!-- Comparison Table -->
+                        <div class="card-3d" style="overflow-x: auto; margin-bottom: 3rem;">
+                            <table style="width: 100%; min-width: 800px; border-collapse: collapse; font-size: 0.9rem;">
+                                <thead>
+                                    <tr style="border-bottom: 2px solid var(--border-color);">
+                                        <th style="text-align: left; padding: 1rem; color: var(--text-primary); font-weight: 600;">Strategy</th>
+                                        <th style="text-align: center; padding: 1rem; color: var(--success-green); font-weight: 600;">Net Profit</th>
+                                        <th style="text-align: center; padding: 1rem; color: var(--accent-cyan); font-weight: 600;">Return %</th>
+                                        <th style="text-align: center; padding: 1rem; color: var(--warning-amber); font-weight: 600;">Max DD</th>
+                                        <th style="text-align: center; padding: 1rem; color: var(--accent-purple); font-weight: 600;">Win Rate</th>
+                                        <th style="text-align: center; padding: 1rem; color: var(--text-secondary); font-weight: 600;">Sharpe</th>
+                                        <th style="text-align: center; padding: 1rem; color: var(--text-secondary); font-weight: 600;">Period</th>
+                                        <th style="text-align: center; padding: 1rem; color: var(--text-primary); font-weight: 600;">Details</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="border-bottom: 1px solid var(--border-color);">
+                                        <td style="padding: 1rem;">
+                                            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                                <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #ffd700, #ffb300); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                                                    <i class="fas fa-hand-rock" style="color: #1a1a2e; font-size: 1rem;"></i>
+                                                </div>
+                                                <div>
+                                                    <span style="color: var(--text-primary); font-weight: 600;">GoldClutch</span>
+                                                    <small style="display: block; color: var(--text-secondary); font-size: 0.75rem;">M30 Timeframe</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td style="text-align: center; padding: 1rem; font-family: 'JetBrains Mono', monospace; color: var(--success-green); font-weight: 600;">$7,945</td>
+                                        <td style="text-align: center; padding: 1rem; font-family: 'JetBrains Mono', monospace; color: var(--accent-cyan); font-weight: 600;">+79.5%</td>
+                                        <td style="text-align: center; padding: 1rem; font-family: 'JetBrains Mono', monospace; color: var(--warning-amber);">19.90%</td>
+                                        <td style="text-align: center; padding: 1rem; font-family: 'JetBrains Mono', monospace; color: var(--accent-purple);">—</td>
+                                        <td style="text-align: center; padding: 1rem; font-family: 'JetBrains Mono', monospace; color: var(--text-secondary);">2.47</td>
+                                        <td style="text-align: center; padding: 1rem; color: var(--text-secondary);">Jan-Dec 25</td>
+                                        <td style="text-align: center; padding: 1rem;"><button class="btn-secondary" onclick="navigateTo('goldClutch')" style="padding: 0.4rem 1rem; font-size: 0.8rem;">View</button></td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid var(--border-color);">
+                                        <td style="padding: 1rem;">
+                                            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                                <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #00d4ff, #0099cc); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                                                    <i class="fas fa-arrow-trend-down" style="color: #1a1a2e; font-size: 1rem;"></i>
+                                                </div>
+                                                <div>
+                                                    <span style="color: var(--text-primary); font-weight: 600;">GoldShort</span>
+                                                    <small style="display: block; color: var(--text-secondary); font-size: 0.75rem;">M1 Scalping</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td style="text-align: center; padding: 1rem; font-family: 'JetBrains Mono', monospace; color: var(--success-green); font-weight: 600;">$32,798</td>
+                                        <td style="text-align: center; padding: 1rem; font-family: 'JetBrains Mono', monospace; color: var(--accent-cyan); font-weight: 600;">+328%</td>
+                                        <td style="text-align: center; padding: 1rem; font-family: 'JetBrains Mono', monospace; color: var(--loss-red);">53.6%</td>
+                                        <td style="text-align: center; padding: 1rem; font-family: 'JetBrains Mono', monospace; color: var(--accent-purple);">73%</td>
+                                        <td style="text-align: center; padding: 1rem; font-family: 'JetBrains Mono', monospace; color: var(--text-secondary);">1.30</td>
+                                        <td style="text-align: center; padding: 1rem; color: var(--text-secondary);">Mar-Dec 25</td>
+                                        <td style="text-align: center; padding: 1rem;"><button class="btn-secondary" onclick="navigateTo('goldShort')" style="padding: 0.4rem 1rem; font-size: 0.8rem;">View</button></td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid var(--border-color);">
+                                        <td style="padding: 1rem;">
+                                            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                                <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #a855f7, #7c3aed); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                                                    <i class="fas fa-shield-halved" style="color: #fff; font-size: 1rem;"></i>
+                                                </div>
+                                                <div>
+                                                    <span style="color: var(--text-primary); font-weight: 600;">GoldShort SL</span>
+                                                    <small style="display: block; color: var(--text-secondary); font-size: 0.75rem;">Protected Scalping</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td style="text-align: center; padding: 1rem; font-family: 'JetBrains Mono', monospace; color: var(--success-green); font-weight: 600;">$7,000</td>
+                                        <td style="text-align: center; padding: 1rem; font-family: 'JetBrains Mono', monospace; color: var(--accent-cyan); font-weight: 600;">+70%</td>
+                                        <td style="text-align: center; padding: 1rem; font-family: 'JetBrains Mono', monospace; color: var(--warning-amber);">32.5%</td>
+                                        <td style="text-align: center; padding: 1rem; font-family: 'JetBrains Mono', monospace; color: var(--accent-purple);">71%</td>
+                                        <td style="text-align: center; padding: 1rem; font-family: 'JetBrains Mono', monospace; color: var(--text-secondary);">1.00</td>
+                                        <td style="text-align: center; padding: 1rem; color: var(--text-secondary);">Jan-Dec 25</td>
+                                        <td style="text-align: center; padding: 1rem;"><button class="btn-secondary" onclick="navigateTo('goldShortSL')" style="padding: 0.4rem 1rem; font-size: 0.8rem;">View</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 1rem;">
+                                            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                                <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #ffd700, #ff6b35); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                                                    <i class="fas fa-gem" style="color: #1a1a2e; font-size: 1rem;"></i>
+                                                </div>
+                                                <div>
+                                                    <span style="color: var(--text-primary); font-weight: 600;">GoldFX Pro</span>
+                                                    <small style="display: block; color: var(--success-green); font-size: 0.75rem;">⭐ Flagship</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td style="text-align: center; padding: 1rem; font-family: 'JetBrains Mono', monospace; color: var(--success-green); font-weight: 600;">$59,317</td>
+                                        <td style="text-align: center; padding: 1rem; font-family: 'JetBrains Mono', monospace; color: var(--accent-cyan); font-weight: 600;">+593%</td>
+                                        <td style="text-align: center; padding: 1rem; font-family: 'JetBrains Mono', monospace; color: var(--success-green);">18.2%</td>
+                                        <td style="text-align: center; padding: 1rem; font-family: 'JetBrains Mono', monospace; color: var(--accent-purple);">72.7%</td>
+                                        <td style="text-align: center; padding: 1rem; font-family: 'JetBrains Mono', monospace; color: var(--text-secondary);">3.21</td>
+                                        <td style="text-align: center; padding: 1rem; color: var(--text-secondary);">18 Months</td>
+                                        <td style="text-align: center; padding: 1rem;"><button class="btn-primary" onclick="navigateTo('goldFxDetails')" style="padding: 0.4rem 1rem; font-size: 0.8rem;">View</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <!-- Risk Notice -->
+                        <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 12px; padding: 1.5rem; max-width: 900px; margin: 0 auto 3rem;">
+                            <div style="display: flex; align-items: flex-start; gap: 1rem;">
+                                <i class="fas fa-exclamation-triangle" style="color: #ef4444; font-size: 1.25rem; margin-top: 0.2rem;"></i>
+                                <div>
+                                    <p style="color: var(--text-primary); font-weight: 600; margin-bottom: 0.5rem;">Risk Disclaimer</p>
+                                    <p style="color: var(--text-secondary); font-size: 0.85rem; line-height: 1.6;">Past performance is not indicative of future results. All backtested data shown above represents historical simulations on $10,000 initial capital. Trading involves substantial risk of loss. Higher returns typically correlate with higher drawdown risk. Please review our <a href="#disclaimers" onclick="navigateTo('disclaimers')" style="color: var(--accent-cyan);">full risk disclaimer</a> before investing.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- EA Cards Grid -->
+                        <div class="grid-2" style="max-width: 1000px; margin: 0 auto;">
+                            <!-- GoldClutch Card -->
+                            <div class="card-3d" style="border-color: rgba(255, 215, 0, 0.3);">
+                                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+                                    <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #ffd700, #ffb300); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                                        <i class="fas fa-hand-rock" style="color: #1a1a2e; font-size: 1.25rem;"></i>
+                                    </div>
+                                    <div>
+                                        <h3 style="color: var(--text-primary); font-weight: 600; margin-bottom: 0.25rem;">GoldClutch EA</h3>
+                                        <span style="background: rgba(255, 215, 0, 0.15); color: #ffd700; padding: 0.15rem 0.5rem; border-radius: 4px; font-size: 0.7rem; font-weight: 600;">SWING TRADER</span>
+                                    </div>
+                                </div>
+                                <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem;">Medium-term swing trading strategy optimized for XAUUSD. Uses buffer zones and adaptive TP/SL for consistent entries during London/NY sessions.</p>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                                    <div style="text-align: center; padding: 1rem; background: rgba(255, 255, 255, 0.02); border-radius: 8px;">
+                                        <p style="font-family: 'JetBrains Mono', monospace; font-size: 1.5rem; color: var(--success-green); font-weight: 600;">+79.5%</p>
+                                        <p style="color: var(--text-secondary); font-size: 0.75rem; text-transform: uppercase;">Return</p>
+                                    </div>
+                                    <div style="text-align: center; padding: 1rem; background: rgba(255, 255, 255, 0.02); border-radius: 8px;">
+                                        <p style="font-family: 'JetBrains Mono', monospace; font-size: 1.5rem; color: var(--warning-amber); font-weight: 600;">19.9%</p>
+                                        <p style="color: var(--text-secondary); font-size: 0.75rem; text-transform: uppercase;">Max DD</p>
+                                    </div>
+                                </div>
+                                <button class="btn-primary" onclick="navigateTo('goldClutch')" style="width: 100%;">View Full Analysis</button>
+                            </div>
+                            
+                            <!-- GoldShort Card -->
+                            <div class="card-3d" style="border-color: rgba(0, 212, 255, 0.3);">
+                                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+                                    <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #00d4ff, #0099cc); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                                        <i class="fas fa-arrow-trend-down" style="color: #1a1a2e; font-size: 1.25rem;"></i>
+                                    </div>
+                                    <div>
+                                        <h3 style="color: var(--text-primary); font-weight: 600; margin-bottom: 0.25rem;">GoldShort EA</h3>
+                                        <span style="background: rgba(0, 212, 255, 0.15); color: var(--accent-cyan); padding: 0.15rem 0.5rem; border-radius: 4px; font-size: 0.7rem; font-weight: 600;">HIGH FREQUENCY</span>
+                                    </div>
+                                </div>
+                                <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem;">Aggressive M1 scalping strategy with EMA-based entries. High trade frequency with dynamic profit targets. Best for experienced traders.</p>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                                    <div style="text-align: center; padding: 1rem; background: rgba(255, 255, 255, 0.02); border-radius: 8px;">
+                                        <p style="font-family: 'JetBrains Mono', monospace; font-size: 1.5rem; color: var(--success-green); font-weight: 600;">+328%</p>
+                                        <p style="color: var(--text-secondary); font-size: 0.75rem; text-transform: uppercase;">Return</p>
+                                    </div>
+                                    <div style="text-align: center; padding: 1rem; background: rgba(255, 255, 255, 0.02); border-radius: 8px;">
+                                        <p style="font-family: 'JetBrains Mono', monospace; font-size: 1.5rem; color: var(--loss-red); font-weight: 600;">53.6%</p>
+                                        <p style="color: var(--text-secondary); font-size: 0.75rem; text-transform: uppercase;">Max DD</p>
+                                    </div>
+                                </div>
+                                <button class="btn-primary" onclick="navigateTo('goldShort')" style="width: 100%;">View Full Analysis</button>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <!-- Services Section -->
+                    <section class="section">
+                        <h2 class="section-title">Our Services</h2>
+                        <p class="section-subtitle">Professional trading solutions for every level</p>
                         <div class="grid-3">
-                            <!-- Quant Access - $300 Entry -->
                             <div class="card-3d">
                                 <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
                                     <span style="background: var(--gradient-primary); color: #060d18; padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Popular</span>
                                     <i class="fas fa-rocket" style="font-size: 1.25rem; color: var(--accent-color);"></i>
                                 </div>
-                                <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem; color: var(--text-primary); font-weight: 600;">Quant Access</h3>
-                                <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1.25rem;">Entry-level algorithmic trading with institutional-grade execution.</p>
-                                <p style="font-family: 'JetBrains Mono', monospace; font-size: 1.75rem; color: var(--accent-color); margin-bottom: 1rem;">$300 <span style="font-size: 0.85rem; color: var(--text-secondary);">min</span></p>
+                                <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem; color: var(--text-primary); font-weight: 600;">Managed Trading</h3>
+                                <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1.25rem;">Let our algorithms trade your account. Performance-based fees only.</p>
                                 <ul style="list-style: none; padding: 0; margin-bottom: 1.5rem;">
-                                    <li style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 0.5rem;"><i class="fas fa-check" style="color: var(--success-green); font-size: 0.7rem;"></i> XAUUSD Strategy Access</li>
-                                    <li style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 0.5rem;"><i class="fas fa-check" style="color: var(--success-green); font-size: 0.7rem;"></i> Real-time Dashboard</li>
-                                    <li style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); font-size: 0.85rem;"><i class="fas fa-check" style="color: var(--success-green); font-size: 0.7rem;"></i> Performance Reports</li>
+                                    <li style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 0.5rem;"><i class="fas fa-check" style="color: var(--success-green); font-size: 0.7rem;"></i> Your capital stays in your account</li>
+                                    <li style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 0.5rem;"><i class="fas fa-check" style="color: var(--success-green); font-size: 0.7rem;"></i> Withdraw anytime</li>
+                                    <li style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); font-size: 0.85rem;"><i class="fas fa-check" style="color: var(--success-green); font-size: 0.7rem;"></i> Real-time monitoring</li>
                                 </ul>
-                                <button class="btn-primary" onclick="navigateTo('quantAccess')" style="width: 100%;">Learn More</button>
+                                <button class="btn-primary" onclick="navigateTo('offerings')" style="width: 100%;">Learn More</button>
                             </div>
                             
-                            <!-- GoldFX Pro -->
                             <div class="card-3d" style="border-color: rgba(100, 181, 246, 0.3);">
                                 <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
-                                    <span style="background: rgba(16, 185, 129, 0.15); color: var(--success-green); padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Flagship</span>
-                                    <i class="fas fa-gem" style="font-size: 1.25rem; color: var(--accent-color);"></i>
+                                    <span style="background: rgba(0, 212, 255, 0.15); color: var(--accent-cyan); padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">NEW</span>
+                                    <i class="fas fa-bolt" style="font-size: 1.25rem; color: var(--accent-cyan);"></i>
                                 </div>
-                                <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem; color: var(--text-primary); font-weight: 600;">GoldFX Pro</h3>
-                                <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1.25rem;">Advanced gold market algorithms with proven track record.</p>
-                                <p style="font-family: 'JetBrains Mono', monospace; font-size: 1.75rem; color: var(--accent-color); margin-bottom: 1rem;">$1,000 <span style="font-size: 0.85rem; color: var(--text-secondary);">min</span></p>
+                                <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem; color: var(--text-primary); font-weight: 600;">Trade Copier</h3>
+                                <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1.25rem;">Mirror our master account trades to your account in milliseconds.</p>
                                 <ul style="list-style: none; padding: 0; margin-bottom: 1.5rem;">
-                                    <li style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 0.5rem;"><i class="fas fa-check" style="color: var(--success-green); font-size: 0.7rem;"></i> Full GoldFX Strategy Suite</li>
-                                    <li style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 0.5rem;"><i class="fas fa-check" style="color: var(--success-green); font-size: 0.7rem;"></i> Priority Support</li>
-                                    <li style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); font-size: 0.85rem;"><i class="fas fa-check" style="color: var(--success-green); font-size: 0.7rem;"></i> Advanced Analytics</li>
+                                    <li style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 0.5rem;"><i class="fas fa-check" style="color: var(--success-green); font-size: 0.7rem;"></i> Ultra-low latency copying</li>
+                                    <li style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 0.5rem;"><i class="fas fa-check" style="color: var(--success-green); font-size: 0.7rem;"></i> Adjustable lot sizing</li>
+                                    <li style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); font-size: 0.85rem;"><i class="fas fa-check" style="color: var(--success-green); font-size: 0.7rem;"></i> Full trade history</li>
                                 </ul>
-                                <button class="btn-primary" onclick="navigateTo('goldFxDetails')" style="width: 100%;">View Performance</button>
+                                <button class="btn-primary" onclick="navigateTo('tradeCopier')" style="width: 100%;">View Demo</button>
                             </div>
                             
-                            <!-- Custom -->
                             <div class="card-3d">
                                 <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
-                                    <span style="background: rgba(245, 158, 11, 0.15); color: var(--warning-amber); padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Enterprise</span>
+                                    <span style="background: rgba(245, 158, 11, 0.15); color: var(--warning-amber); padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Custom</span>
                                     <i class="fas fa-code" style="font-size: 1.25rem; color: var(--accent-color);"></i>
                                 </div>
-                                <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem; color: var(--text-primary); font-weight: 600;">Custom Quant</h3>
-                                <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1.25rem;">Bespoke strategies tailored to your specific requirements.</p>
-                                <p style="font-family: 'JetBrains Mono', monospace; font-size: 1.75rem; color: var(--accent-color); margin-bottom: 1rem;">Custom <span style="font-size: 0.85rem; color: var(--text-secondary);">pricing</span></p>
+                                <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem; color: var(--text-primary); font-weight: 600;">EA Development</h3>
+                                <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1.25rem;">Custom Expert Advisors built to your specifications.</p>
                                 <ul style="list-style: none; padding: 0; margin-bottom: 1.5rem;">
-                                    <li style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 0.5rem;"><i class="fas fa-check" style="color: var(--success-green); font-size: 0.7rem;"></i> Custom Algorithm Development</li>
-                                    <li style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 0.5rem;"><i class="fas fa-check" style="color: var(--success-green); font-size: 0.7rem;"></i> Dedicated Account Manager</li>
-                                    <li style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); font-size: 0.85rem;"><i class="fas fa-check" style="color: var(--success-green); font-size: 0.7rem;"></i> Full White-Glove Service</li>
+                                    <li style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 0.5rem;"><i class="fas fa-check" style="color: var(--success-green); font-size: 0.7rem;"></i> MT4/MT5 compatible</li>
+                                    <li style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 0.5rem;"><i class="fas fa-check" style="color: var(--success-green); font-size: 0.7rem;"></i> Strategy optimization</li>
+                                    <li style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); font-size: 0.85rem;"><i class="fas fa-check" style="color: var(--success-green); font-size: 0.7rem;"></i> Backtesting included</li>
                                 </ul>
                                 <button class="btn-secondary" onclick="navigateTo('contact')" style="width: 100%;">Get Quote</button>
                             </div>
@@ -4698,46 +4854,477 @@
                 </div>
             `,
 
+            goldClutch: `
+                <div class="page-content">
+                    <section class="section">
+                        <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 1rem;">
+                            <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #ffd700, #ffb300); border-radius: 15px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-hand-rock" style="font-size: 1.8rem; color: #1a1a2e;"></i>
+                            </div>
+                            <h2 class="section-title" style="margin-bottom: 0;">GoldClutch EA</h2>
+                        </div>
+                        <p style="text-align: center; font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 4rem;">Medium-Term Swing Trading Strategy for XAUUSD</p>
+                        
+                        <!-- Key Metrics -->
+                        <div class="card-3d" style="margin-bottom: 3rem; background: linear-gradient(135deg, rgba(255, 215, 0, 0.05), rgba(20, 20, 20, 0.9));">
+                            <h3 style="font-size: 1.5rem; margin-bottom: 2rem; color: #ffd700; text-align: center;">Backtest Performance (Jan-Dec 2025)</h3>
+                            <div class="grid-4" style="gap: 1.5rem;">
+                                <div style="text-align: center; padding: 1.5rem; border-right: 1px solid var(--border-color);">
+                                    <h4 style="font-size: 2.5rem; color: var(--success-green); margin-bottom: 0.5rem; font-weight: 700;">$7,945</h4>
+                                    <p style="color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem;">Net Profit</p>
+                                </div>
+                                <div style="text-align: center; padding: 1.5rem; border-right: 1px solid var(--border-color);">
+                                    <h4 style="font-size: 2.5rem; color: var(--accent-cyan); margin-bottom: 0.5rem; font-weight: 700;">+79.5%</h4>
+                                    <p style="color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem;">Return</p>
+                                </div>
+                                <div style="text-align: center; padding: 1.5rem; border-right: 1px solid var(--border-color);">
+                                    <h4 style="font-size: 2.5rem; color: var(--warning-amber); margin-bottom: 0.5rem; font-weight: 700;">19.9%</h4>
+                                    <p style="color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem;">Max Drawdown</p>
+                                </div>
+                                <div style="text-align: center; padding: 1.5rem;">
+                                    <h4 style="font-size: 2.5rem; color: var(--accent-purple); margin-bottom: 0.5rem; font-weight: 700;">1.28</h4>
+                                    <p style="color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem;">Profit Factor</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Strategy Details -->
+                        <div class="grid-2" style="margin-bottom: 3rem;">
+                            <div class="card-3d">
+                                <h3 style="font-size: 1.4rem; margin-bottom: 1.5rem; color: #ffd700;">Strategy Parameters</h3>
+                                <div style="display: grid; gap: 1rem;">
+                                    <div style="display: flex; justify-content: space-between; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color);">
+                                        <span style="color: var(--text-secondary);">Symbol</span>
+                                        <span style="color: var(--text-primary); font-weight: 600;">XAUUSD (Gold)</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color);">
+                                        <span style="color: var(--text-secondary);">Timeframe</span>
+                                        <span style="color: var(--text-primary); font-weight: 600;">M30</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color);">
+                                        <span style="color: var(--text-secondary);">Entry Buffer</span>
+                                        <span style="color: var(--text-primary); font-weight: 600;">400 pips</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color);">
+                                        <span style="color: var(--text-secondary);">Stop Loss</span>
+                                        <span style="color: var(--text-primary); font-weight: 600;">6300 pips</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color);">
+                                        <span style="color: var(--text-secondary);">Take Profit</span>
+                                        <span style="color: var(--text-primary); font-weight: 600;">4800 pips</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between;">
+                                        <span style="color: var(--text-secondary);">Session Start</span>
+                                        <span style="color: var(--text-primary); font-weight: 600;">08:21 Server Time</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="card-3d">
+                                <h3 style="font-size: 1.4rem; margin-bottom: 1.5rem; color: #ffd700;">Performance Metrics</h3>
+                                <div style="display: grid; gap: 1rem;">
+                                    <div style="display: flex; justify-content: space-between; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color);">
+                                        <span style="color: var(--text-secondary);">Initial Deposit</span>
+                                        <span style="color: var(--text-primary); font-weight: 600;">$10,000</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color);">
+                                        <span style="color: var(--text-secondary);">Gross Profit</span>
+                                        <span style="color: var(--success-green); font-weight: 600;">$35,905</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color);">
+                                        <span style="color: var(--text-secondary);">Gross Loss</span>
+                                        <span style="color: var(--loss-red); font-weight: 600;">-$27,960</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color);">
+                                        <span style="color: var(--text-secondary);">Sharpe Ratio</span>
+                                        <span style="color: var(--accent-cyan); font-weight: 600;">2.47</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color);">
+                                        <span style="color: var(--text-secondary);">Recovery Factor</span>
+                                        <span style="color: var(--accent-cyan); font-weight: 600;">2.65</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between;">
+                                        <span style="color: var(--text-secondary);">LR Correlation</span>
+                                        <span style="color: var(--text-primary); font-weight: 600;">0.95</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Features -->
+                        <div class="card-3d" style="margin-bottom: 3rem;">
+                            <h3 style="font-size: 1.4rem; margin-bottom: 1.5rem; color: #ffd700; text-align: center;">Strategy Highlights</h3>
+                            <div class="grid-3">
+                                <div style="text-align: center; padding: 1rem;">
+                                    <i class="fas fa-clock" style="font-size: 2rem; color: #ffd700; margin-bottom: 1rem;"></i>
+                                    <h4 style="color: var(--text-primary); margin-bottom: 0.5rem;">Timed Entries</h4>
+                                    <p style="color: var(--text-secondary); font-size: 0.85rem;">Executes during optimal London/NY session overlap</p>
+                                </div>
+                                <div style="text-align: center; padding: 1rem;">
+                                    <i class="fas fa-sliders-h" style="font-size: 2rem; color: #ffd700; margin-bottom: 1rem;"></i>
+                                    <h4 style="color: var(--text-primary); margin-bottom: 0.5rem;">Adaptive TP/SL</h4>
+                                    <p style="color: var(--text-secondary); font-size: 0.85rem;">Swap-adjusted targets for overnight positions</p>
+                                </div>
+                                <div style="text-align: center; padding: 1rem;">
+                                    <i class="fas fa-shield-alt" style="font-size: 2rem; color: #ffd700; margin-bottom: 1rem;"></i>
+                                    <h4 style="color: var(--text-primary); margin-bottom: 0.5rem;">Low Drawdown</h4>
+                                    <p style="color: var(--text-secondary); font-size: 0.85rem;">Under 20% max drawdown with conservative sizing</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Risk Warning -->
+                        <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 12px; padding: 1.5rem; max-width: 900px; margin: 0 auto 3rem;">
+                            <div style="display: flex; align-items: flex-start; gap: 1rem;">
+                                <i class="fas fa-exclamation-triangle" style="color: #ef4444; font-size: 1.25rem; margin-top: 0.2rem;"></i>
+                                <div>
+                                    <p style="color: var(--text-primary); font-weight: 600; margin-bottom: 0.5rem;">Important Notice</p>
+                                    <p style="color: var(--text-secondary); font-size: 0.85rem; line-height: 1.6;">This data represents backtested performance and is not indicative of future results. Past performance does not guarantee future returns. All purchases are final and non-refundable. Please read our <a href="#disclaimers" onclick="navigateTo('disclaimers')" style="color: var(--accent-cyan);">full disclaimer</a>.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="text-align: center;">
+                            <button class="btn-primary" onclick="navigateTo('contact')" style="padding: 1rem 2.5rem;"><i class="fas fa-paper-plane"></i> Contact for Access</button>
+                        </div>
+                    </section>
+                </div>
+            `,
+
+            goldShort: `
+                <div class="page-content">
+                    <section class="section">
+                        <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 1rem;">
+                            <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #00d4ff, #0099cc); border-radius: 15px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-arrow-trend-down" style="font-size: 1.8rem; color: #1a1a2e;"></i>
+                            </div>
+                            <h2 class="section-title" style="margin-bottom: 0;">GoldShort EA</h2>
+                        </div>
+                        <p style="text-align: center; font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 4rem;">High-Frequency M1 Scalping Strategy for XAUUSD</p>
+                        
+                        <!-- Risk Banner -->
+                        <div style="background: rgba(239, 68, 68, 0.15); border: 2px solid rgba(239, 68, 68, 0.5); border-radius: 12px; padding: 1.5rem; max-width: 900px; margin: 0 auto 3rem; text-align: center;">
+                            <i class="fas fa-skull-crossbones" style="font-size: 2rem; color: #ef4444; margin-bottom: 1rem;"></i>
+                            <h4 style="color: #ef4444; margin-bottom: 0.5rem;">HIGH RISK STRATEGY</h4>
+                            <p style="color: var(--text-secondary); font-size: 0.9rem;">This EA has high drawdown potential (50%+). Only suitable for experienced traders with high risk tolerance.</p>
+                        </div>
+                        
+                        <!-- Key Metrics -->
+                        <div class="card-3d" style="margin-bottom: 3rem; background: linear-gradient(135deg, rgba(0, 212, 255, 0.05), rgba(20, 20, 20, 0.9));">
+                            <h3 style="font-size: 1.5rem; margin-bottom: 2rem; color: var(--accent-cyan); text-align: center;">Backtest Performance (Mar-Dec 2025)</h3>
+                            <div class="grid-4" style="gap: 1.5rem;">
+                                <div style="text-align: center; padding: 1.5rem; border-right: 1px solid var(--border-color);">
+                                    <h4 style="font-size: 2.5rem; color: var(--success-green); margin-bottom: 0.5rem; font-weight: 700;">$32,798</h4>
+                                    <p style="color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem;">Net Profit</p>
+                                </div>
+                                <div style="text-align: center; padding: 1.5rem; border-right: 1px solid var(--border-color);">
+                                    <h4 style="font-size: 2.5rem; color: var(--accent-cyan); margin-bottom: 0.5rem; font-weight: 700;">+328%</h4>
+                                    <p style="color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem;">Return</p>
+                                </div>
+                                <div style="text-align: center; padding: 1.5rem; border-right: 1px solid var(--border-color);">
+                                    <h4 style="font-size: 2.5rem; color: var(--loss-red); margin-bottom: 0.5rem; font-weight: 700;">53.6%</h4>
+                                    <p style="color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem;">Max Drawdown</p>
+                                </div>
+                                <div style="text-align: center; padding: 1.5rem;">
+                                    <h4 style="font-size: 2.5rem; color: var(--accent-purple); margin-bottom: 0.5rem; font-weight: 700;">73%</h4>
+                                    <p style="color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem;">Win Rate</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Strategy Details -->
+                        <div class="grid-2" style="margin-bottom: 3rem;">
+                            <div class="card-3d">
+                                <h3 style="font-size: 1.4rem; margin-bottom: 1.5rem; color: var(--accent-cyan);">Strategy Parameters</h3>
+                                <div style="display: grid; gap: 1rem;">
+                                    <div style="display: flex; justify-content: space-between; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color);">
+                                        <span style="color: var(--text-secondary);">Symbol</span>
+                                        <span style="color: var(--text-primary); font-weight: 600;">XAUUSD (Gold)</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color);">
+                                        <span style="color: var(--text-secondary);">Timeframe</span>
+                                        <span style="color: var(--text-primary); font-weight: 600;">M1 (1-minute)</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color);">
+                                        <span style="color: var(--text-secondary);">EMA Period</span>
+                                        <span style="color: var(--text-primary); font-weight: 600;">9</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color);">
+                                        <span style="color: var(--text-secondary);">Trigger Distance</span>
+                                        <span style="color: var(--text-primary); font-weight: 600;">4 pips</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color);">
+                                        <span style="color: var(--text-secondary);">Max Concurrent</span>
+                                        <span style="color: var(--text-primary); font-weight: 600;">100 trades</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between;">
+                                        <span style="color: var(--text-secondary);">Stop Loss</span>
+                                        <span style="color: var(--loss-red); font-weight: 600;">None (High Risk)</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="card-3d">
+                                <h3 style="font-size: 1.4rem; margin-bottom: 1.5rem; color: var(--accent-cyan);">Performance Metrics</h3>
+                                <div style="display: grid; gap: 1rem;">
+                                    <div style="display: flex; justify-content: space-between; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color);">
+                                        <span style="color: var(--text-secondary);">Initial Deposit</span>
+                                        <span style="color: var(--text-primary); font-weight: 600;">$10,000</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color);">
+                                        <span style="color: var(--text-secondary);">Total Trades</span>
+                                        <span style="color: var(--text-primary); font-weight: 600;">10,940</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color);">
+                                        <span style="color: var(--text-secondary);">Profit Factor</span>
+                                        <span style="color: var(--accent-cyan); font-weight: 600;">1.16</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color);">
+                                        <span style="color: var(--text-secondary);">Sharpe Ratio</span>
+                                        <span style="color: var(--accent-cyan); font-weight: 600;">1.30</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color);">
+                                        <span style="color: var(--text-secondary);">Recovery Factor</span>
+                                        <span style="color: var(--text-primary); font-weight: 600;">2.15</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between;">
+                                        <span style="color: var(--text-secondary);">LR Correlation</span>
+                                        <span style="color: var(--success-green); font-weight: 600;">1.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Warning -->
+                        <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 12px; padding: 1.5rem; max-width: 900px; margin: 0 auto 3rem;">
+                            <div style="display: flex; align-items: flex-start; gap: 1rem;">
+                                <i class="fas fa-exclamation-triangle" style="color: #ef4444; font-size: 1.25rem; margin-top: 0.2rem;"></i>
+                                <div>
+                                    <p style="color: var(--text-primary); font-weight: 600; margin-bottom: 0.5rem;">Important Notice</p>
+                                    <p style="color: var(--text-secondary); font-size: 0.85rem; line-height: 1.6;">This is a high-risk scalping strategy without stop-loss protection. Can result in significant losses during volatile markets. All purchases are final and <strong style="color: #ef4444;">non-refundable</strong>. Only for traders who understand and accept the risks.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="text-align: center;">
+                            <button class="btn-primary" onclick="navigateTo('contact')" style="padding: 1rem 2.5rem;"><i class="fas fa-paper-plane"></i> Contact for Access</button>
+                        </div>
+                    </section>
+                </div>
+            `,
+
+            goldShortSL: `
+                <div class="page-content">
+                    <section class="section">
+                        <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 1rem;">
+                            <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #a855f7, #7c3aed); border-radius: 15px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-shield-halved" style="font-size: 1.8rem; color: #fff;"></i>
+                            </div>
+                            <h2 class="section-title" style="margin-bottom: 0;">GoldShort SL EA</h2>
+                        </div>
+                        <p style="text-align: center; font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 4rem;">Protected Scalping Strategy with Stop-Loss for XAUUSD</p>
+                        
+                        <!-- Key Metrics -->
+                        <div class="card-3d" style="margin-bottom: 3rem; background: linear-gradient(135deg, rgba(168, 85, 247, 0.05), rgba(20, 20, 20, 0.9));">
+                            <h3 style="font-size: 1.5rem; margin-bottom: 2rem; color: var(--accent-purple); text-align: center;">Backtest Performance (Jan-Dec 2025)</h3>
+                            <div class="grid-4" style="gap: 1.5rem;">
+                                <div style="text-align: center; padding: 1.5rem; border-right: 1px solid var(--border-color);">
+                                    <h4 style="font-size: 2.5rem; color: var(--success-green); margin-bottom: 0.5rem; font-weight: 700;">$7,000</h4>
+                                    <p style="color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem;">Net Profit</p>
+                                </div>
+                                <div style="text-align: center; padding: 1.5rem; border-right: 1px solid var(--border-color);">
+                                    <h4 style="font-size: 2.5rem; color: var(--accent-cyan); margin-bottom: 0.5rem; font-weight: 700;">+70%</h4>
+                                    <p style="color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem;">Return</p>
+                                </div>
+                                <div style="text-align: center; padding: 1.5rem; border-right: 1px solid var(--border-color);">
+                                    <h4 style="font-size: 2.5rem; color: var(--warning-amber); margin-bottom: 0.5rem; font-weight: 700;">32.5%</h4>
+                                    <p style="color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem;">Max Drawdown</p>
+                                </div>
+                                <div style="text-align: center; padding: 1.5rem;">
+                                    <h4 style="font-size: 2.5rem; color: var(--accent-purple); margin-bottom: 0.5rem; font-weight: 700;">71%</h4>
+                                    <p style="color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem;">Win Rate</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Comparison with GoldShort -->
+                        <div class="card-3d" style="margin-bottom: 3rem; border-color: rgba(168, 85, 247, 0.3);">
+                            <h3 style="font-size: 1.4rem; margin-bottom: 1.5rem; color: var(--accent-purple); text-align: center;">GoldShort vs GoldShort SL Comparison</h3>
+                            <table style="width: 100%; border-collapse: collapse;">
+                                <thead>
+                                    <tr style="border-bottom: 2px solid var(--border-color);">
+                                        <th style="text-align: left; padding: 1rem; color: var(--text-secondary);">Metric</th>
+                                        <th style="text-align: center; padding: 1rem; color: var(--accent-cyan);">GoldShort</th>
+                                        <th style="text-align: center; padding: 1rem; color: var(--accent-purple);">GoldShort SL</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="border-bottom: 1px solid var(--border-color);">
+                                        <td style="padding: 1rem; color: var(--text-secondary);">Return</td>
+                                        <td style="text-align: center; padding: 1rem; color: var(--success-green); font-weight: 600;">+328%</td>
+                                        <td style="text-align: center; padding: 1rem; color: var(--success-green); font-weight: 600;">+70%</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid var(--border-color);">
+                                        <td style="padding: 1rem; color: var(--text-secondary);">Max Drawdown</td>
+                                        <td style="text-align: center; padding: 1rem; color: var(--loss-red); font-weight: 600;">53.6%</td>
+                                        <td style="text-align: center; padding: 1rem; color: var(--warning-amber); font-weight: 600;">32.5%</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid var(--border-color);">
+                                        <td style="padding: 1rem; color: var(--text-secondary);">Stop Loss</td>
+                                        <td style="text-align: center; padding: 1rem; color: var(--loss-red);">None</td>
+                                        <td style="text-align: center; padding: 1rem; color: var(--success-green);">1000 pips</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 1rem; color: var(--text-secondary);">Risk Level</td>
+                                        <td style="text-align: center; padding: 1rem;"><span style="background: rgba(239, 68, 68, 0.2); color: #ef4444; padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.8rem;">HIGH</span></td>
+                                        <td style="text-align: center; padding: 1rem;"><span style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.8rem;">MODERATE</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <!-- Strategy Details -->
+                        <div class="grid-2" style="margin-bottom: 3rem;">
+                            <div class="card-3d">
+                                <h3 style="font-size: 1.4rem; margin-bottom: 1.5rem; color: var(--accent-purple);">Strategy Parameters</h3>
+                                <div style="display: grid; gap: 1rem;">
+                                    <div style="display: flex; justify-content: space-between; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color);">
+                                        <span style="color: var(--text-secondary);">Symbol</span>
+                                        <span style="color: var(--text-primary); font-weight: 600;">XAUUSD (Gold)</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color);">
+                                        <span style="color: var(--text-secondary);">Timeframe</span>
+                                        <span style="color: var(--text-primary); font-weight: 600;">M1 (1-minute)</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color);">
+                                        <span style="color: var(--text-secondary);">Stop Loss</span>
+                                        <span style="color: var(--success-green); font-weight: 600;">1000 pips ✓</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color);">
+                                        <span style="color: var(--text-secondary);">Max Concurrent</span>
+                                        <span style="color: var(--text-primary); font-weight: 600;">100 trades</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between;">
+                                        <span style="color: var(--text-secondary);">EMA Period</span>
+                                        <span style="color: var(--text-primary); font-weight: 600;">9</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="card-3d">
+                                <h3 style="font-size: 1.4rem; margin-bottom: 1.5rem; color: var(--accent-purple);">Performance Metrics</h3>
+                                <div style="display: grid; gap: 1rem;">
+                                    <div style="display: flex; justify-content: space-between; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color);">
+                                        <span style="color: var(--text-secondary);">Initial Deposit</span>
+                                        <span style="color: var(--text-primary); font-weight: 600;">$10,000</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color);">
+                                        <span style="color: var(--text-secondary);">Total Trades</span>
+                                        <span style="color: var(--text-primary); font-weight: 600;">13,360</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color);">
+                                        <span style="color: var(--text-secondary);">Profit Factor</span>
+                                        <span style="color: var(--accent-purple); font-weight: 600;">1.04</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color);">
+                                        <span style="color: var(--text-secondary);">Sharpe Ratio</span>
+                                        <span style="color: var(--accent-purple); font-weight: 600;">1.00</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between;">
+                                        <span style="color: var(--text-secondary);">Recovery Factor</span>
+                                        <span style="color: var(--text-primary); font-weight: 600;">2.08</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Warning -->
+                        <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 12px; padding: 1.5rem; max-width: 900px; margin: 0 auto 3rem;">
+                            <div style="display: flex; align-items: flex-start; gap: 1rem;">
+                                <i class="fas fa-exclamation-triangle" style="color: #ef4444; font-size: 1.25rem; margin-top: 0.2rem;"></i>
+                                <div>
+                                    <p style="color: var(--text-primary); font-weight: 600; margin-bottom: 0.5rem;">Important Notice</p>
+                                    <p style="color: var(--text-secondary); font-size: 0.85rem; line-height: 1.6;">This data represents backtested performance and is not indicative of future results. While this version includes stop-loss protection, significant losses can still occur. All purchases are final and <strong style="color: #ef4444;">non-refundable</strong>.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="text-align: center;">
+                            <button class="btn-primary" onclick="navigateTo('contact')" style="padding: 1rem 2.5rem;"><i class="fas fa-paper-plane"></i> Contact for Access</button>
+                        </div>
+                    </section>
+                </div>
+            `,
+
             refund: `
                 <div class="page-content">
                     <section class="section">
                         <h2 class="section-title">Refund Policy</h2>
                         <p style="text-align: center; color: var(--text-secondary); margin-bottom: 3rem;">Effective Date: January 1, 2025 | Last Updated: December 2025</p>
                         
+                        <!-- Non-Refundable Banner -->
+                        <div style="background: rgba(239, 68, 68, 0.15); border: 2px solid rgba(239, 68, 68, 0.5); border-radius: 16px; padding: 2rem; max-width: 900px; margin: 0 auto 3rem; text-align: center;">
+                            <i class="fas fa-ban" style="font-size: 3rem; color: #ef4444; margin-bottom: 1rem;"></i>
+                            <h3 style="color: #ef4444; font-size: 1.5rem; margin-bottom: 1rem;">ALL SALES ARE FINAL</h3>
+                            <p style="color: var(--text-secondary); font-size: 1.1rem; line-height: 1.8;">J&D Vantage Quant operates a strict <strong style="color: #ef4444;">NO REFUND</strong> policy. All purchases of products, services, Expert Advisors, indicators, and subscriptions are final and non-refundable under any circumstances.</p>
+                        </div>
+                        
                         <div class="card-3d" style="max-width: 900px; margin: 0 auto;">
                             <div style="margin-bottom: 2.5rem;">
-                                <h3 style="color: var(--accent-color); margin-bottom: 1rem; font-size: 1.2rem;">1. Trading Services</h3>
-                                <p style="color: var(--text-secondary); line-height: 1.8;">For our algorithmic trading services (Quant Access, GoldFX Pro), there are no refunds as you maintain full custody of your capital at all times. You can disconnect from our services and withdraw your funds from your brokerage account at any moment without penalty. Our fees are purely performance-based and only charged on verified profits.</p>
-                            </div>
-
-                            <div style="margin-bottom: 2.5rem;">
-                                <h3 style="color: var(--accent-color); margin-bottom: 1rem; font-size: 1.2rem;">2. Digital Products</h3>
-                                <p style="color: var(--text-secondary); line-height: 1.8;">For Expert Advisors (EAs) and Indicators:</p>
+                                <h3 style="color: #ef4444; margin-bottom: 1rem; font-size: 1.2rem;">1. Digital Products (Expert Advisors & Indicators)</h3>
+                                <p style="color: var(--text-secondary); line-height: 1.8;">All Expert Advisors (EAs), indicators, and digital trading tools are sold on a <strong style="color: #ef4444;">non-refundable</strong> basis. Due to the nature of digital products:</p>
                                 <ul style="color: var(--text-secondary); margin-top: 1rem; padding-left: 1.5rem; line-height: 2;">
-                                    <li>Refunds may be requested within <strong style="color: var(--text-primary);">14 days</strong> of purchase if the product does not function as described.</li>
-                                    <li>Refund requests must include detailed documentation of the issue.</li>
-                                    <li>No refunds for "change of mind" or failure to achieve expected profits.</li>
-                                    <li>Products must not have been used on live accounts to qualify for refund.</li>
+                                    <li><strong style="color: var(--text-primary);">No refunds</strong> will be issued under any circumstances.</li>
+                                    <li>This includes dissatisfaction with performance, change of mind, or any other reason.</li>
+                                    <li>By purchasing, you acknowledge that past backtested performance does not guarantee future results.</li>
+                                    <li>You accept full responsibility for any trading losses incurred.</li>
                                 </ul>
                             </div>
 
                             <div style="margin-bottom: 2.5rem;">
-                                <h3 style="color: var(--accent-color); margin-bottom: 1rem; font-size: 1.2rem;">3. Consultation Services</h3>
-                                <p style="color: var(--text-secondary); line-height: 1.8;">Consultation sessions may be rescheduled up to 24 hours before the scheduled time. Cancellations made less than 24 hours in advance are non-refundable. If we cancel a session, you will receive a full refund or rescheduling at your choice.</p>
+                                <h3 style="color: #ef4444; margin-bottom: 1rem; font-size: 1.2rem;">2. Managed Trading Services</h3>
+                                <p style="color: var(--text-secondary); line-height: 1.8;">For our algorithmic trading services (Quant Access, GoldFX Pro, etc.):</p>
+                                <ul style="color: var(--text-secondary); margin-top: 1rem; padding-left: 1.5rem; line-height: 2;">
+                                    <li>Service fees and setup costs are <strong style="color: #ef4444;">non-refundable</strong>.</li>
+                                    <li>Performance fees are charged on verified profits only.</li>
+                                    <li>You may disconnect from services at any time, but no refunds will be issued for past fees.</li>
+                                    <li>Your trading capital remains in your own account and can be withdrawn at any time (subject to broker terms).</li>
+                                </ul>
                             </div>
 
                             <div style="margin-bottom: 2.5rem;">
-                                <h3 style="color: var(--accent-color); margin-bottom: 1rem; font-size: 1.2rem;">4. Custom Development</h3>
-                                <p style="color: var(--text-secondary); line-height: 1.8;">Custom development projects require a 50% upfront deposit which is non-refundable once work has commenced. Final payment is due upon delivery. Revisions within scope are included; additional scope changes will be quoted separately.</p>
+                                <h3 style="color: #ef4444; margin-bottom: 1rem; font-size: 1.2rem;">3. Trade Copier Services</h3>
+                                <p style="color: var(--text-secondary); line-height: 1.8;">Trade Copier subscriptions and licensing fees are <strong style="color: #ef4444;">non-refundable</strong>. By subscribing, you acknowledge and accept:</p>
+                                <ul style="color: var(--text-secondary); margin-top: 1rem; padding-left: 1.5rem; line-height: 2;">
+                                    <li>Past performance of copied trades does not guarantee future results.</li>
+                                    <li>Technical issues on your side (internet, VPS, broker) do not qualify for refunds.</li>
+                                    <li>Cancellation stops future billing but does not refund previous payments.</li>
+                                </ul>
                             </div>
 
                             <div style="margin-bottom: 2.5rem;">
-                                <h3 style="color: var(--accent-color); margin-bottom: 1rem; font-size: 1.2rem;">5. How to Request a Refund</h3>
-                                <p style="color: var(--text-secondary); line-height: 1.8;">To request a refund, please email <strong style="color: var(--accent-color);">jdvantagequant@gmail.com</strong> with your order details, reason for refund, and any supporting documentation. We will respond within 3-5 business days.</p>
+                                <h3 style="color: #ef4444; margin-bottom: 1rem; font-size: 1.2rem;">4. Custom Development</h3>
+                                <p style="color: var(--text-secondary); line-height: 1.8;">All custom development projects are <strong style="color: #ef4444;">non-refundable</strong> once work has commenced. Deposits and milestone payments are final. We will deliver according to agreed specifications, but changes to scope may incur additional costs.</p>
+                            </div>
+
+                            <div style="margin-bottom: 2.5rem;">
+                                <h3 style="color: #ef4444; margin-bottom: 1rem; font-size: 1.2rem;">5. Consultation Services</h3>
+                                <p style="color: var(--text-secondary); line-height: 1.8;">Consultation fees are <strong style="color: #ef4444;">non-refundable</strong>. Sessions may be rescheduled with 24-hour notice, but cancellations do not qualify for refunds.</p>
+                            </div>
+
+                            <div style="background: rgba(255, 255, 255, 0.02); border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem;">
+                                <h3 style="color: var(--warning-amber); margin-bottom: 1rem; font-size: 1.2rem;"><i class="fas fa-gavel"></i> Your Agreement</h3>
+                                <p style="color: var(--text-secondary); line-height: 1.8;">By making a purchase from J&D Vantage Quant, you expressly acknowledge and agree that:</p>
+                                <ul style="color: var(--text-secondary); margin-top: 1rem; padding-left: 1.5rem; line-height: 2;">
+                                    <li>You have read and understood this Non-Refundable Policy.</li>
+                                    <li>You waive any right to request a chargeback or payment dispute.</li>
+                                    <li>You accept all risks associated with trading financial instruments.</li>
+                                    <li>You have reviewed our <a href="#disclaimers" onclick="navigateTo('disclaimers')" style="color: var(--accent-cyan);">Risk Disclaimers</a> and <a href="#terms" onclick="navigateTo('terms')" style="color: var(--accent-cyan);">Terms & Conditions</a>.</li>
+                                </ul>
                             </div>
 
                             <div style="border-top: 1px solid var(--border-color); padding-top: 2rem;">
-                                <p style="color: var(--text-secondary); font-size: 0.9rem; text-align: center;">For any questions about this policy, please <a href="#contact" onclick="navigateTo('contact')" style="color: var(--accent-color);">contact us</a>.</p>
+                                <p style="color: var(--text-secondary); font-size: 0.9rem; text-align: center;">For any questions about this policy, please <a href="#contact" onclick="navigateTo('contact')" style="color: var(--accent-color);">contact us</a> before making a purchase.</p>
                             </div>
                         </div>
                     </section>
