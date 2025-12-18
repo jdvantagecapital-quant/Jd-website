@@ -2307,12 +2307,17 @@
             justify-content: center;
             gap: 0.5rem;
             border-radius: 16px;
-            /* Solid dark background - NO transparency */
-            background: #04080c;
-            /* Thin dark border as base */
-            border: 2px solid rgba(30, 40, 50, 0.8);
-            /* No box-shadow glow - clean edges */
-            box-shadow: none;
+            /* Semi-transparent dark background */
+            background: rgba(4, 8, 16, 0.75);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            /* Glowing border base */
+            border: 2px solid rgba(0, 212, 255, 0.4);
+            /* Subtle outer glow */
+            box-shadow: 
+                0 0 15px rgba(0, 212, 255, 0.2),
+                0 0 30px rgba(0, 212, 255, 0.1),
+                inset 0 0 20px rgba(0, 212, 255, 0.05);
             color: var(--text-primary);
             cursor: pointer;
             -webkit-user-select: none;
@@ -2981,66 +2986,66 @@
                     <div class="dropdown-menu mega-dropdown">
                         <div class="dropdown-grid">
                             <div class="dropdown-section">
-                                <h4>Trading Solutions</h4>
+                                <h4>💎 Trading Solutions</h4>
                                 <a href="#quantAccess" onclick="navigateTo('quantAccess'); closeDropdowns();">
-                                    <i class="fas fa-rocket"></i>
+                                    <i class="fas fa-rocket" style="color: #ff6b35;"></i>
                                     <div>
-                                        <span>Quant Access</span>
+                                        <span>🚀 Quant Access</span>
                                         <small>Start from $300</small>
                                     </div>
                                 </a>
-                                <a href="#goldFxDetails" onclick="navigateTo('goldFxDetails'); closeDropdowns();">
-                                    <i class="fas fa-gem"></i>
+                                <a href="#tradeCopier" onclick="navigateTo('tradeCopier'); closeDropdowns();" style="border-left: 2px solid var(--accent-cyan);">
+                                    <i class="fas fa-bolt" style="color: var(--accent-cyan);"></i>
                                     <div>
-                                        <span>GoldFX Pro</span>
-                                        <small>Advanced XAUUSD</small>
+                                        <span style="color: var(--accent-cyan);">⚡ Trade Copier <span style="background: var(--gradient-primary); color: #060d18; padding: 0.1rem 0.4rem; border-radius: 3px; font-size: 0.55rem; margin-left: 0.25rem;">NEW</span></span>
+                                        <small>Ultra-fast MT5 copying</small>
                                     </div>
                                 </a>
                             </div>
                             <div class="dropdown-section">
-                                <h4>Expert Advisors</h4>
-                                <a href="#goldClutch" onclick="navigateTo('goldClutch'); closeDropdowns();" style="border-left: 2px solid #ffd700;">
-                                    <i class="fas fa-hand-rock" style="color: #ffd700;"></i>
+                                <h4>🤖 Expert Advisors</h4>
+                                <a href="#goldFxDetails" onclick="navigateTo('goldFxDetails'); closeDropdowns();" style="border-left: 2px solid #ffd700;">
+                                    <i class="fas fa-crown" style="color: #ffd700;"></i>
                                     <div>
-                                        <span style="color: #ffd700;">GoldClutch EA</span>
+                                        <span style="color: #ffd700;">👑 GoldFX Pro</span>
+                                        <small>⭐ Flagship Strategy</small>
+                                    </div>
+                                </a>
+                                <a href="#goldClutch" onclick="navigateTo('goldClutch'); closeDropdowns();">
+                                    <i class="fas fa-hand-fist" style="color: #ffb300;"></i>
+                                    <div>
+                                        <span>🤜 GoldClutch EA</span>
                                         <small>Swing Trading XAUUSD</small>
                                     </div>
                                 </a>
                                 <a href="#goldShort" onclick="navigateTo('goldShort'); closeDropdowns();">
-                                    <i class="fas fa-arrow-trend-down" style="color: var(--accent-cyan);"></i>
+                                    <i class="fas fa-bolt-lightning" style="color: var(--accent-cyan);"></i>
                                     <div>
-                                        <span>GoldShort EA</span>
+                                        <span>📉 GoldShort EA</span>
                                         <small>High-frequency scalping</small>
                                     </div>
                                 </a>
                                 <a href="#goldShortSL" onclick="navigateTo('goldShortSL'); closeDropdowns();">
                                     <i class="fas fa-shield-halved" style="color: var(--accent-purple);"></i>
                                     <div>
-                                        <span>GoldShort SL</span>
+                                        <span>🛡️ GoldShort SL</span>
                                         <small>Protected scalping</small>
-                                    </div>
-                                </a>
-                                <a href="#tradeCopier" onclick="navigateTo('tradeCopier'); closeDropdowns();" style="border-left: 2px solid var(--accent-cyan);">
-                                    <i class="fas fa-bolt" style="color: var(--accent-cyan);"></i>
-                                    <div>
-                                        <span style="color: var(--accent-cyan);">Trade Copier <span style="background: var(--gradient-primary); color: #060d18; padding: 0.1rem 0.4rem; border-radius: 3px; font-size: 0.55rem; margin-left: 0.25rem;">NEW</span></span>
-                                        <small>Ultra-fast MT5 copying</small>
                                     </div>
                                 </a>
                             </div>
                             <div class="dropdown-section">
-                                <h4>Services</h4>
+                                <h4>🛠️ Services</h4>
                                 <a href="#consultation" onclick="navigateTo('consultation'); closeDropdowns();">
-                                    <i class="fas fa-comments"></i>
+                                    <i class="fas fa-headset" style="color: #22c55e;"></i>
                                     <div>
-                                        <span>Consultation</span>
+                                        <span>💬 Consultation</span>
                                         <small>1-on-1 strategy sessions</small>
                                     </div>
                                 </a>
                                 <a href="#customDev" onclick="navigateTo('customDev'); closeDropdowns();">
-                                    <i class="fas fa-code"></i>
+                                    <i class="fas fa-microchip" style="color: #a855f7;"></i>
                                     <div>
-                                        <span>Custom Development</span>
+                                        <span>⚙️ Custom Development</span>
                                         <small>Bespoke algorithms</small>
                                     </div>
                                 </a>
@@ -3051,6 +3056,9 @@
                         </div>
                     </div>
                 </div>
+                
+                <!-- Brochure -->
+                <a href="#brochure" onclick="navigateTo('brochure')" style="color: #ffd700;">📄 Brochure</a>
                 
                 <a href="#howItWorks" onclick="navigateTo('howItWorks')">How It Works</a>
                 <a href="#about" onclick="navigateTo('about')">About</a>
@@ -3093,32 +3101,38 @@
             <i class="fas fa-times"></i>
         </button>
         <nav class="mobile-menu-links">
-            <a href="#home" onclick="navigateTo('home'); closeMobileMenu();">Home</a>
+            <a href="#home" onclick="navigateTo('home'); closeMobileMenu();">🏠 Home</a>
             <div class="mobile-accordion">
-                <button class="mobile-accordion-trigger" onclick="toggleMobileAccordion(this)">Solutions <i class="fas fa-chevron-down"></i></button>
+                <button class="mobile-accordion-trigger" onclick="toggleMobileAccordion(this)">💎 Solutions <i class="fas fa-chevron-down"></i></button>
                 <div class="mobile-accordion-content">
-                    <a href="#quantAccess" onclick="navigateTo('quantAccess'); closeMobileMenu();">Quant Access</a>
-                    <a href="#goldFxDetails" onclick="navigateTo('goldFxDetails'); closeMobileMenu();">GoldFX Pro</a>
-                    <a href="#goldClutch" onclick="navigateTo('goldClutch'); closeMobileMenu();" style="color: #ffd700;">🤜 GoldClutch EA</a>
+                    <a href="#quantAccess" onclick="navigateTo('quantAccess'); closeMobileMenu();">🚀 Quant Access</a>
+                    <a href="#tradeCopier" onclick="navigateTo('tradeCopier'); closeMobileMenu();" style="color: var(--accent-cyan);">⚡ Trade Copier</a>
+                    <a href="#consultation" onclick="navigateTo('consultation'); closeMobileMenu();">💬 Consultation</a>
+                    <a href="#customDev" onclick="navigateTo('customDev'); closeMobileMenu();">⚙️ Custom Development</a>
+                </div>
+            </div>
+            <div class="mobile-accordion">
+                <button class="mobile-accordion-trigger" onclick="toggleMobileAccordion(this)">🤖 Expert Advisors <i class="fas fa-chevron-down"></i></button>
+                <div class="mobile-accordion-content">
+                    <a href="#goldFxDetails" onclick="navigateTo('goldFxDetails'); closeMobileMenu();" style="color: #ffd700;">👑 GoldFX Pro ⭐</a>
+                    <a href="#goldClutch" onclick="navigateTo('goldClutch'); closeMobileMenu();" style="color: #ffb300;">🤜 GoldClutch EA</a>
                     <a href="#goldShort" onclick="navigateTo('goldShort'); closeMobileMenu();">📉 GoldShort EA</a>
                     <a href="#goldShortSL" onclick="navigateTo('goldShortSL'); closeMobileMenu();" style="color: var(--accent-purple);">🛡️ GoldShort SL</a>
-                    <a href="#tradeCopier" onclick="navigateTo('tradeCopier'); closeMobileMenu();" style="color: var(--accent-cyan);">⚡ Trade Copier</a>
-                    <a href="#consultation" onclick="navigateTo('consultation'); closeMobileMenu();">Consultation</a>
-                    <a href="#customDev" onclick="navigateTo('customDev'); closeMobileMenu();">Custom Development</a>
                 </div>
             </div>
-            <a href="#howItWorks" onclick="navigateTo('howItWorks'); closeMobileMenu();">How It Works</a>
-            <a href="#about" onclick="navigateTo('about'); closeMobileMenu();">About</a>
+            <a href="#brochure" onclick="navigateTo('brochure'); closeMobileMenu();" style="color: #ffd700;">📄 Brochure</a>
+            <a href="#howItWorks" onclick="navigateTo('howItWorks'); closeMobileMenu();">📖 How It Works</a>
+            <a href="#about" onclick="navigateTo('about'); closeMobileMenu();">ℹ️ About</a>
             <div class="mobile-accordion">
-                <button class="mobile-accordion-trigger" onclick="toggleMobileAccordion(this)">Legal <i class="fas fa-chevron-down"></i></button>
+                <button class="mobile-accordion-trigger" onclick="toggleMobileAccordion(this)">⚖️ Legal <i class="fas fa-chevron-down"></i></button>
                 <div class="mobile-accordion-content">
-                    <a href="#terms" onclick="navigateTo('terms'); closeMobileMenu();">Terms & Conditions</a>
-                    <a href="#disclaimers" onclick="navigateTo('disclaimers'); closeMobileMenu();">Risk Disclaimers</a>
-                    <a href="#privacy" onclick="navigateTo('privacy'); closeMobileMenu();">Privacy Policy</a>
-                    <a href="#refund" onclick="navigateTo('refund'); closeMobileMenu();">Refund Policy</a>
+                    <a href="#terms" onclick="navigateTo('terms'); closeMobileMenu();">📋 Terms & Conditions</a>
+                    <a href="#disclaimers" onclick="navigateTo('disclaimers'); closeMobileMenu();">⚠️ Risk Disclaimers</a>
+                    <a href="#privacy" onclick="navigateTo('privacy'); closeMobileMenu();">🔒 Privacy Policy</a>
+                    <a href="#refund" onclick="navigateTo('refund'); closeMobileMenu();">🚫 Refund Policy</a>
                 </div>
             </div>
-            <a href="#contact" onclick="navigateTo('contact'); closeMobileMenu();" class="mobile-cta">Contact Us</a>
+            <a href="#contact" onclick="navigateTo('contact'); closeMobileMenu();" class="mobile-cta">📧 Contact Us</a>
         </nav>
     </div>
 
@@ -3236,6 +3250,7 @@
                                     <div class="hero-buttons" id="heroButtons" style="display: flex; flex-wrap: wrap; gap: 1.5rem; margin-top: 2rem;">
                                         <button class="btn-primary" onclick="navigateTo('offerings')" style="min-width: 180px;"><i class="fas fa-chart-line"></i> View Solutions</button>
                                         <button class="btn-primary" onclick="navigateTo('howItWorks')" style="min-width: 180px;"><i class="fas fa-play-circle"></i> How It Works</button>
+                                        <button class="btn-secondary" onclick="navigateTo('brochure')" style="min-width: 180px; border-color: #ffd700; color: #ffd700;"><i class="fas fa-file-pdf"></i> 📄 Brochure</button>
                                     </div>
                                 </div>
 
@@ -5251,6 +5266,165 @@
                         
                         <div style="text-align: center;">
                             <button class="btn-primary" onclick="navigateTo('contact')" style="padding: 1rem 2.5rem;"><i class="fas fa-paper-plane"></i> Contact for Access</button>
+                        </div>
+                    </section>
+                </div>
+            `,
+
+            brochure: `
+                <div class="page-content">
+                    <section class="section">
+                        <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 1rem;">
+                            <div style="width: 70px; height: 70px; background: linear-gradient(135deg, #ffd700, #ff6b35); border-radius: 15px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-file-pdf" style="font-size: 2rem; color: #1a1a2e;"></i>
+                            </div>
+                            <h2 class="section-title" style="margin-bottom: 0;">J&D Vantage Quant Brochure</h2>
+                        </div>
+                        <p style="text-align: center; font-size: 1.3rem; color: var(--text-secondary); margin-bottom: 2rem;">Your Capital, Your Control</p>
+                        
+                        <!-- Download CTA -->
+                        <div style="text-align: center; margin-bottom: 4rem;">
+                            <a href="JandD-Vantage-Quant-Brochure.pdf" download class="btn-primary" style="display: inline-flex; align-items: center; gap: 0.75rem; padding: 1rem 2.5rem; font-size: 1.1rem; background: linear-gradient(135deg, #ffd700, #ff6b35);">
+                                <i class="fas fa-download"></i> Download Full Brochure (PDF)
+                            </a>
+                        </div>
+                        
+                        <!-- Overview -->
+                        <div class="card-3d" style="margin-bottom: 3rem; background: linear-gradient(135deg, rgba(255, 215, 0, 0.05), rgba(20, 20, 20, 0.9)); border-color: rgba(255, 215, 0, 0.3);">
+                            <h3 style="font-size: 1.6rem; margin-bottom: 1.5rem; color: #ffd700; text-align: center;">Welcome to J&D Vantage Quant</h3>
+                            <p style="color: var(--text-secondary); line-height: 1.9; font-size: 1.05rem; text-align: center; max-width: 900px; margin: 0 auto;">
+                                At J&D Vantage Quant, we are redefining the landscape of modern investment by empowering discerning investors with cutting-edge, institutional-grade algorithmic trading solutions. Our mission is to deliver superior performance with unparalleled transparency and unwavering control, ensuring <strong style="color: #ffd700;">"Your Capital, Your Control"</strong> is not just a philosophy, but a tangible reality for every client.
+                            </p>
+                        </div>
+                        
+                        <!-- Key Benefits Grid -->
+                        <h3 style="text-align: center; font-size: 1.5rem; margin-bottom: 2rem; color: var(--text-primary);">🌟 Why Choose J&D Vantage Quant?</h3>
+                        <div class="grid-3" style="margin-bottom: 4rem;">
+                            <div class="card-3d" style="text-align: center; border-color: rgba(0, 212, 255, 0.3);">
+                                <div style="width: 70px; height: 70px; background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(0, 212, 255, 0.05)); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
+                                    <i class="fas fa-door-open" style="font-size: 1.8rem; color: var(--accent-cyan);"></i>
+                                </div>
+                                <h4 style="color: var(--accent-cyan); margin-bottom: 0.75rem; font-size: 1.2rem;">💎 Accessible Entry</h4>
+                                <p style="color: var(--text-secondary); line-height: 1.7;">Unlock advanced trading with a minimum investment of just <strong style="color: var(--text-primary);">$300</strong>, making elite strategies available to a broader range of investors.</p>
+                            </div>
+                            <div class="card-3d" style="text-align: center; border-color: rgba(34, 197, 94, 0.3);">
+                                <div style="width: 70px; height: 70px; background: linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(34, 197, 94, 0.05)); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
+                                    <i class="fas fa-eye" style="font-size: 1.8rem; color: var(--success-green);"></i>
+                                </div>
+                                <h4 style="color: var(--success-green); margin-bottom: 0.75rem; font-size: 1.2rem;">🔍 Full Transparency</h4>
+                                <p style="color: var(--text-secondary); line-height: 1.7;">Experience complete and continuous oversight of your trades and portfolio activities, ensuring you always know the exact position and performance of your capital.</p>
+                            </div>
+                            <div class="card-3d" style="text-align: center; border-color: rgba(255, 215, 0, 0.3);">
+                                <div style="width: 70px; height: 70px; background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.05)); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
+                                    <i class="fas fa-chart-line" style="font-size: 1.8rem; color: #ffd700;"></i>
+                                </div>
+                                <h4 style="color: #ffd700; margin-bottom: 0.75rem; font-size: 1.2rem;">📈 Target Returns</h4>
+                                <p style="color: var(--text-secondary); line-height: 1.7;">Leverage our optimized algorithms to aim for competitive returns, targeting <strong style="color: var(--text-primary);">~10% monthly</strong> through precise and adaptive strategies.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Traditional vs J&D Comparison -->
+                        <div class="card-3d" style="margin-bottom: 4rem;">
+                            <h3 style="font-size: 1.5rem; margin-bottom: 2rem; color: var(--text-primary); text-align: center;">⚖️ Traditional Investing vs J&D Vantage Quant</h3>
+                            <div class="grid-2" style="gap: 2rem;">
+                                <!-- Traditional Problems -->
+                                <div style="background: rgba(239, 68, 68, 0.05); border: 1px solid rgba(239, 68, 68, 0.2); border-radius: 12px; padding: 1.5rem;">
+                                    <h4 style="color: #ef4444; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;"><i class="fas fa-times-circle"></i> Traditional Problems</h4>
+                                    <ul style="list-style: none; padding: 0; color: var(--text-secondary);">
+                                        <li style="display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 1rem;"><i class="fas fa-ban" style="color: #ef4444; margin-top: 0.3rem;"></i> <span><strong>Opaque Operations:</strong> Hidden fees and infrequent reporting</span></li>
+                                        <li style="display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 1rem;"><i class="fas fa-lock" style="color: #ef4444; margin-top: 0.3rem;"></i> <span><strong>Illiquid Assets:</strong> Capital locked for weeks or months</span></li>
+                                        <li style="display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 1rem;"><i class="fas fa-chart-pie" style="color: #ef4444; margin-top: 0.3rem;"></i> <span><strong>Mediocre Returns:</strong> 2-3% annual returns eaten by fees</span></li>
+                                        <li style="display: flex; align-items: flex-start; gap: 0.75rem;"><i class="fas fa-user-slash" style="color: #ef4444; margin-top: 0.3rem;"></i> <span><strong>Investor Disempowerment:</strong> Zero influence over strategy</span></li>
+                                    </ul>
+                                </div>
+                                <!-- J&D Solutions -->
+                                <div style="background: rgba(34, 197, 94, 0.05); border: 1px solid rgba(34, 197, 94, 0.2); border-radius: 12px; padding: 1.5rem;">
+                                    <h4 style="color: var(--success-green); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;"><i class="fas fa-check-circle"></i> J&D Solutions</h4>
+                                    <ul style="list-style: none; padding: 0; color: var(--text-secondary);">
+                                        <li style="display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 1rem;"><i class="fas fa-eye" style="color: var(--success-green); margin-top: 0.3rem;"></i> <span><strong>Unprecedented Transparency:</strong> Real-time access to every trade 24/7</span></li>
+                                        <li style="display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 1rem;"><i class="fas fa-bolt" style="color: var(--success-green); margin-top: 0.3rem;"></i> <span><strong>Instant Liquidity:</strong> Withdraw anytime without penalties</span></li>
+                                        <li style="display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 1rem;"><i class="fas fa-rocket" style="color: var(--success-green); margin-top: 0.3rem;"></i> <span><strong>Superior Returns:</strong> Targeting ~10% monthly returns</span></li>
+                                        <li style="display: flex; align-items: flex-start; gap: 0.75rem;"><i class="fas fa-user-check" style="color: var(--success-green); margin-top: 0.3rem;"></i> <span><strong>Your Control:</strong> Full custody and risk parameters control</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Business Model -->
+                        <h3 style="text-align: center; font-size: 1.5rem; margin-bottom: 2rem; color: var(--text-primary);">🔄 How Our Business Model Works</h3>
+                        <div class="grid-4" style="margin-bottom: 4rem; gap: 1.5rem;">
+                            <div class="card-3d" style="text-align: center; padding: 1.5rem;">
+                                <div style="width: 50px; height: 50px; background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-weight: 700; color: #060d18;">1</div>
+                                <h5 style="color: var(--accent-cyan); margin-bottom: 0.5rem;">🏦 Client Custody</h5>
+                                <p style="color: var(--text-secondary); font-size: 0.85rem; line-height: 1.6;">Your capital remains in YOUR segregated brokerage account</p>
+                            </div>
+                            <div class="card-3d" style="text-align: center; padding: 1.5rem;">
+                                <div style="width: 50px; height: 50px; background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-weight: 700; color: #060d18;">2</div>
+                                <h5 style="color: var(--accent-cyan); margin-bottom: 0.5rem;">🤖 Strategy Deployment</h5>
+                                <p style="color: var(--text-secondary); font-size: 0.85rem; line-height: 1.6;">Our algorithms execute trades based on your risk parameters</p>
+                            </div>
+                            <div class="card-3d" style="text-align: center; padding: 1.5rem;">
+                                <div style="width: 50px; height: 50px; background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-weight: 700; color: #060d18;">3</div>
+                                <h5 style="color: var(--accent-cyan); margin-bottom: 0.5rem;">💰 Performance Fees</h5>
+                                <p style="color: var(--text-secondary); font-size: 0.85rem; line-height: 1.6;">We only earn when you profit - aligned interests</p>
+                            </div>
+                            <div class="card-3d" style="text-align: center; padding: 1.5rem;">
+                                <div style="width: 50px; height: 50px; background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-weight: 700; color: #060d18;">4</div>
+                                <h5 style="color: var(--accent-cyan); margin-bottom: 0.5rem;">⚡ Instant Access</h5>
+                                <p style="color: var(--text-secondary); font-size: 0.85rem; line-height: 1.6;">Deposit or withdraw anytime - no lock-ups</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Key Differentiators -->
+                        <div class="card-3d" style="margin-bottom: 4rem; background: linear-gradient(135deg, rgba(168, 85, 247, 0.05), rgba(20, 20, 20, 0.9)); border-color: rgba(168, 85, 247, 0.3);">
+                            <h3 style="font-size: 1.5rem; margin-bottom: 2rem; color: var(--accent-purple); text-align: center;">✨ Key Differentiators</h3>
+                            <div class="grid-3" style="gap: 1.5rem;">
+                                <div style="text-align: center;">
+                                    <i class="fas fa-percentage" style="font-size: 2rem; color: var(--accent-purple); margin-bottom: 1rem;"></i>
+                                    <h5 style="color: var(--text-primary); margin-bottom: 0.5rem;">Performance-Based</h5>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem;">We only earn on your verified profits</p>
+                                </div>
+                                <div style="text-align: center;">
+                                    <i class="fas fa-vault" style="font-size: 2rem; color: var(--accent-purple); margin-bottom: 1rem;"></i>
+                                    <h5 style="color: var(--text-primary); margin-bottom: 0.5rem;">Segregated Accounts</h5>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Institutional-grade asset protection</p>
+                                </div>
+                                <div style="text-align: center;">
+                                    <i class="fas fa-gauge-high" style="font-size: 2rem; color: var(--accent-purple); margin-bottom: 1rem;"></i>
+                                    <h5 style="color: var(--text-primary); margin-bottom: 0.5rem;">Real-Time Dashboards</h5>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Live updates on every trade</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Contact Info -->
+                        <div class="card-3d" style="text-align: center; margin-bottom: 3rem;">
+                            <h3 style="color: #ffd700; margin-bottom: 1.5rem;">📞 Get Started Today</h3>
+                            <div class="grid-3" style="gap: 2rem; max-width: 800px; margin: 0 auto;">
+                                <div>
+                                    <i class="fas fa-phone" style="font-size: 1.5rem; color: var(--accent-cyan); margin-bottom: 0.5rem;"></i>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Phone</p>
+                                    <p style="color: var(--text-primary); font-weight: 600;">+91 75758 58430</p>
+                                </div>
+                                <div>
+                                    <i class="fas fa-envelope" style="font-size: 1.5rem; color: var(--accent-cyan); margin-bottom: 0.5rem;"></i>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Email</p>
+                                    <p style="color: var(--text-primary); font-weight: 600;">jdvantagequant@gmail.com</p>
+                                </div>
+                                <div>
+                                    <i class="fas fa-globe" style="font-size: 1.5rem; color: var(--accent-cyan); margin-bottom: 0.5rem;"></i>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Website</p>
+                                    <p style="color: var(--text-primary); font-weight: 600;">jdvantagequant.com</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Download CTA Bottom -->
+                        <div style="text-align: center;">
+                            <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 1.1rem;">Get the complete brochure with all details</p>
+                            <a href="JandD-Vantage-Quant-Brochure.pdf" download class="btn-primary" style="display: inline-flex; align-items: center; gap: 0.75rem; padding: 1.25rem 3rem; font-size: 1.2rem; background: linear-gradient(135deg, #ffd700, #ff6b35);">
+                                <i class="fas fa-download"></i> Download Brochure PDF
+                            </a>
                         </div>
                     </section>
                 </div>
