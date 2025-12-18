@@ -855,6 +855,78 @@
             50% { background-position: 100% 50%; }
         }
 
+        /* Neon Text Animation - Color changing with shine */
+        .neon-text {
+            background: linear-gradient(
+                90deg,
+                #00d4ff 0%,
+                #a855f7 25%,
+                #ff6b9d 50%,
+                #00d4ff 75%,
+                #a855f7 100%
+            );
+            background-size: 300% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: neonColorShift 4s ease-in-out infinite;
+            position: relative;
+            display: inline-block;
+        }
+
+        .neon-text::before {
+            content: attr(data-text);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: linear-gradient(
+                90deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.8) 45%,
+                rgba(255, 255, 255, 1) 50%,
+                rgba(255, 255, 255, 0.8) 55%,
+                transparent 100%
+            );
+            background-size: 200% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shineEffect 3s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes neonColorShift {
+            0% { background-position: 0% 50%; filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.6)); }
+            25% { background-position: 50% 50%; filter: drop-shadow(0 0 12px rgba(168, 85, 247, 0.6)); }
+            50% { background-position: 100% 50%; filter: drop-shadow(0 0 8px rgba(255, 107, 157, 0.6)); }
+            75% { background-position: 50% 50%; filter: drop-shadow(0 0 12px rgba(0, 212, 255, 0.6)); }
+            100% { background-position: 0% 50%; filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.6)); }
+        }
+
+        @keyframes shineEffect {
+            0% { background-position: 200% 50%; opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { background-position: -200% 50%; opacity: 0; }
+        }
+
+        /* Apply neon to accent-cyan colored elements */
+        .accent-text, [style*="color: var(--accent-cyan)"], [style*="color:#00d4ff"] {
+            background: linear-gradient(
+                90deg,
+                #00d4ff 0%,
+                #00e5ff 20%,
+                #a855f7 50%,
+                #00e5ff 80%,
+                #00d4ff 100%
+            );
+            background-size: 200% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: neonColorShift 4s ease-in-out infinite;
+        }
+
         /* Underline removed for cleaner look */
 
         .hero-title .line {
@@ -2296,7 +2368,7 @@
             initial-value: 0deg;
             inherits: false;
         }
-        
+
         .cube-face {
             position: absolute;
             width: 100%;
@@ -2307,17 +2379,17 @@
             justify-content: center;
             gap: 0.5rem;
             border-radius: 16px;
-            /* Semi-transparent dark background */
-            background: rgba(4, 8, 16, 0.75);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            /* More transparent background */
+            background: rgba(4, 8, 16, 0.45);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
             /* Glowing border base */
-            border: 2px solid rgba(0, 212, 255, 0.4);
+            border: 2px solid rgba(0, 212, 255, 0.5);
             /* Subtle outer glow */
-            box-shadow: 
-                0 0 15px rgba(0, 212, 255, 0.2),
-                0 0 30px rgba(0, 212, 255, 0.1),
-                inset 0 0 20px rgba(0, 212, 255, 0.05);
+            box-shadow:
+                0 0 20px rgba(0, 212, 255, 0.25),
+                0 0 40px rgba(0, 212, 255, 0.15),
+                inset 0 0 25px rgba(0, 212, 255, 0.08);
             color: var(--text-primary);
             cursor: pointer;
             -webkit-user-select: none;
@@ -2364,7 +2436,7 @@
         /* Hover effects - speed up the light and intensify glow */
         .cube-face:hover {
             border-color: rgba(0, 212, 255, 0.8);
-            box-shadow: 
+            box-shadow:
                 0 0 12px rgba(0, 212, 255, 0.5),
                 0 0 24px rgba(0, 212, 255, 0.25);
         }
@@ -2970,10 +3042,10 @@
         <div class="header-container">
                          <div class="logo-container">
                  <a href="#home" onclick="navigateTo('home'); return false;" style="text-decoration: none; cursor: pointer;">
-                     <span class="logo-text">
-                         <span class="jd-part">J&D</span>
-                         <span class="vantage-quant">VANTAGE QUANT</span>
-                     </span>
+                 <span class="logo-text">
+                     <span class="jd-part">J&D</span>
+                     <span class="vantage-quant">VANTAGE QUANT</span>
+                 </span>
                  </a>
              </div>
             
@@ -2986,7 +3058,9 @@
                     <div class="dropdown-menu mega-dropdown">
                         <div class="dropdown-grid">
                             <div class="dropdown-section">
-                                <h4>💎 Trading Solutions</h4>
+                                <a href="#offerings" onclick="navigateTo('offerings'); closeDropdowns(); setTimeout(() => document.getElementById('trading-solutions')?.scrollIntoView({behavior: 'smooth'}), 300);" style="display: block; cursor: pointer;">
+                                    <h4 style="color: #ff6b35; transition: all 0.2s;">💎 Trading Solutions</h4>
+                                </a>
                                 <a href="#quantAccess" onclick="navigateTo('quantAccess'); closeDropdowns();">
                                     <i class="fas fa-rocket" style="color: #ff6b35;"></i>
                                     <div>
@@ -3003,7 +3077,9 @@
                                 </a>
                             </div>
                             <div class="dropdown-section">
-                                <h4>🤖 Expert Advisors</h4>
+                                <a href="#offerings" onclick="navigateTo('offerings'); closeDropdowns(); setTimeout(() => document.getElementById('expert-advisors')?.scrollIntoView({behavior: 'smooth'}), 300);" style="display: block; cursor: pointer;">
+                                    <h4 style="color: #ffd700; transition: all 0.2s;">🤖 Expert Advisors</h4>
+                                </a>
                                 <a href="#goldFxDetails" onclick="navigateTo('goldFxDetails'); closeDropdowns();" style="border-left: 2px solid #ffd700;">
                                     <i class="fas fa-crown" style="color: #ffd700;"></i>
                                     <div>
@@ -3034,7 +3110,9 @@
                                 </a>
                             </div>
                             <div class="dropdown-section">
-                                <h4>🛠️ Services</h4>
+                                <a href="#offerings" onclick="navigateTo('offerings'); closeDropdowns(); setTimeout(() => document.getElementById('services-section')?.scrollIntoView({behavior: 'smooth'}), 300);" style="display: block; cursor: pointer;">
+                                    <h4 style="color: #22c55e; transition: all 0.2s;">🛠️ Services</h4>
+                                </a>
                                 <a href="#consultation" onclick="navigateTo('consultation'); closeDropdowns();">
                                     <i class="fas fa-headset" style="color: #22c55e;"></i>
                                     <div>
@@ -3337,26 +3415,6 @@
                         </div>
                     </section>
 
-                    <!-- Key Metrics Section -->
-                    <section class="section">
-                        <h2 class="section-title">Performance at a Glance</h2>
-                        <p class="section-subtitle">Verified results from our flagship GoldFX strategy</p>
-                        <div class="grid-3">
-                            <div class="card-3d" style="text-align: center;">
-                                <p style="font-family: 'JetBrains Mono', monospace; font-size: 2.5rem; font-weight: 600; color: var(--accent-color); margin-bottom: 0.5rem;">$59,317</p>
-                                <p style="color: var(--text-secondary); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;">Net Profit</p>
-                            </div>
-                            <div class="card-3d" style="text-align: center;">
-                                <p style="font-family: 'JetBrains Mono', monospace; font-size: 2.5rem; font-weight: 600; color: var(--success-green); margin-bottom: 0.5rem;">72.7%</p>
-                                <p style="color: var(--text-secondary); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;">Win Rate</p>
-                            </div>
-                            <div class="card-3d" style="text-align: center;">
-                                <p style="font-family: 'JetBrains Mono', monospace; font-size: 2.5rem; font-weight: 600; color: var(--accent-color); margin-bottom: 0.5rem;">18/18</p>
-                                <p style="color: var(--text-secondary); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;">Profitable Months</p>
-                            </div>
-                        </div>
-                    </section>
-
                     <!-- EA Comparison Section -->
                     <section class="section">
                         <h2 class="section-title">Expert Advisors Comparison</h2>
@@ -3610,60 +3668,311 @@
             offerings: `
                 <div class="page-content">
                     <section class="section">
-                        <h2 class="section-title">Trading Solutions</h2>
-                        <p class="section-subtitle">Choose the solution that matches your investment profile and goals</p>
+                        <h2 class="section-title">All <span class="neon-text" data-text="Solutions">Solutions</span></h2>
+                        <p class="section-subtitle">Complete overview of our trading solutions, expert advisors, and services</p>
                         
-                        <div class="grid-2" style="max-width: 1000px; margin: 0 auto;">
-                            <!-- Quant Access -->
-                            <div class="card-3d">
-                                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
-                                    <span style="background: var(--gradient-primary); color: #060d18; padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.5px;">ENTRY</span>
-                                    <span style="font-family: 'JetBrains Mono', monospace; color: var(--accent-color); font-size: 1.25rem; font-weight: 600;">$300</span>
+                        <!-- Quick Nav -->
+                        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; margin-bottom: 3rem;">
+                            <button onclick="document.getElementById('trading-solutions').scrollIntoView({behavior: 'smooth'})" class="btn-secondary" style="padding: 0.75rem 1.5rem;"><i class="fas fa-rocket"></i> Trading Solutions</button>
+                            <button onclick="document.getElementById('expert-advisors').scrollIntoView({behavior: 'smooth'})" class="btn-secondary" style="padding: 0.75rem 1.5rem;"><i class="fas fa-robot"></i> Expert Advisors</button>
+                            <button onclick="document.getElementById('services-section').scrollIntoView({behavior: 'smooth'})" class="btn-secondary" style="padding: 0.75rem 1.5rem;"><i class="fas fa-cogs"></i> Services</button>
                                 </div>
-                                <h3 style="font-size: 1.35rem; margin-bottom: 0.5rem; color: var(--text-primary); font-weight: 600;">Quant Access</h3>
-                                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.5rem; line-height: 1.6;">Perfect for getting started with algorithmic trading. Access our proven XAUUSD strategy with low minimum investment.</p>
-                                <ul style="list-style: none; padding: 0; margin-bottom: 1.5rem;">
-                                    <li style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 0.5rem;"><i class="fas fa-check" style="color: var(--success-green); font-size: 0.7rem;"></i> XAUUSD Strategy</li>
-                                    <li style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 0.5rem;"><i class="fas fa-check" style="color: var(--success-green); font-size: 0.7rem;"></i> Real-time Dashboard</li>
-                                    <li style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 0.5rem;"><i class="fas fa-check" style="color: var(--success-green); font-size: 0.7rem;"></i> Weekly Reports</li>
-                                    <li style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); font-size: 0.85rem;"><i class="fas fa-check" style="color: var(--success-green); font-size: 0.7rem;"></i> Community Access</li>
-                                </ul>
-                                <button class="btn-primary" onclick="navigateTo('quantAccess')" style="width: 100%;">Learn More</button>
+                        
+                        <!-- ==================== TRADING SOLUTIONS ==================== -->
+                        <div id="trading-solutions" style="scroll-margin-top: 100px;">
+                            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;">
+                                <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #ff6b35, #f97316); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-rocket" style="font-size: 1.5rem; color: #fff;"></i>
+                                </div>
+                                <h3 style="font-size: 1.8rem; color: var(--text-primary); margin: 0;">💎 Trading <span class="neon-text" data-text="Solutions">Solutions</span></h3>
                             </div>
                             
-                            <!-- GoldFX Pro -->
-                            <div class="card-3d" style="border-color: rgba(100, 181, 246, 0.3);">
-                                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
-                                    <span style="background: rgba(16, 185, 129, 0.15); color: var(--success-green); padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.5px;">FLAGSHIP</span>
-                                    <span style="font-family: 'JetBrains Mono', monospace; color: var(--accent-color); font-size: 1.25rem; font-weight: 600;">$1,000</span>
-                                </div>
-                                <h3 style="font-size: 1.35rem; margin-bottom: 0.5rem; color: var(--text-primary); font-weight: 600;">GoldFX Pro</h3>
-                                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.5rem; line-height: 1.6;">Our flagship solution with full strategy suite, priority support, and advanced analytics.</p>
-                                <ul style="list-style: none; padding: 0; margin-bottom: 1.5rem;">
-                                    <li style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 0.5rem;"><i class="fas fa-check" style="color: var(--success-green); font-size: 0.7rem;"></i> Full Strategy Suite</li>
-                                    <li style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 0.5rem;"><i class="fas fa-check" style="color: var(--success-green); font-size: 0.7rem;"></i> Priority Support</li>
-                                    <li style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 0.5rem;"><i class="fas fa-check" style="color: var(--success-green); font-size: 0.7rem;"></i> Advanced Analytics</li>
-                                    <li style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); font-size: 0.85rem;"><i class="fas fa-check" style="color: var(--success-green); font-size: 0.7rem;"></i> Direct Phone Support</li>
+                            <div class="grid-2" style="margin-bottom: 3rem;">
+                                <!-- Quant Access Card -->
+                                <div class="card-3d" style="border-color: rgba(255, 107, 53, 0.3); position: relative; overflow: hidden;">
+                                    <div style="position: absolute; top: 0; right: 0; width: 150px; height: 150px; background: radial-gradient(circle, rgba(255, 107, 53, 0.1) 0%, transparent 70%); pointer-events: none;"></div>
+                                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
+                                        <span style="background: linear-gradient(135deg, #ff6b35, #f97316); color: #fff; padding: 0.35rem 0.85rem; border-radius: 6px; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.5px;">🚀 ENTRY LEVEL</span>
+                                        <span style="font-family: 'JetBrains Mono', monospace; color: #ff6b35; font-size: 1.5rem; font-weight: 700;">$300</span>
+                                    </div>
+                                    <h4 style="font-size: 1.5rem; margin-bottom: 0.5rem; color: var(--text-primary); font-weight: 700;">Quant Access</h4>
+                                    <p style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.7;">Perfect for getting started with algorithmic trading. Access our proven XAUUSD strategy with low minimum investment.</p>
+                                    <ul style="list-style: none; padding: 0; margin-bottom: 1.5rem;">
+                                        <li style="display: flex; align-items: center; gap: 0.75rem; color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.75rem;"><i class="fas fa-check-circle" style="color: var(--success-green);"></i> XAUUSD Strategy</li>
+                                        <li style="display: flex; align-items: center; gap: 0.75rem; color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.75rem;"><i class="fas fa-check-circle" style="color: var(--success-green);"></i> Real-time Dashboard</li>
+                                        <li style="display: flex; align-items: center; gap: 0.75rem; color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.75rem;"><i class="fas fa-check-circle" style="color: var(--success-green);"></i> Weekly Reports</li>
+                                        <li style="display: flex; align-items: center; gap: 0.75rem; color: var(--text-secondary); font-size: 0.9rem;"><i class="fas fa-check-circle" style="color: var(--success-green);"></i> Community Access</li>
                                     </ul>
-                                <button class="btn-primary" onclick="navigateTo('goldFxDetails')" style="width: 100%;">View Performance</button>
+                                    <button class="btn-primary" onclick="navigateTo('quantAccess')" style="width: 100%;">🚀 Learn More</button>
                                 </div>
-                            </div>
-
-                        <!-- Performance Chart Section -->
-                        <div class="card-3d" style="margin-top: 4rem; max-width: 900px; margin-left: auto; margin-right: auto;">
-                            <h3 style="color: var(--text-primary); font-size: 1.3rem; margin-bottom: 0.5rem; font-weight: 600;">Strategy Performance</h3>
-                            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.5rem;">Recent monthly performance of our GoldFX algorithm</p>
-                            <div class="chart-container chart-compact" style="height: 280px; margin: 0;">
-                                <canvas id="performanceChart" style="position: relative; z-index: 2;"></canvas>
+                                
+                                <!-- Trade Copier Card -->
+                                <div class="card-3d" style="border-color: rgba(0, 212, 255, 0.3); position: relative; overflow: hidden;">
+                                    <div style="position: absolute; top: 0; right: 0; width: 150px; height: 150px; background: radial-gradient(circle, rgba(0, 212, 255, 0.1) 0%, transparent 70%); pointer-events: none;"></div>
+                                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
+                                        <span style="background: linear-gradient(135deg, #00d4ff, #0099ff); color: #060d18; padding: 0.35rem 0.85rem; border-radius: 6px; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.5px;">⚡ NEW SERVICE</span>
+                                        <span style="font-family: 'JetBrains Mono', monospace; color: var(--accent-cyan); font-size: 1rem; font-weight: 600;">CONTACT US</span>
+                                    </div>
+                                    <h4 style="font-size: 1.5rem; margin-bottom: 0.5rem; color: var(--text-primary); font-weight: 700;">Trade Copier</h4>
+                                    <p style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.7;">Ultra-fast MT5 trade copying service. Mirror trades from master accounts to unlimited child accounts with minimal latency.</p>
+                                    <ul style="list-style: none; padding: 0; margin-bottom: 1.5rem;">
+                                        <li style="display: flex; align-items: center; gap: 0.75rem; color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.75rem;"><i class="fas fa-check-circle" style="color: var(--success-green);"></i> <100ms Latency</li>
+                                        <li style="display: flex; align-items: center; gap: 0.75rem; color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.75rem;"><i class="fas fa-check-circle" style="color: var(--success-green);"></i> Unlimited Child Accounts</li>
+                                        <li style="display: flex; align-items: center; gap: 0.75rem; color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.75rem;"><i class="fas fa-check-circle" style="color: var(--success-green);"></i> Real-time Sync</li>
+                                        <li style="display: flex; align-items: center; gap: 0.75rem; color: var(--text-secondary); font-size: 0.9rem;"><i class="fas fa-check-circle" style="color: var(--success-green);"></i> 24/7 Operation</li>
+                                    </ul>
+                                    <button class="btn-primary" onclick="navigateTo('tradeCopier')" style="width: 100%; background: linear-gradient(135deg, #00d4ff, #0099ff);">⚡ View Demo</button>
+                                </div>
                             </div>
                         </div>
-
-                        <!-- Custom Development CTA -->
-                        <div class="card-3d" style="margin-top: 3rem; text-align: center; max-width: 700px; margin-left: auto; margin-right: auto;">
-                            <i class="fas fa-code" style="font-size: 2rem; color: var(--accent-color); margin-bottom: 1rem;"></i>
-                            <h3 style="color: var(--text-primary); font-size: 1.3rem; margin-bottom: 0.75rem; font-weight: 600;">Need a Custom Solution?</h3>
-                            <p style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.6;">We develop bespoke algorithmic strategies tailored to your specific trading requirements and risk parameters.</p>
-                            <button class="btn-secondary" onclick="navigateTo('contact')"><i class="fas fa-envelope"></i> Request Consultation</button>
+                        
+                        <!-- ==================== EXPERT ADVISORS ==================== -->
+                        <div id="expert-advisors" style="scroll-margin-top: 100px; margin-top: 4rem;">
+                            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;">
+                                <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #ffd700, #ffb300); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-robot" style="font-size: 1.5rem; color: #1a1a2e;"></i>
+                                </div>
+                                <h3 style="font-size: 1.8rem; color: var(--text-primary); margin: 0;">🤖 Expert <span class="neon-text" data-text="Advisors">Advisors</span></h3>
+                            </div>
+                            
+                            <!-- EA Performance Charts -->
+                            <div class="grid-2" style="margin-bottom: 3rem;">
+                                <!-- GoldFX Pro -->
+                                <div class="card-3d" style="border-color: rgba(255, 215, 0, 0.4); position: relative;">
+                                    <div style="position: absolute; top: -1px; left: 20px; right: 20px; height: 3px; background: linear-gradient(90deg, transparent, #ffd700, transparent);"></div>
+                                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+                                        <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #ffd700, #ff9500); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                                            <i class="fas fa-crown" style="font-size: 1.3rem; color: #1a1a2e;"></i>
+                                        </div>
+                                        <div>
+                                            <span style="background: linear-gradient(135deg, #ffd700, #ff9500); color: #1a1a2e; padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.65rem; font-weight: 700;">⭐ FLAGSHIP</span>
+                                            <h4 style="font-size: 1.3rem; margin: 0.25rem 0 0; color: #ffd700; font-weight: 700;">GoldFX Pro</h4>
+                                        </div>
+                                    </div>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.5rem; line-height: 1.6;">Our flagship XAUUSD strategy with 18 months of verified profitable trading.</p>
+                                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem; padding: 1rem; background: rgba(255, 215, 0, 0.05); border-radius: 10px;">
+                                        <div style="text-align: center;">
+                                            <p style="font-family: 'JetBrains Mono', monospace; font-size: 1.3rem; color: var(--success-green); font-weight: 700; margin: 0;">+593%</p>
+                                            <p style="color: var(--text-secondary); font-size: 0.7rem; margin: 0;">RETURN</p>
+                                        </div>
+                                        <div style="text-align: center;">
+                                            <p style="font-family: 'JetBrains Mono', monospace; font-size: 1.3rem; color: var(--warning-amber); font-weight: 700; margin: 0;">18.2%</p>
+                                            <p style="color: var(--text-secondary); font-size: 0.7rem; margin: 0;">MAX DD</p>
+                                        </div>
+                                        <div style="text-align: center;">
+                                            <p style="font-family: 'JetBrains Mono', monospace; font-size: 1.3rem; color: var(--accent-purple); font-weight: 700; margin: 0;">72.7%</p>
+                                            <p style="color: var(--text-secondary); font-size: 0.7rem; margin: 0;">WIN RATE</p>
+                                        </div>
+                                    </div>
+                                    <!-- Equity Chart SVG -->
+                                    <div style="height: 120px; position: relative; margin-bottom: 1rem;">
+                                        <svg viewBox="0 0 400 100" preserveAspectRatio="none" style="width: 100%; height: 100%;">
+                                            <defs>
+                                                <linearGradient id="goldFxGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                                    <stop offset="0%" style="stop-color:#ffd700;stop-opacity:0.4"/>
+                                                    <stop offset="100%" style="stop-color:#ffd700;stop-opacity:0"/>
+                                                </linearGradient>
+                                            </defs>
+                                            <path d="M0,90 L20,85 L50,70 L80,75 L110,60 L140,55 L170,40 L200,45 L230,30 L260,35 L290,20 L320,25 L350,15 L380,10 L400,5" fill="none" stroke="#ffd700" stroke-width="2"/>
+                                            <path d="M0,90 L20,85 L50,70 L80,75 L110,60 L140,55 L170,40 L200,45 L230,30 L260,35 L290,20 L320,25 L350,15 L380,10 L400,5 L400,100 L0,100 Z" fill="url(#goldFxGrad)"/>
+                                        </svg>
+                                        <p style="position: absolute; bottom: 0; right: 0; font-size: 0.7rem; color: var(--text-secondary); margin: 0;">18 Months Performance</p>
+                                    </div>
+                                    <button class="btn-primary" onclick="navigateTo('goldFxDetails')" style="width: 100%; background: linear-gradient(135deg, #ffd700, #ff9500);">👑 View Full Analysis</button>
+                                </div>
+                                
+                                <!-- GoldClutch EA -->
+                                <div class="card-3d" style="border-color: rgba(255, 179, 0, 0.3);">
+                                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+                                        <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #ffb300, #ff8c00); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                                            <i class="fas fa-hand-fist" style="font-size: 1.3rem; color: #1a1a2e;"></i>
+                                        </div>
+                                        <div>
+                                            <span style="background: rgba(255, 179, 0, 0.2); color: #ffb300; padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.65rem; font-weight: 600;">SWING TRADER</span>
+                                            <h4 style="font-size: 1.3rem; margin: 0.25rem 0 0; color: #ffb300; font-weight: 700;">GoldClutch EA</h4>
+                                        </div>
+                                    </div>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.5rem; line-height: 1.6;">Medium-term swing trading strategy optimized for XAUUSD with buffer zones.</p>
+                                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem; padding: 1rem; background: rgba(255, 179, 0, 0.05); border-radius: 10px;">
+                                        <div style="text-align: center;">
+                                            <p style="font-family: 'JetBrains Mono', monospace; font-size: 1.3rem; color: var(--success-green); font-weight: 700; margin: 0;">+79.5%</p>
+                                            <p style="color: var(--text-secondary); font-size: 0.7rem; margin: 0;">RETURN</p>
+                                        </div>
+                                        <div style="text-align: center;">
+                                            <p style="font-family: 'JetBrains Mono', monospace; font-size: 1.3rem; color: var(--warning-amber); font-weight: 700; margin: 0;">19.9%</p>
+                                            <p style="color: var(--text-secondary); font-size: 0.7rem; margin: 0;">MAX DD</p>
+                                        </div>
+                                        <div style="text-align: center;">
+                                            <p style="font-family: 'JetBrains Mono', monospace; font-size: 1.3rem; color: var(--accent-cyan); font-weight: 700; margin: 0;">2.47</p>
+                                            <p style="color: var(--text-secondary); font-size: 0.7rem; margin: 0;">SHARPE</p>
+                                        </div>
+                                    </div>
+                                    <!-- Equity Chart SVG -->
+                                    <div style="height: 120px; position: relative; margin-bottom: 1rem;">
+                                        <svg viewBox="0 0 400 100" preserveAspectRatio="none" style="width: 100%; height: 100%;">
+                                            <defs>
+                                                <linearGradient id="clutchGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                                    <stop offset="0%" style="stop-color:#ffb300;stop-opacity:0.4"/>
+                                                    <stop offset="100%" style="stop-color:#ffb300;stop-opacity:0"/>
+                                                </linearGradient>
+                                            </defs>
+                                            <path d="M0,85 L30,80 L60,75 L90,70 L120,68 L150,60 L180,55 L210,50 L240,45 L270,40 L300,35 L330,28 L360,22 L400,15" fill="none" stroke="#ffb300" stroke-width="2"/>
+                                            <path d="M0,85 L30,80 L60,75 L90,70 L120,68 L150,60 L180,55 L210,50 L240,45 L270,40 L300,35 L330,28 L360,22 L400,15 L400,100 L0,100 Z" fill="url(#clutchGrad)"/>
+                                        </svg>
+                                        <p style="position: absolute; bottom: 0; right: 0; font-size: 0.7rem; color: var(--text-secondary); margin: 0;">Jan-Dec 2025</p>
+                                    </div>
+                                    <button class="btn-primary" onclick="navigateTo('goldClutch')" style="width: 100%; background: linear-gradient(135deg, #ffb300, #ff8c00);">🤜 View Full Analysis</button>
+                                </div>
+                                
+                                <!-- GoldShort EA -->
+                                <div class="card-3d" style="border-color: rgba(0, 212, 255, 0.3);">
+                                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+                                        <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #00d4ff, #0099ff); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                                            <i class="fas fa-bolt-lightning" style="font-size: 1.3rem; color: #1a1a2e;"></i>
+                                        </div>
+                                        <div>
+                                            <span style="background: rgba(239, 68, 68, 0.2); color: #ef4444; padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.65rem; font-weight: 600;">⚠️ HIGH RISK</span>
+                                            <h4 style="font-size: 1.3rem; margin: 0.25rem 0 0; color: var(--accent-cyan); font-weight: 700;">GoldShort EA</h4>
+                                        </div>
+                                    </div>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.5rem; line-height: 1.6;">Aggressive M1 scalping strategy with EMA-based entries. High frequency trading.</p>
+                                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem; padding: 1rem; background: rgba(0, 212, 255, 0.05); border-radius: 10px;">
+                                        <div style="text-align: center;">
+                                            <p style="font-family: 'JetBrains Mono', monospace; font-size: 1.3rem; color: var(--success-green); font-weight: 700; margin: 0;">+328%</p>
+                                            <p style="color: var(--text-secondary); font-size: 0.7rem; margin: 0;">RETURN</p>
+                                        </div>
+                                        <div style="text-align: center;">
+                                            <p style="font-family: 'JetBrains Mono', monospace; font-size: 1.3rem; color: #ef4444; font-weight: 700; margin: 0;">53.6%</p>
+                                            <p style="color: var(--text-secondary); font-size: 0.7rem; margin: 0;">MAX DD</p>
+                                        </div>
+                                        <div style="text-align: center;">
+                                            <p style="font-family: 'JetBrains Mono', monospace; font-size: 1.3rem; color: var(--accent-purple); font-weight: 700; margin: 0;">73%</p>
+                                            <p style="color: var(--text-secondary); font-size: 0.7rem; margin: 0;">WIN RATE</p>
+                                        </div>
+                                    </div>
+                                    <!-- Equity Chart SVG -->
+                                    <div style="height: 120px; position: relative; margin-bottom: 1rem;">
+                                        <svg viewBox="0 0 400 100" preserveAspectRatio="none" style="width: 100%; height: 100%;">
+                                            <defs>
+                                                <linearGradient id="shortGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                                    <stop offset="0%" style="stop-color:#00d4ff;stop-opacity:0.4"/>
+                                                    <stop offset="100%" style="stop-color:#00d4ff;stop-opacity:0"/>
+                                                </linearGradient>
+                                            </defs>
+                                            <path d="M0,90 L25,75 L50,80 L75,60 L100,70 L125,50 L150,55 L175,35 L200,45 L225,30 L250,40 L275,20 L300,30 L325,15 L350,25 L375,10 L400,5" fill="none" stroke="#00d4ff" stroke-width="2"/>
+                                            <path d="M0,90 L25,75 L50,80 L75,60 L100,70 L125,50 L150,55 L175,35 L200,45 L225,30 L250,40 L275,20 L300,30 L325,15 L350,25 L375,10 L400,5 L400,100 L0,100 Z" fill="url(#shortGrad)"/>
+                                        </svg>
+                                        <p style="position: absolute; bottom: 0; right: 0; font-size: 0.7rem; color: var(--text-secondary); margin: 0;">Mar-Dec 2025</p>
+                                    </div>
+                                    <button class="btn-primary" onclick="navigateTo('goldShort')" style="width: 100%;">📉 View Full Analysis</button>
+                                </div>
+                                
+                                <!-- GoldShort SL -->
+                                <div class="card-3d" style="border-color: rgba(168, 85, 247, 0.3);">
+                                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+                                        <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #a855f7, #7c3aed); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                                            <i class="fas fa-shield-halved" style="font-size: 1.3rem; color: #fff;"></i>
+                                        </div>
+                                        <div>
+                                            <span style="background: rgba(168, 85, 247, 0.2); color: #a855f7; padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.65rem; font-weight: 600;">🛡️ PROTECTED</span>
+                                            <h4 style="font-size: 1.3rem; margin: 0.25rem 0 0; color: var(--accent-purple); font-weight: 700;">GoldShort SL</h4>
+                                        </div>
+                                    </div>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.5rem; line-height: 1.6;">Same GoldShort strategy with stop-loss protection. Lower risk, consistent returns.</p>
+                                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem; padding: 1rem; background: rgba(168, 85, 247, 0.05); border-radius: 10px;">
+                                        <div style="text-align: center;">
+                                            <p style="font-family: 'JetBrains Mono', monospace; font-size: 1.3rem; color: var(--success-green); font-weight: 700; margin: 0;">+70%</p>
+                                            <p style="color: var(--text-secondary); font-size: 0.7rem; margin: 0;">RETURN</p>
+                                        </div>
+                                        <div style="text-align: center;">
+                                            <p style="font-family: 'JetBrains Mono', monospace; font-size: 1.3rem; color: var(--warning-amber); font-weight: 700; margin: 0;">32.5%</p>
+                                            <p style="color: var(--text-secondary); font-size: 0.7rem; margin: 0;">MAX DD</p>
+                                        </div>
+                                        <div style="text-align: center;">
+                                            <p style="font-family: 'JetBrains Mono', monospace; font-size: 1.3rem; color: var(--accent-purple); font-weight: 700; margin: 0;">71%</p>
+                                            <p style="color: var(--text-secondary); font-size: 0.7rem; margin: 0;">WIN RATE</p>
+                                        </div>
+                                    </div>
+                                    <!-- Equity Chart SVG -->
+                                    <div style="height: 120px; position: relative; margin-bottom: 1rem;">
+                                        <svg viewBox="0 0 400 100" preserveAspectRatio="none" style="width: 100%; height: 100%;">
+                                            <defs>
+                                                <linearGradient id="slGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                                    <stop offset="0%" style="stop-color:#a855f7;stop-opacity:0.4"/>
+                                                    <stop offset="100%" style="stop-color:#a855f7;stop-opacity:0"/>
+                                                </linearGradient>
+                                            </defs>
+                                            <path d="M0,88 L40,82 L80,78 L120,72 L160,68 L200,60 L240,55 L280,48 L320,40 L360,32 L400,25" fill="none" stroke="#a855f7" stroke-width="2"/>
+                                            <path d="M0,88 L40,82 L80,78 L120,72 L160,68 L200,60 L240,55 L280,48 L320,40 L360,32 L400,25 L400,100 L0,100 Z" fill="url(#slGrad)"/>
+                                        </svg>
+                                        <p style="position: absolute; bottom: 0; right: 0; font-size: 0.7rem; color: var(--text-secondary); margin: 0;">Jan-Dec 2025</p>
+                                    </div>
+                                    <button class="btn-primary" onclick="navigateTo('goldShortSL')" style="width: 100%; background: linear-gradient(135deg, #a855f7, #7c3aed);">🛡️ View Full Analysis</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- ==================== SERVICES ==================== -->
+                        <div id="services-section" style="scroll-margin-top: 100px; margin-top: 4rem;">
+                            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;">
+                                <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #22c55e, #16a34a); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-cogs" style="font-size: 1.5rem; color: #fff;"></i>
+                                </div>
+                                <h3 style="font-size: 1.8rem; color: var(--text-primary); margin: 0;">🛠️ Professional <span class="neon-text" data-text="Services">Services</span></h3>
+                            </div>
+                            
+                            <div class="grid-2" style="margin-bottom: 3rem;">
+                                <!-- Consultation -->
+                                <div class="card-3d" style="border-color: rgba(34, 197, 94, 0.3);">
+                                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+                                        <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #22c55e, #16a34a); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                                            <i class="fas fa-headset" style="font-size: 1.3rem; color: #fff;"></i>
+                                        </div>
+                                        <div>
+                                            <h4 style="font-size: 1.3rem; margin: 0; color: var(--success-green); font-weight: 700;">💬 Consultation</h4>
+                                            <span style="color: var(--text-secondary); font-size: 0.85rem;">1-on-1 Strategy Sessions</span>
+                                        </div>
+                                    </div>
+                                    <p style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.7;">Connect with our expert team for personalized trading advice, strategy discussions, and portfolio optimization.</p>
+                                    <ul style="list-style: none; padding: 0; margin-bottom: 1.5rem;">
+                                        <li style="display: flex; align-items: center; gap: 0.75rem; color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.75rem;"><i class="fas fa-check-circle" style="color: var(--success-green);"></i> Personalized Strategy Review</li>
+                                        <li style="display: flex; align-items: center; gap: 0.75rem; color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.75rem;"><i class="fas fa-check-circle" style="color: var(--success-green);"></i> Risk Assessment</li>
+                                        <li style="display: flex; align-items: center; gap: 0.75rem; color: var(--text-secondary); font-size: 0.9rem;"><i class="fas fa-check-circle" style="color: var(--success-green);"></i> Portfolio Optimization</li>
+                                    </ul>
+                                    <button class="btn-primary" onclick="navigateTo('consultation')" style="width: 100%; background: linear-gradient(135deg, #22c55e, #16a34a);">📞 Book Consultation</button>
+                                </div>
+                                
+                                <!-- Custom Development -->
+                                <div class="card-3d" style="border-color: rgba(168, 85, 247, 0.3);">
+                                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+                                        <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #a855f7, #7c3aed); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                                            <i class="fas fa-microchip" style="font-size: 1.3rem; color: #fff;"></i>
+                                        </div>
+                                        <div>
+                                            <h4 style="font-size: 1.3rem; margin: 0; color: var(--accent-purple); font-weight: 700;">⚙️ Custom Development</h4>
+                                            <span style="color: var(--text-secondary); font-size: 0.85rem;">Bespoke Algorithms</span>
+                                        </div>
+                                    </div>
+                                    <p style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.7;">We develop bespoke algorithmic strategies tailored to your specific trading requirements and risk parameters.</p>
+                                    <ul style="list-style: none; padding: 0; margin-bottom: 1.5rem;">
+                                        <li style="display: flex; align-items: center; gap: 0.75rem; color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.75rem;"><i class="fas fa-check-circle" style="color: var(--success-green);"></i> Custom EA Development</li>
+                                        <li style="display: flex; align-items: center; gap: 0.75rem; color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.75rem;"><i class="fas fa-check-circle" style="color: var(--success-green);"></i> Indicator Programming</li>
+                                        <li style="display: flex; align-items: center; gap: 0.75rem; color: var(--text-secondary); font-size: 0.9rem;"><i class="fas fa-check-circle" style="color: var(--success-green);"></i> Strategy Backtesting</li>
+                                    </ul>
+                                    <button class="btn-primary" onclick="navigateTo('customDev')" style="width: 100%; background: linear-gradient(135deg, #a855f7, #7c3aed);">🔧 Request Quote</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- CTA Section -->
+                        <div class="card-3d" style="margin-top: 4rem; text-align: center; background: linear-gradient(135deg, rgba(0, 212, 255, 0.05), rgba(168, 85, 247, 0.05)); border-color: rgba(0, 212, 255, 0.3);">
+                            <i class="fas fa-rocket" style="font-size: 3rem; color: var(--accent-cyan); margin-bottom: 1.5rem;"></i>
+                            <h3 style="font-size: 1.8rem; color: var(--text-primary); margin-bottom: 1rem;">Ready to Get Started?</h3>
+                            <p style="color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto; line-height: 1.7;">Join hundreds of traders leveraging our institutional-grade algorithms. Start with just $300.</p>
+                            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem;">
+                                <button class="btn-primary" onclick="navigateTo('contact')" style="padding: 1rem 2rem;"><i class="fas fa-paper-plane"></i> Contact Us</button>
+                                <a href="JandD-Vantage-Quant-Brochure.pdf" download class="btn-secondary" style="padding: 1rem 2rem; text-decoration: none;"><i class="fas fa-download"></i> Download Brochure</a>
+                            </div>
                         </div>
                     </section>
                 </div>
@@ -3714,7 +4023,7 @@
                                 <div style="text-align: center; padding: 1.5rem;">
                                     <div style="width: 110px; height: 110px; background: linear-gradient(135deg, #00d4ff 0%, #0099ff 50%, #a855f7 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 2.5rem; color: #0a0a0a; font-weight: 800; letter-spacing: -1px; box-shadow: 0 0 30px rgba(0, 212, 255, 0.4); animation: pulseGlow 2s ease-in-out infinite;">
                                         <span style="background: linear-gradient(180deg, #fff, #e0e0e0); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-shadow: none;">SD</span>
-                                    </div>
+                                </div>
                                     <h4 style="font-size: 1.4rem; margin-bottom: 0.5rem;">
                                         <span style="background: linear-gradient(90deg, #00d4ff, #00ffff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 700;">Sohil</span>
                                         <span style="color: var(--text-primary); font-weight: 500;"> Dobariya</span>
@@ -3725,14 +4034,14 @@
                                 <div style="text-align: center; padding: 1.5rem;">
                                     <div style="width: 110px; height: 110px; background: linear-gradient(135deg, #a855f7 0%, #8b5cf6 50%, #6366f1 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 2.5rem; color: #0a0a0a; font-weight: 800; letter-spacing: -1px; box-shadow: 0 0 30px rgba(168, 85, 247, 0.4); animation: pulseGlow 2s ease-in-out infinite 0.3s;">
                                         <span style="background: linear-gradient(180deg, #fff, #e0e0e0); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-shadow: none;">AJ</span>
-                                    </div>
+                                </div>
                                     <h4 style="font-size: 1.4rem; margin-bottom: 0.5rem;">
                                         <span style="background: linear-gradient(90deg, #a855f7, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 700;">Alis</span>
                                         <span style="color: var(--text-primary); font-weight: 500;"> Jodhani</span>
                                     </h4>
                                     <p style="color: var(--accent-purple); font-weight: 600; margin-bottom: 1rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Technical Expert</p>
                                     <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6;">B.E. Information Technology with 3+ years in market analysis. Specializes in algorithmic strategy development.</p>
-                                </div>
+                            </div>
                                 <div style="text-align: center; padding: 1.5rem;">
                                     <div style="width: 110px; height: 110px; background: linear-gradient(135deg, #f97316 0%, #fb923c 50%, #fbbf24 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 2.5rem; color: #0a0a0a; font-weight: 800; letter-spacing: -1px; box-shadow: 0 0 30px rgba(249, 115, 22, 0.4); animation: pulseGlow 2s ease-in-out infinite 0.6s;">
                                         <span style="background: linear-gradient(180deg, #fff, #e0e0e0); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-shadow: none;">DJ</span>
@@ -5553,7 +5862,7 @@
                                 <p style="color: var(--text-secondary); font-size: 0.9rem; text-align: center;">We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new policy on this page.</p>
                             </div>
                         </div>
-
+                        
                         <div style="text-align: center; margin-top: 3rem;">
                             <button class="btn-secondary" onclick="navigateTo('terms')">View Terms & Conditions</button>
                         </div>
@@ -5650,7 +5959,7 @@
             const performanceCtx = document.getElementById('performanceChart');
             
             if (monthlyCtx) {
-                new Chart(monthlyCtx.getContext('2d'), {
+                                                 new Chart(monthlyCtx.getContext('2d'), {
                     type: 'line',
                     data: {
                         labels: chartData.months,
@@ -5670,59 +5979,59 @@
                             pointHoverBackgroundColor: '#ffffff'
                         }]
                     },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        interaction: {
-                            intersect: false,
-                            mode: 'index'
-                        },
-                        plugins: {
-                            legend: {
-                                labels: { 
+                     options: {
+                         responsive: true,
+                         maintainAspectRatio: false,
+                         interaction: {
+                             intersect: false,
+                             mode: 'index'
+                         },
+                         plugins: {
+                             legend: {
+                                 labels: { 
                                     color: 'rgba(255,255,255,0.6)',
                                     font: { family: 'Space Grotesk', size: 12, weight: '500' }
-                                }
-                            }
-                        },
-                        scales: {
-                            x: {
-                                ticks: { 
+                                 }
+                             }
+                         },
+                         scales: {
+                                                           x: {
+                                  ticks: { 
                                     color: 'rgba(255,255,255,0.4)',
                                     font: { family: 'Space Grotesk', size: 11 },
-                                    maxTicksLimit: 8
-                                },
-                                grid: { 
+                                      maxTicksLimit: 8
+                                  },
+                                  grid: { 
                                     color: 'rgba(255, 255, 255, 0.05)',
-                                    drawBorder: false
-                                }
-                            },
-                            y: {
-                                ticks: { 
+                                      drawBorder: false
+                                  }
+                              },
+                              y: {
+                                  ticks: { 
                                     color: 'rgba(255,255,255,0.4)',
                                     font: { family: 'Fira Code', size: 10 },
-                                    callback: function(value) {
-                                        return '$' + Number(value).toLocaleString();
-                                    }
-                                },
-                                grid: { 
+                                      callback: function(value) {
+                                          return '$' + Number(value).toLocaleString();
+                                      }
+                                  },
+                                  grid: { 
                                     color: 'rgba(255, 255, 255, 0.05)',
-                                    drawBorder: false
-                                }
-                            }
-                        }
-                    }
-                });
+                                      drawBorder: false
+                                  }
+                              }
+                         }
+                     }
+                 });
             }
             
-            if (performanceCtx) {
-                new Chart(performanceCtx.getContext('2d'), {
+                         if (performanceCtx) {
+                                 new Chart(performanceCtx.getContext('2d'), {
                     type: 'bar',
                     data: {
                         labels: chartData.months.slice(-6),
-                        datasets: [{
-                            label: 'Recent Performance (USD)',
-                            data: chartData.profits.slice(-6),
+                                                 datasets: [{
+                             label: 'Recent Performance (USD)',
+                             data: chartData.profits.slice(-6),
                             backgroundColor: function(context) {
                                 const chart = context.chart;
                                 const {ctx, chartArea} = chart;
@@ -5735,41 +6044,41 @@
                             borderColor: 'transparent',
                             borderWidth: 0,
                             borderRadius: 8,
-                            barThickness: 'flex',
+                             barThickness: 'flex',
                             maxBarThickness: 32
-                        }]
+                         }]
                     },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                labels: { 
+                     options: {
+                         responsive: true,
+                         maintainAspectRatio: false,
+                         plugins: {
+                             legend: {
+                                 labels: { 
                                     color: 'rgba(255,255,255,0.6)',
                                     font: { family: 'Space Grotesk', size: 12, weight: '500' }
-                                }
-                            }
-                        },
-                        scales: {
-                            x: {
+                                 }
+                             }
+                         },
+                         scales: {
+                                                           x: {
                                 ticks: { color: 'rgba(255,255,255,0.4)', font: { family: 'Space Grotesk', size: 11 } },
-                                grid: { 
+                                  grid: { 
                                     color: 'rgba(255, 255, 255, 0.05)',
-                                    drawBorder: false
-                                }
-                            },
-                            y: {
-                                ticks: { 
+                                      drawBorder: false
+                                  }
+                              },
+                              y: {
+                                  ticks: { 
                                     color: 'rgba(255,255,255,0.4)',
                                     font: { family: 'Fira Code', size: 10 },
-                                    callback: function(value) {
-                                        return '$' + Number(value).toLocaleString();
-                                    }
-                                },
-                                grid: { 
+                                      callback: function(value) {
+                                          return '$' + Number(value).toLocaleString();
+                                      }
+                                  },
+                                  grid: { 
                                     color: 'rgba(255, 255, 255, 0.05)',
-                                    drawBorder: false
-                                }
+                                      drawBorder: false
+                                  }
                             }
                         }
                     }
@@ -5951,9 +6260,9 @@
             // Add scroll effects
             window.addEventListener('scroll', () => {
                 const header = document.querySelector('header');
-                if (window.scrollY > 100) {
+                                 if (window.scrollY > 100) {
                     header.classList.add('scrolled');
-                } else {
+                 } else {
                     header.classList.remove('scrolled');
                 }
             });
