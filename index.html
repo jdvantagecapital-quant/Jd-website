@@ -2376,10 +2376,12 @@
     <header>
         <div class="header-container">
                          <div class="logo-container">
-                 <span class="logo-text">
-                     <span class="jd-part">J&D</span>
-                     <span class="vantage-quant">VANTAGE QUANT</span>
-                 </span>
+                 <a href="#home" onclick="navigateTo('home'); return false;" style="text-decoration: none; cursor: pointer;">
+                     <span class="logo-text">
+                         <span class="jd-part">J&D</span>
+                         <span class="vantage-quant">VANTAGE QUANT</span>
+                     </span>
+                 </a>
              </div>
             
             <nav class="nav-links">
@@ -4552,35 +4554,33 @@
                 }
             });
 
-            // Cube face click handler - uses data-page attribute
-            function initCubeNavigation() {
-                document.querySelectorAll('.cube-face[data-page]').forEach(face => {
-                    // Click handler
-                    face.addEventListener('click', function(e) {
+            // Cube face click handler - uses data-page attribute (delegated for dynamic content)
+            document.addEventListener('click', function(e) {
+                const cubeFace = e.target.closest('.cube-face[data-page]');
+                if (cubeFace) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const page = cubeFace.getAttribute('data-page');
+                    if (page) {
+                        console.log('Cube face clicked:', page);
+                        navigateTo(page);
+                    }
+                }
+            });
+            
+            // Keyboard handler for cube faces
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    const cubeFace = e.target.closest('.cube-face[data-page]');
+                    if (cubeFace) {
                         e.preventDefault();
-                        e.stopPropagation();
-                        const page = this.getAttribute('data-page');
+                        const page = cubeFace.getAttribute('data-page');
                         if (page) {
-                            console.log('Cube face clicked:', page);
                             navigateTo(page);
                         }
-                    });
-                    
-                    // Keyboard handler for accessibility
-                    face.addEventListener('keydown', function(e) {
-                        if (e.key === 'Enter' || e.key === ' ') {
-                            e.preventDefault();
-                            const page = this.getAttribute('data-page');
-                            if (page) {
-                                navigateTo(page);
-                            }
-                        }
-                    });
-                });
-            }
-            
-            // Initialize cube navigation
-            initCubeNavigation();
+                    }
+                }
+            });
 
             // Mobile menu event listeners
             const mobileMenuBtn = document.getElementById('mobileMenuBtn');
