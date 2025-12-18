@@ -70,6 +70,12 @@
             padding: 0;
             box-sizing: border-box;
         }
+        
+        html {
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            -webkit-text-size-adjust: 100%;
+        }
 
         body {
             font-family: 'Instrument Sans', 'Inter', sans-serif;
@@ -77,6 +83,8 @@
             color: var(--text-primary);
             overflow-x: hidden;
             line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         /* Gradient Mesh Background */
@@ -1564,86 +1572,207 @@
             }
         }
 
+        /* ===== MOBILE STYLES (480px and below) ===== */
         @media (max-width: 480px) {
+            /* Header */
             .header-container {
                 padding: 0.5rem 0.75rem;
             }
             
             .logo-text {
-                font-size: 1.2rem;
+                font-size: 1.1rem;
             }
             
             .logo-text .jd-part {
-                font-size: 1.4rem;
+                font-size: 1.3rem;
             }
             
             .logo-text .vantage-quant {
-                font-size: 0.7rem;
+                font-size: 0.6rem;
+                letter-spacing: 2px;
             }
             
-            .hero-section { padding: 1rem 0; }
-            .hero-visual { margin-top: 1.75rem; }
+            /* Hero Section */
+            .hero-section { 
+                padding: 0.5rem 0; 
+                min-height: auto;
+                height: auto;
+            }
             
             .hero-content {
-                padding: 0.75rem;
+                padding: 0.5rem;
+            }
+            
+            .hero-inner {
+                gap: 1.5rem;
+                padding: 0 0.5rem;
+            }
+            
+            .hero-copy {
+                padding: 0 0.25rem;
+            }
+            
+            /* Hero Logo Text - Responsive sizing */
+            #heroLogo span {
+                font-size: clamp(1.8rem, 10vw, 3rem) !important;
+                letter-spacing: -1px !important;
+                line-height: 1.2 !important;
             }
             
             .hero-title {
-                font-size: clamp(1.8rem, 7vw, 2.5rem);
+                font-size: clamp(1.2rem, 5vw, 1.8rem) !important;
+                margin-bottom: 1rem !important;
             }
             
             .hero-subtitle {
-                font-size: clamp(0.8rem, 2.5vw, 1rem);
+                font-size: 0.9rem !important;
+                line-height: 1.6 !important;
+                padding: 0 0.5rem;
             }
             
-            .section { padding: 2rem 0.75rem; }
+            .hero-visual { 
+                margin-top: 1rem;
+            }
             
-            .section-title { font-size: clamp(1.5rem, 4vw, 2rem); }
-            .offerings-card { padding: 0.875rem; border-radius: 12px; }
-            .chart-compact { height: 160px; padding: 0.875rem; }
-            .chart-compact canvas { max-height: 120px !important; }
+            /* Cube - Smaller on mobile */
+            .cube-wrapper {
+                --size: 100px !important;
+            }
             
-            .card-3d {
-                padding: 1rem;
-                border-radius: 12px;
+            .cube-face {
+                border-radius: 10px;
+            }
+            
+            .cube-face i {
+                font-size: 1.2rem !important;
+            }
+            
+            .cube-face span {
+                font-size: 0.55rem !important;
+                letter-spacing: 1px;
+            }
+            
+            /* Buttons - Stack on mobile */
+            .hero-buttons {
+                flex-direction: column !important;
+                gap: 0.75rem !important;
+                align-items: center;
+                width: 100%;
+            }
+            
+            .hero-buttons .btn-primary {
+                width: 100% !important;
+                max-width: 280px;
+                min-width: unset !important;
+                padding: 0.875rem 1.5rem;
+                font-size: 0.95rem;
             }
             
             .btn-primary, .btn-secondary {
                 padding: 0.75rem 1.25rem;
                 font-size: 0.9rem;
+                min-width: unset;
             }
             
-            .chart-container {
-                height: 250px;
+            /* Sections */
+            .section { 
+                padding: 2rem 1rem; 
+            }
+            
+            .section-title { 
+                font-size: clamp(1.4rem, 5vw, 1.8rem); 
+                margin-bottom: 0.5rem;
+            }
+            
+            /* Cards */
+            .card-3d {
                 padding: 1rem;
+                border-radius: 12px;
             }
             
-            .form-input {
+            .offerings-card { 
+                padding: 1rem; 
+                border-radius: 12px; 
+            }
+            
+            /* Charts */
+            .chart-container {
+                height: 220px;
+                padding: 0.75rem;
+            }
+            
+            .chart-compact { 
+                height: 150px; 
+                padding: 0.75rem; 
+            }
+            
+            .chart-compact canvas { 
+                max-height: 110px !important; 
+            }
+            
+            /* Forms - Prevent iOS zoom */
+            .form-input, 
+            input, 
+            textarea, 
+            select {
+                font-size: 16px !important; /* Prevents zoom on iOS */
                 padding: 0.875rem;
-                font-size: 0.9rem;
             }
             
+            /* Grid layouts */
+            .grid-2, .grid-3, .grid-4 {
+                grid-template-columns: 1fr !important;
+                gap: 1rem;
+            }
+            
+            /* Footer */
             .social-link {
-                width: 40px;
-                height: 40px;
+                width: 44px;
+                height: 44px;
             }
             
             footer {
                 padding: 2rem 1rem 1rem;
             }
+            
+            /* Safe area for notched phones */
+            .header-container {
+                padding-top: max(0.5rem, env(safe-area-inset-top));
+            }
+            
+            footer {
+                padding-bottom: max(1rem, env(safe-area-inset-bottom));
+            }
         }
 
+        /* ===== SMALL MOBILE STYLES (360px and below) ===== */
         @media (max-width: 360px) {
+            #heroLogo span {
+                font-size: clamp(1.5rem, 12vw, 2.2rem) !important;
+            }
+            
             .hero-title {
-                font-size: 1.5rem;
+                font-size: 1.1rem !important;
             }
             
             .hero-subtitle {
-                font-size: 0.8rem;
+                font-size: 0.85rem !important;
+            }
+            
+            .cube-wrapper {
+                --size: 80px !important;
+            }
+            
+            .cube-face i {
+                font-size: 1rem !important;
+            }
+            
+            .cube-face span {
+                font-size: 0.5rem !important;
             }
             
             .section-title {
-                font-size: 1.3rem;
+                font-size: 1.2rem;
             }
             
             .card-3d {
@@ -1660,12 +1789,44 @@
             }
             
             .chart-compact {
-                height: 140px;
-                padding: 0.75rem;
+                height: 130px;
+                padding: 0.625rem;
             }
             
             .chart-compact canvas {
-                max-height: 100px !important;
+                max-height: 90px !important;
+            }
+        }
+        
+        /* ===== iOS & ANDROID TOUCH OPTIMIZATIONS ===== */
+        @media (hover: none) and (pointer: coarse) {
+            /* Touch-friendly tap targets */
+            .btn-primary, .btn-secondary, 
+            .nav-links a, 
+            .social-link,
+            .cube-face {
+                min-height: 44px;
+                min-width: 44px;
+            }
+            
+            /* Remove hover effects on touch devices */
+            .card-3d:hover {
+                transform: none;
+            }
+            
+            /* Cube doesn't pause on touch hover */
+            .cube-wrapper:hover .cube {
+                animation-play-state: running;
+            }
+            
+            /* Better touch feedback */
+            .btn-primary:active, .btn-secondary:active {
+                transform: scale(0.98);
+                opacity: 0.9;
+            }
+            
+            .cube-face:active {
+                transform: scale(0.95);
             }
         }
 
