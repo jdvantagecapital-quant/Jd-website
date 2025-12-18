@@ -2301,44 +2301,73 @@
             justify-content: center;
             gap: 0.5rem;
             border-radius: 16px;
-            border: 2px solid rgba(0, 212, 255, 0.4);
-            background: rgba(4, 4, 6, 0.92);
+            border: none;
+            background: rgba(4, 4, 6, 0.95);
             color: var(--text-primary);
             cursor: pointer;
             -webkit-user-select: none;
             user-select: none;
-            transition: all 0.4s ease;
+            transition: transform 0.3s ease;
             -webkit-appearance: none;
             appearance: none;
             outline: none;
-            box-shadow: 
-                0 0 10px rgba(0, 212, 255, 0.2),
-                inset 0 0 20px rgba(0, 0, 0, 0.3);
-            animation: neonBorderPulse 4s ease-in-out infinite;
             pointer-events: auto;
             z-index: 10;
         }
-        @keyframes neonBorderPulse {
-            0% { 
-                border-color: rgba(0, 212, 255, 0.3);
-                box-shadow: 0 0 8px rgba(0, 212, 255, 0.15), inset 0 0 15px rgba(0, 0, 0, 0.2);
-            }
-            25% { 
-                border-color: rgba(0, 212, 255, 0.5);
-                box-shadow: 0 0 12px rgba(0, 212, 255, 0.25), inset 0 0 18px rgba(0, 0, 0, 0.25);
-            }
-            50% { 
-                border-color: rgba(0, 212, 255, 0.65);
-                box-shadow: 0 0 18px rgba(0, 212, 255, 0.35), 0 0 30px rgba(0, 212, 255, 0.15), inset 0 0 20px rgba(0, 0, 0, 0.25);
-            }
-            75% { 
-                border-color: rgba(0, 212, 255, 0.5);
-                box-shadow: 0 0 12px rgba(0, 212, 255, 0.25), inset 0 0 18px rgba(0, 0, 0, 0.25);
-            }
-            100% { 
-                border-color: rgba(0, 212, 255, 0.3);
-                box-shadow: 0 0 8px rgba(0, 212, 255, 0.15), inset 0 0 15px rgba(0, 0, 0, 0.2);
-            }
+        
+        /* Tron-style traveling border light container */
+        .cube-face::before {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            border-radius: 19px;
+            background: conic-gradient(
+                from 0deg,
+                transparent 0deg,
+                transparent 60deg,
+                rgba(0, 212, 255, 0.2) 80deg,
+                rgba(0, 212, 255, 0.6) 100deg,
+                rgba(0, 212, 255, 1) 120deg,
+                rgba(100, 200, 255, 1) 140deg,
+                rgba(168, 85, 247, 0.8) 160deg,
+                rgba(168, 85, 247, 0.4) 180deg,
+                transparent 200deg,
+                transparent 360deg
+            );
+            z-index: -2;
+            animation: tronBorderSpin 3s linear infinite;
+        }
+        
+        /* Inner background to create border effect */
+        .cube-face::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            right: 2px;
+            bottom: 2px;
+            border-radius: 14px;
+            background: rgba(4, 4, 6, 0.97);
+            z-index: -1;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        @keyframes tronBorderSpin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Glow effect on hover */
+        .cube-face:hover::before {
+            filter: brightness(1.3);
+            animation-duration: 2s;
+        }
+        
+        .cube-face:hover::after {
+            box-shadow: inset 0 0 25px rgba(0, 212, 255, 0.15), inset 0 0 20px rgba(0, 0, 0, 0.4);
         }
         @keyframes pulseGlow {
             0%, 100% { transform: scale(1); box-shadow: 0 0 30px currentColor; }
