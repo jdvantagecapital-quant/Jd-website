@@ -366,18 +366,13 @@
             font-family: 'Manrope', sans-serif;
             font-size: 1.85rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #00d4ff 0%, #a855f7 50%, #00d4ff 100%);
-            background-size: 200% 200%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: logoGradient 4s ease infinite;
-            text-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
+            color: #a855f7;
+            transition: all 0.4s ease;
         }
         
-        @keyframes logoGradient {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
+        .logo-text:hover .jd-part {
+            color: #c084fc;
+            transform: scale(1.02);
         }
         
         .logo-text .vantage-quant {
@@ -840,38 +835,50 @@
         }
 
         .hero-title span.highlight {
-            background: var(--gradient-hero);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            background-size: 200% 200%;
-            position: relative;
-            display: inline-block;
-            animation: gradientShift 5s ease infinite;
-        }
-
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        /* Neon Text Animation - Color changing with shine */
-        .neon-text {
             background: linear-gradient(
                 90deg,
                 #00d4ff 0%,
-                #a855f7 25%,
-                #ff6b9d 50%,
-                #00d4ff 75%,
-                #a855f7 100%
+                #00e5ff 25%,
+                #a855f7 50%,
+                #00e5ff 75%,
+                #00d4ff 100%
             );
             background-size: 300% 100%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            animation: neonColorShift 4s ease-in-out infinite;
             position: relative;
             display: inline-block;
+            animation: gradientShift 10s ease-in-out infinite;
+            transition: all 0.6s ease;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.3)); }
+            25% { background-position: 33% 50%; filter: drop-shadow(0 0 10px rgba(0, 229, 255, 0.35)); }
+            50% { background-position: 66% 50%; filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.35)); }
+            75% { background-position: 100% 50%; filter: drop-shadow(0 0 10px rgba(0, 229, 255, 0.35)); }
+            100% { background-position: 0% 50%; filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.3)); }
+        }
+
+        /* Neon Text Animation - Color changing with shine - ONLY for .neon-text class */
+        .neon-text {
+            background: linear-gradient(
+                90deg,
+                #00d4ff 0%,
+                #00e5ff 25%,
+                #a855f7 50%,
+                #00e5ff 75%,
+                #00d4ff 100%
+            );
+            background-size: 300% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: neonColorShift 8s ease-in-out infinite;
+            position: relative;
+            display: inline-block;
+            transition: all 0.5s ease;
         }
 
         .neon-text::before {
@@ -882,49 +889,32 @@
             background: linear-gradient(
                 90deg,
                 transparent 0%,
-                rgba(255, 255, 255, 0.8) 45%,
-                rgba(255, 255, 255, 1) 50%,
-                rgba(255, 255, 255, 0.8) 55%,
+                rgba(255, 255, 255, 0.6) 45%,
+                rgba(255, 255, 255, 0.9) 50%,
+                rgba(255, 255, 255, 0.6) 55%,
                 transparent 100%
             );
             background-size: 200% 100%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            animation: shineEffect 3s ease-in-out infinite;
+            animation: shineEffect 6s ease-in-out infinite;
             pointer-events: none;
         }
 
         @keyframes neonColorShift {
-            0% { background-position: 0% 50%; filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.6)); }
-            25% { background-position: 50% 50%; filter: drop-shadow(0 0 12px rgba(168, 85, 247, 0.6)); }
-            50% { background-position: 100% 50%; filter: drop-shadow(0 0 8px rgba(255, 107, 157, 0.6)); }
-            75% { background-position: 50% 50%; filter: drop-shadow(0 0 12px rgba(0, 212, 255, 0.6)); }
-            100% { background-position: 0% 50%; filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.6)); }
+            0% { background-position: 0% 50%; filter: drop-shadow(0 0 6px rgba(0, 212, 255, 0.4)); }
+            25% { background-position: 33% 50%; filter: drop-shadow(0 0 8px rgba(0, 229, 255, 0.4)); }
+            50% { background-position: 66% 50%; filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.4)); }
+            75% { background-position: 100% 50%; filter: drop-shadow(0 0 8px rgba(0, 229, 255, 0.4)); }
+            100% { background-position: 0% 50%; filter: drop-shadow(0 0 6px rgba(0, 212, 255, 0.4)); }
         }
 
         @keyframes shineEffect {
             0% { background-position: 200% 50%; opacity: 0; }
-            20% { opacity: 1; }
-            80% { opacity: 1; }
+            15% { opacity: 0.8; }
+            85% { opacity: 0.8; }
             100% { background-position: -200% 50%; opacity: 0; }
-        }
-
-        /* Apply neon to accent-cyan colored elements */
-        .accent-text, [style*="color: var(--accent-cyan)"], [style*="color:#00d4ff"] {
-            background: linear-gradient(
-                90deg,
-                #00d4ff 0%,
-                #00e5ff 20%,
-                #a855f7 50%,
-                #00e5ff 80%,
-                #00d4ff 100%
-            );
-            background-size: 200% 100%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: neonColorShift 4s ease-in-out infinite;
         }
 
         /* Underline removed for cleaner look */
