@@ -2290,6 +2290,13 @@
         }
         .cube-wrapper:hover .cube { animation-play-state: paused; }
 
+        /* CSS Custom Property for animating gradient angle */
+        @property --border-angle {
+            syntax: '<angle>';
+            initial-value: 0deg;
+            inherits: false;
+        }
+        
         .cube-face {
             position: absolute;
             width: 100%;
@@ -2300,73 +2307,74 @@
             justify-content: center;
             gap: 0.5rem;
             border-radius: 16px;
-            border: none;
-            background: rgba(4, 4, 6, 0.95);
+            border: 2px solid transparent;
+            background: 
+                linear-gradient(rgba(4, 4, 6, 0.95), rgba(4, 4, 6, 0.95)) padding-box,
+                conic-gradient(
+                    from var(--border-angle),
+                    transparent 0%,
+                    transparent 25%,
+                    rgba(0, 212, 255, 0.3) 30%,
+                    rgba(0, 212, 255, 0.8) 35%,
+                    rgba(0, 212, 255, 1) 40%,
+                    rgba(100, 220, 255, 1) 45%,
+                    rgba(168, 85, 247, 0.8) 50%,
+                    rgba(168, 85, 247, 0.3) 55%,
+                    transparent 60%,
+                    transparent 100%
+                ) border-box;
             color: var(--text-primary);
             cursor: pointer;
             -webkit-user-select: none;
             user-select: none;
-            transition: transform 0.3s ease;
+            transition: box-shadow 0.3s ease;
             -webkit-appearance: none;
             appearance: none;
             outline: none;
             pointer-events: auto;
             z-index: 10;
-        }
-        
-        /* Tron-style traveling border light container */
-        .cube-face::before {
-            content: '';
-            position: absolute;
-            top: -3px;
-            left: -3px;
-            right: -3px;
-            bottom: -3px;
-            border-radius: 19px;
-            background: conic-gradient(
-                from 0deg,
-                transparent 0deg,
-                transparent 60deg,
-                rgba(0, 212, 255, 0.2) 80deg,
-                rgba(0, 212, 255, 0.6) 100deg,
-                rgba(0, 212, 255, 1) 120deg,
-                rgba(100, 200, 255, 1) 140deg,
-                rgba(168, 85, 247, 0.8) 160deg,
-                rgba(168, 85, 247, 0.4) 180deg,
-                transparent 200deg,
-                transparent 360deg
-            );
-            z-index: -2;
-            animation: tronBorderSpin 3s linear infinite;
-        }
-        
-        /* Inner background to create border effect */
-        .cube-face::after {
-            content: '';
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            right: 2px;
-            bottom: 2px;
-            border-radius: 14px;
-            background: rgba(4, 4, 6, 0.97);
-            z-index: -1;
+            animation: tronBorderTravel 3s linear infinite;
             box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.4);
         }
         
-        @keyframes tronBorderSpin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+        @keyframes tronBorderTravel {
+            from { --border-angle: 0deg; }
+            to { --border-angle: 360deg; }
         }
         
-        /* Glow effect on hover */
-        .cube-face:hover::before {
-            filter: brightness(1.3);
+        /* Glow trail effect */
+        .cube-face::before {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            right: -4px;
+            bottom: -4px;
+            border-radius: 20px;
+            background: conic-gradient(
+                from var(--border-angle),
+                transparent 0%,
+                transparent 30%,
+                rgba(0, 212, 255, 0.4) 38%,
+                rgba(0, 212, 255, 0.1) 50%,
+                transparent 55%,
+                transparent 100%
+            );
+            z-index: -1;
+            filter: blur(8px);
+            animation: tronBorderTravel 3s linear infinite;
+        }
+        
+        /* Hover effects */
+        .cube-face:hover {
+            box-shadow: inset 0 0 25px rgba(0, 212, 255, 0.1), inset 0 0 20px rgba(0, 0, 0, 0.4);
             animation-duration: 2s;
         }
         
-        .cube-face:hover::after {
-            box-shadow: inset 0 0 25px rgba(0, 212, 255, 0.15), inset 0 0 20px rgba(0, 0, 0, 0.4);
+        .cube-face:hover::before {
+            animation-duration: 2s;
+            filter: blur(10px);
+            opacity: 1.2;
         }
         @keyframes pulseGlow {
             0%, 100% { transform: scale(1); box-shadow: 0 0 30px currentColor; }
