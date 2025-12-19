@@ -2371,17 +2371,18 @@
             justify-content: center;
             gap: 0.5rem;
             border-radius: 16px;
-            /* More transparent background */
-            background: rgba(18, 18, 18, 0.55);
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
-            /* Glowing border base - Professional Blue */
-            border: 2px solid rgba(30, 144, 255, 0.5);
-            /* Subtle outer glow */
+            /* Glass morphism effect - highly transparent with strong blur */
+            background: rgba(18, 18, 18, 0.25);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            /* Glass border with subtle glow */
+            border: 1.5px solid rgba(0, 212, 255, 0.3);
+            /* Enhanced glass lighting effects */
             box-shadow:
-                0 0 20px rgba(30, 144, 255, 0.25),
-                0 0 40px rgba(30, 144, 255, 0.15),
-                inset 0 0 25px rgba(30, 144, 255, 0.08);
+                0 8px 32px rgba(0, 212, 255, 0.15),
+                0 0 0 1px rgba(255, 255, 255, 0.05) inset,
+                0 0 40px rgba(0, 212, 255, 0.1),
+                inset 0 1px 1px rgba(255, 255, 255, 0.1);
             color: var(--text-primary);
             cursor: pointer;
             -webkit-user-select: none;
@@ -2425,12 +2426,15 @@
             to { --border-angle: 360deg; }
         }
         
-        /* Hover effects - speed up the light and intensify glow */
+        /* Hover effects - enhance glass effect with brighter lighting */
         .cube-face:hover {
-            border-color: rgba(0, 212, 255, 0.8);
+            background: rgba(18, 18, 18, 0.35);
+            border-color: rgba(0, 212, 255, 0.6);
             box-shadow:
-                0 0 12px rgba(0, 212, 255, 0.5),
-                0 0 24px rgba(0, 212, 255, 0.25);
+                0 12px 48px rgba(0, 212, 255, 0.3),
+                0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+                0 0 60px rgba(0, 212, 255, 0.2),
+                inset 0 1px 2px rgba(255, 255, 255, 0.15);
         }
         
         .cube-face:hover::before {
@@ -3122,8 +3126,20 @@
                 <!-- Brochure -->
                 <a href="#brochure" onclick="navigateTo('brochure')">Brochure</a>
                 
-                <a href="#howItWorks" onclick="navigateTo('howItWorks')">How It Works</a>
-                <a href="#about" onclick="navigateTo('about')">About</a>
+                <!-- About & How It Works Dropdown -->
+                <div class="nav-dropdown">
+                    <a href="#about" class="nav-dropdown-trigger">About <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-menu">
+                        <a href="#about" onclick="navigateTo('about'); closeDropdowns();">
+                            <i class="fas fa-info-circle"></i>
+                            <span>About</span>
+                        </a>
+                        <a href="#howItWorks" onclick="navigateTo('howItWorks'); closeDropdowns();">
+                            <i class="fas fa-play-circle"></i>
+                            <span>How It Works</span>
+                        </a>
+                    </div>
+                </div>
                 
                 <!-- Legal Dropdown -->
                 <div class="nav-dropdown">
@@ -3183,8 +3199,13 @@
                 </div>
             </div>
             <a href="#brochure" onclick="navigateTo('brochure'); closeMobileMenu();">Brochure</a>
-            <a href="#howItWorks" onclick="navigateTo('howItWorks'); closeMobileMenu();">📖 How It Works</a>
-            <a href="#about" onclick="navigateTo('about'); closeMobileMenu();">ℹ️ About</a>
+            <div class="mobile-accordion">
+                <button class="mobile-accordion-trigger" onclick="toggleMobileAccordion(this)">About <i class="fas fa-chevron-down"></i></button>
+                <div class="mobile-accordion-content">
+                    <a href="#about" onclick="navigateTo('about'); closeMobileMenu();">ℹ️ About</a>
+                    <a href="#howItWorks" onclick="navigateTo('howItWorks'); closeMobileMenu();">📖 How It Works</a>
+                </div>
+            </div>
             <div class="mobile-accordion">
                 <button class="mobile-accordion-trigger" onclick="toggleMobileAccordion(this)">⚖️ Legal <i class="fas fa-chevron-down"></i></button>
                 <div class="mobile-accordion-content">
@@ -4054,10 +4075,10 @@
                             Ready to elevate your trading? Connect with our expert team for a personalized consultation.
                         </p>
                         
-                        <div class="grid-2" style="max-width: 1000px; margin: 0 auto; gap: 3rem;">
+                        <div class="grid-2" style="max-width: 1200px; margin: 0 auto; gap: 3rem; align-items: start;">
                             <!-- Contact Form -->
-                            <div class="card-3d" style="position: relative; z-index: 1;">
-                                <h3 style="color: var(--primary-gold); margin-bottom: 1.5rem; font-size: 1.3rem;">Send Us a Message</h3>
+                            <div class="card-3d" style="position: relative; z-index: 1; height: 100%;">
+                                <h3 style="color: var(--primary-gold); margin-bottom: 2rem; font-size: 1.4rem; font-weight: 600; text-align: center;">Send Us a Message</h3>
                                 <form id="contactForm" style="position: relative; z-index: 10;">
                                     <div class="form-group">
                                         <label class="form-label" for="contactName">Your Name</label>
@@ -4073,61 +4094,61 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label" for="contactMessage">Message</label>
-                                        <textarea id="contactMessage" name="user_message" class="form-input form-textarea" required placeholder="Tell us about your trading goals and requirements..."></textarea>
+                                        <textarea id="contactMessage" name="user_message" class="form-input form-textarea" required placeholder="Tell us about your trading goals and requirements..." style="min-height: 140px;"></textarea>
                                     </div>
-                                    <button type="submit" class="btn-primary" style="width: 100%; position: relative; z-index: 10;">Send Message</button>
+                                    <button type="submit" class="btn-primary" style="width: 100%; position: relative; z-index: 10; margin-top: 0.5rem;">Send Message</button>
                                 </form>
                             </div>
 
-                            <!-- Contact Info -->
-                            <div>
-                                <div class="card-3d" style="margin-bottom: 1.5rem;">
-                                    <h3 style="color: var(--primary-gold); margin-bottom: 1.5rem; font-size: 1.3rem;">Contact Information</h3>
-                                    <div style="display: flex; flex-direction: column; gap: 1.25rem;">
-                                        <a href="mailto:jdvantagequant@gmail.com" style="display: flex; align-items: center; gap: 1rem; color: var(--text-secondary); text-decoration: none; transition: color 0.2s;">
-                                            <div style="width: 45px; height: 45px; background: rgba(255, 215, 0, 0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
-                                                <i class="fas fa-envelope" style="color: var(--primary-gold);"></i>
+                            <!-- Contact Info - Symmetrical Layout -->
+                            <div style="display: flex; flex-direction: column; gap: 1.5rem; height: 100%;">
+                                <div class="card-3d" style="flex: 1;">
+                                    <h3 style="color: var(--primary-gold); margin-bottom: 2rem; font-size: 1.4rem; font-weight: 600; text-align: center;">Contact Information</h3>
+                                    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                                        <a href="mailto:jdvantagequant@gmail.com" style="display: flex; align-items: center; gap: 1.25rem; color: var(--text-secondary); text-decoration: none; transition: all 0.3s; padding: 1rem; border-radius: 12px; background: rgba(255, 215, 0, 0.03); border: 1px solid rgba(255, 215, 0, 0.1);">
+                                            <div style="width: 50px; height: 50px; background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.1)); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                                <i class="fas fa-envelope" style="color: var(--primary-gold); font-size: 1.2rem;"></i>
                                             </div>
-                                            <div>
-                                                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.25rem;">Email</p>
-                                                <p style="color: var(--text-primary);">jdvantagequant@gmail.com</p>
-                                            </div>
-                                        </a>
-                                        <a href="tel:+917575858430" style="display: flex; align-items: center; gap: 1rem; color: var(--text-secondary); text-decoration: none; transition: color 0.2s;">
-                                            <div style="width: 45px; height: 45px; background: rgba(255, 215, 0, 0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
-                                                <i class="fas fa-phone" style="color: var(--primary-gold);"></i>
-                                            </div>
-                                            <div>
-                                                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.25rem;">Phone</p>
-                                                <p style="color: var(--text-primary);">+91 75758 58430</p>
+                                            <div style="flex: 1;">
+                                                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.35rem; font-weight: 500;">Email</p>
+                                                <p style="color: var(--text-primary); font-size: 1rem; font-weight: 500;">jdvantagequant@gmail.com</p>
                                             </div>
                                         </a>
-                                        <a href="https://jdvantagequant.com" target="_blank" style="display: flex; align-items: center; gap: 1rem; color: var(--text-secondary); text-decoration: none; transition: color 0.2s;">
-                                            <div style="width: 45px; height: 45px; background: rgba(255, 215, 0, 0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
-                                                <i class="fas fa-globe" style="color: var(--primary-gold);"></i>
+                                        <a href="tel:+917575858430" style="display: flex; align-items: center; gap: 1.25rem; color: var(--text-secondary); text-decoration: none; transition: all 0.3s; padding: 1rem; border-radius: 12px; background: rgba(255, 215, 0, 0.03); border: 1px solid rgba(255, 215, 0, 0.1);">
+                                            <div style="width: 50px; height: 50px; background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.1)); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                                <i class="fas fa-phone" style="color: var(--primary-gold); font-size: 1.2rem;"></i>
                                             </div>
-                                            <div>
-                                                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.25rem;">Website</p>
-                                                <p style="color: var(--text-primary);">jdvantagequant.com</p>
+                                            <div style="flex: 1;">
+                                                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.35rem; font-weight: 500;">Phone</p>
+                                                <p style="color: var(--text-primary); font-size: 1rem; font-weight: 500;">+91 75758 58430</p>
+                                            </div>
+                                        </a>
+                                        <a href="https://jdvantagequant.com" target="_blank" style="display: flex; align-items: center; gap: 1.25rem; color: var(--text-secondary); text-decoration: none; transition: all 0.3s; padding: 1rem; border-radius: 12px; background: rgba(255, 215, 0, 0.03); border: 1px solid rgba(255, 215, 0, 0.1);">
+                                            <div style="width: 50px; height: 50px; background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.1)); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                                <i class="fas fa-globe" style="color: var(--primary-gold); font-size: 1.2rem;"></i>
+                                            </div>
+                                            <div style="flex: 1;">
+                                                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.35rem; font-weight: 500;">Website</p>
+                                                <p style="color: var(--text-primary); font-size: 1rem; font-weight: 500;">jdvantagequant.com</p>
                                             </div>
                                         </a>
                                     </div>
                                 </div>
 
-                                <div class="card-3d">
-                                    <h3 style="color: var(--primary-gold); margin-bottom: 1.5rem; font-size: 1.3rem;">Connect With Us</h3>
-                                    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-                                        <a href="https://discord.gg/X6ppaUUjCy" target="_blank" rel="noopener" style="width: 50px; height: 50px; background: rgba(255, 215, 0, 0.1); border: 1px solid var(--border-color); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--text-secondary); text-decoration: none; transition: all 0.2s;" title="Discord">
+                                <div class="card-3d" style="flex: 1;">
+                                    <h3 style="color: var(--primary-gold); margin-bottom: 2rem; font-size: 1.4rem; font-weight: 600; text-align: center;">Connect With Us</h3>
+                                    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1.5rem;">
+                                        <a href="https://discord.gg/X6ppaUUjCy" target="_blank" rel="noopener" style="width: 60px; height: 60px; background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 215, 0, 0.05)); border: 1px solid rgba(255, 215, 0, 0.2); border-radius: 14px; display: flex; align-items: center; justify-content: center; color: var(--text-secondary); text-decoration: none; transition: all 0.3s; font-size: 1.3rem;" title="Discord" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 8px 20px rgba(255, 215, 0, 0.2)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
                                             <i class="fab fa-discord"></i>
                                         </a>
-                                        <a href="https://x.com/JD_Vantage_Cap" target="_blank" rel="noopener" style="width: 50px; height: 50px; background: rgba(255, 215, 0, 0.1); border: 1px solid var(--border-color); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--text-secondary); text-decoration: none; transition: all 0.2s;" title="Twitter/X">
+                                        <a href="https://x.com/JD_Vantage_Cap" target="_blank" rel="noopener" style="width: 60px; height: 60px; background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 215, 0, 0.05)); border: 1px solid rgba(255, 215, 0, 0.2); border-radius: 14px; display: flex; align-items: center; justify-content: center; color: var(--text-secondary); text-decoration: none; transition: all 0.3s; font-size: 1.3rem;" title="Twitter/X" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 8px 20px rgba(255, 215, 0, 0.2)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
                                             <i class="fab fa-twitter"></i>
                                         </a>
-                                        <a href="https://t.me/JDvantagecapital" target="_blank" rel="noopener" style="width: 50px; height: 50px; background: rgba(255, 215, 0, 0.1); border: 1px solid var(--border-color); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--text-secondary); text-decoration: none; transition: all 0.2s;" title="Telegram">
+                                        <a href="https://t.me/JDvantagecapital" target="_blank" rel="noopener" style="width: 60px; height: 60px; background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 215, 0, 0.05)); border: 1px solid rgba(255, 215, 0, 0.2); border-radius: 14px; display: flex; align-items: center; justify-content: center; color: var(--text-secondary); text-decoration: none; transition: all 0.3s; font-size: 1.3rem;" title="Telegram" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 8px 20px rgba(255, 215, 0, 0.2)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
                                             <i class="fab fa-telegram-plane"></i>
                                         </a>
                                     </div>
-                                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 1.5rem; line-height: 1.6;">Join our community for updates, market insights, and direct support from our team.</p>
+                                    <p style="color: var(--text-secondary); font-size: 0.95rem; text-align: center; line-height: 1.7; margin: 0;">Join our community for updates, market insights, and direct support from our team.</p>
                                 </div>
                             </div>
                         </div>
