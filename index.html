@@ -2697,44 +2697,89 @@
             animation-name: pulseTravelOutReverse;
         }
 
-        /* Dollar Notes Animation */
+        /* Page-wide Animation Container */
+        .page-animations {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        /* Dollar Notes Animation - Full Page */
         .dollar-note {
-            position: absolute;
-            font-size: 2rem;
-            color: rgba(0, 200, 83, 0.6);
+            position: fixed;
+            font-size: clamp(1.5rem, 3vw, 3rem);
+            color: rgba(0, 200, 83, 0.7);
             font-weight: 700;
             pointer-events: none;
             user-select: none;
-            animation: floatDollar 15s linear infinite;
-            opacity: 0.7;
-            text-shadow: 0 0 10px rgba(0, 200, 83, 0.5);
+            animation: floatDollar 12s linear infinite;
+            opacity: 0;
+            text-shadow: 0 0 15px rgba(0, 200, 83, 0.6);
+            z-index: 1;
         }
 
         @keyframes floatDollar {
             0% {
-                transform: translateY(100vh) translateX(0) rotate(0deg);
+                transform: translateY(calc(100vh + 50px)) translateX(0) rotate(0deg);
                 opacity: 0;
             }
-            10% {
+            5% {
                 opacity: 0.7;
             }
-            90% {
+            95% {
                 opacity: 0.7;
             }
             100% {
-                transform: translateY(-100px) translateX(50px) rotate(15deg);
+                transform: translateY(-100px) translateX(calc(var(--random-x, 0) * 1px)) rotate(calc(var(--random-rot, 0) * 1deg));
                 opacity: 0;
             }
         }
 
-        /* Green Graph Animation */
-        .green-graph {
-            position: absolute;
-            width: 200px;
-            height: 120px;
-            opacity: 0.3;
+        /* Green Growth Arrow Animation */
+        .growth-arrow {
+            position: fixed;
+            font-size: clamp(1.5rem, 3vw, 2.5rem);
+            color: rgba(0, 200, 83, 0.8);
+            font-weight: 700;
             pointer-events: none;
-            animation: moveGraph 20s linear infinite;
+            user-select: none;
+            animation: floatArrow 10s linear infinite;
+            opacity: 0;
+            text-shadow: 0 0 15px rgba(0, 200, 83, 0.7);
+            z-index: 1;
+        }
+
+        @keyframes floatArrow {
+            0% {
+                transform: translateY(calc(100vh + 50px)) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            5% {
+                opacity: 0.8;
+            }
+            95% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-100px) translateX(calc(var(--random-x, 0) * 1px)) rotate(0deg);
+                opacity: 0;
+            }
+        }
+
+        /* Green Graph Animation - Full Page */
+        .green-graph {
+            position: fixed;
+            width: clamp(150px, 20vw, 300px);
+            height: clamp(90px, 15vh, 180px);
+            opacity: 0;
+            pointer-events: none;
+            animation: moveGraph 25s linear infinite;
+            z-index: 1;
         }
 
         .green-graph svg {
@@ -2744,17 +2789,17 @@
 
         @keyframes moveGraph {
             0% {
-                transform: translateX(-250px) translateY(0);
+                transform: translateX(-350px) translateY(0) rotate(0deg);
                 opacity: 0;
             }
-            10% {
-                opacity: 0.3;
+            5% {
+                opacity: 0.4;
             }
-            90% {
-                opacity: 0.3;
+            95% {
+                opacity: 0.4;
             }
             100% {
-                transform: translateX(calc(100vw + 250px)) translateY(-50px);
+                transform: translateX(calc(100vw + 350px)) translateY(calc(var(--random-y, 0) * 1px)) rotate(calc(var(--random-rot, 0) * 1deg));
                 opacity: 0;
             }
         }
@@ -3437,6 +3482,95 @@
         // Page content definitions
         const pages = {
             home: `
+                <!-- Page-wide Animations (Fixed to viewport) -->
+                <div class="page-animations">
+                    <!-- Dollar Notes Floating All Over -->
+                    <div class="dollar-note" style="left: 5%; --random-x: 30; --random-rot: 12; animation-delay: 0s;">$</div>
+                    <div class="dollar-note" style="left: 15%; --random-x: -25; --random-rot: -8; animation-delay: 1s;">$</div>
+                    <div class="dollar-note" style="left: 25%; --random-x: 40; --random-rot: 15; animation-delay: 2s;">$</div>
+                    <div class="dollar-note" style="left: 35%; --random-x: -20; --random-rot: -10; animation-delay: 0.5s;">$</div>
+                    <div class="dollar-note" style="left: 45%; --random-x: 35; --random-rot: 18; animation-delay: 1.5s;">$</div>
+                    <div class="dollar-note" style="left: 55%; --random-x: -30; --random-rot: -12; animation-delay: 2.5s;">$</div>
+                    <div class="dollar-note" style="left: 65%; --random-x: 25; --random-rot: 10; animation-delay: 3s;">$</div>
+                    <div class="dollar-note" style="left: 75%; --random-x: -35; --random-rot: -15; animation-delay: 0.8s;">$</div>
+                    <div class="dollar-note" style="left: 85%; --random-x: 28; --random-rot: 14; animation-delay: 1.8s;">$</div>
+                    <div class="dollar-note" style="left: 95%; --random-x: -22; --random-rot: -9; animation-delay: 2.8s;">$</div>
+                    
+                    <!-- Green Growth Arrows Moving Up -->
+                    <div class="growth-arrow" style="left: 8%; --random-x: 20; animation-delay: 0.3s;">↑</div>
+                    <div class="growth-arrow" style="left: 18%; --random-x: -15; animation-delay: 1.3s;">↑</div>
+                    <div class="growth-arrow" style="left: 28%; --random-x: 30; animation-delay: 2.3s;">↑</div>
+                    <div class="growth-arrow" style="left: 38%; --random-x: -25; animation-delay: 0.6s;">↑</div>
+                    <div class="growth-arrow" style="left: 48%; --random-x: 18; animation-delay: 1.6s;">↑</div>
+                    <div class="growth-arrow" style="left: 58%; --random-x: -28; animation-delay: 2.6s;">↑</div>
+                    <div class="growth-arrow" style="left: 68%; --random-x: 22; animation-delay: 0.9s;">↑</div>
+                    <div class="growth-arrow" style="left: 78%; --random-x: -20; animation-delay: 1.9s;">↑</div>
+                    <div class="growth-arrow" style="left: 88%; --random-x: 35; animation-delay: 2.9s;">↑</div>
+                    <div class="growth-arrow" style="left: 98%; --random-x: -18; animation-delay: 0.4s;">↑</div>
+                    
+                    <!-- Green Graphs Moving Across -->
+                    <div class="green-graph" style="top: 5%; --random-y: 20; --random-rot: 2; animation-delay: 0s;">
+                        <svg viewBox="0 0 200 120" preserveAspectRatio="none">
+                            <defs>
+                                <linearGradient id="graphGrad1" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#00C853;stop-opacity:0.6"/>
+                                    <stop offset="100%" style="stop-color:#00C853;stop-opacity:0"/>
+                                </linearGradient>
+                            </defs>
+                            <path d="M0,100 L20,90 L40,70 L60,75 L80,60 L100,55 L120,40 L140,45 L160,30 L180,35 L200,25" fill="none" stroke="#00C853" stroke-width="2"/>
+                            <path d="M0,100 L20,90 L40,70 L60,75 L80,60 L100,55 L120,40 L140,45 L160,30 L180,35 L200,25 L200,120 L0,120 Z" fill="url(#graphGrad1)"/>
+                        </svg>
+                    </div>
+                    <div class="green-graph" style="top: 20%; --random-y: -15; --random-rot: -1; animation-delay: 8s;">
+                        <svg viewBox="0 0 200 120" preserveAspectRatio="none">
+                            <defs>
+                                <linearGradient id="graphGrad2" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#00C853;stop-opacity:0.5"/>
+                                    <stop offset="100%" style="stop-color:#00C853;stop-opacity:0"/>
+                                </linearGradient>
+                            </defs>
+                            <path d="M0,110 L30,95 L50,80 L70,85 L90,70 L110,65 L130,50 L150,55 L170,40 L200,30" fill="none" stroke="#00C853" stroke-width="2"/>
+                            <path d="M0,110 L30,95 L50,80 L70,85 L90,70 L110,65 L130,50 L150,55 L170,40 L200,30 L200,120 L0,120 Z" fill="url(#graphGrad2)"/>
+                        </svg>
+                    </div>
+                    <div class="green-graph" style="top: 40%; --random-y: 25; --random-rot: 1.5; animation-delay: 16s;">
+                        <svg viewBox="0 0 200 120" preserveAspectRatio="none">
+                            <defs>
+                                <linearGradient id="graphGrad3" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#00C853;stop-opacity:0.4"/>
+                                    <stop offset="100%" style="stop-color:#00C853;stop-opacity:0"/>
+                                </linearGradient>
+                            </defs>
+                            <path d="M0,100 L25,85 L45,70 L65,75 L85,60 L105,55 L125,40 L145,45 L165,30 L200,20" fill="none" stroke="#00C853" stroke-width="2"/>
+                            <path d="M0,100 L25,85 L45,70 L65,75 L85,60 L105,55 L125,40 L145,45 L165,30 L200,20 L200,120 L0,120 Z" fill="url(#graphGrad3)"/>
+                        </svg>
+                    </div>
+                    <div class="green-graph" style="top: 60%; --random-y: -20; --random-rot: -2; animation-delay: 12s;">
+                        <svg viewBox="0 0 200 120" preserveAspectRatio="none">
+                            <defs>
+                                <linearGradient id="graphGrad4" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#00C853;stop-opacity:0.5"/>
+                                    <stop offset="100%" style="stop-color:#00C853;stop-opacity:0"/>
+                                </linearGradient>
+                            </defs>
+                            <path d="M0,105 L35,90 L55,75 L75,80 L95,65 L115,60 L135,45 L155,50 L175,35 L200,25" fill="none" stroke="#00C853" stroke-width="2"/>
+                            <path d="M0,105 L35,90 L55,75 L75,80 L95,65 L115,60 L135,45 L155,50 L175,35 L200,25 L200,120 L0,120 Z" fill="url(#graphGrad4)"/>
+                        </svg>
+                    </div>
+                    <div class="green-graph" style="top: 80%; --random-y: 18; --random-rot: 1; animation-delay: 20s;">
+                        <svg viewBox="0 0 200 120" preserveAspectRatio="none">
+                            <defs>
+                                <linearGradient id="graphGrad5" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#00C853;stop-opacity:0.45"/>
+                                    <stop offset="100%" style="stop-color:#00C853;stop-opacity:0"/>
+                                </linearGradient>
+                            </defs>
+                            <path d="M0,95 L40,80 L60,65 L80,70 L100,55 L120,50 L140,35 L160,40 L180,25 L200,15" fill="none" stroke="#00C853" stroke-width="2"/>
+                            <path d="M0,95 L40,80 L60,65 L80,70 L100,55 L120,50 L140,35 L160,40 L180,25 L200,15 L200,120 L0,120 Z" fill="url(#graphGrad5)"/>
+                        </svg>
+                    </div>
+                </div>
+                
                 <div class="page-content">
                     <section class="hero-section">
                         <div class="hero-content">
@@ -3496,67 +3630,6 @@
                                         <div class="circuit-node n6"></div>
                                         <div class="circuit-node n7"></div>
                                         <div class="circuit-node n8"></div>
-                                        
-                                        <!-- Dollar Notes Floating -->
-                                        <div class="dollar-note" style="left: 10%; animation-delay: 0s;">$</div>
-                                        <div class="dollar-note" style="left: 20%; animation-delay: 2s;">$</div>
-                                        <div class="dollar-note" style="left: 30%; animation-delay: 4s;">$</div>
-                                        <div class="dollar-note" style="left: 40%; animation-delay: 1s;">$</div>
-                                        <div class="dollar-note" style="left: 50%; animation-delay: 3s;">$</div>
-                                        <div class="dollar-note" style="left: 60%; animation-delay: 5s;">$</div>
-                                        <div class="dollar-note" style="left: 70%; animation-delay: 2.5s;">$</div>
-                                        <div class="dollar-note" style="left: 80%; animation-delay: 4.5s;">$</div>
-                                        <div class="dollar-note" style="left: 90%; animation-delay: 1.5s;">$</div>
-                                        
-                                        <!-- Green Graph Animations -->
-                                        <div class="green-graph" style="top: 10%; animation-delay: 0s;">
-                                            <svg viewBox="0 0 200 120" preserveAspectRatio="none">
-                                                <defs>
-                                                    <linearGradient id="graphGrad1" x1="0%" y1="0%" x2="0%" y2="100%">
-                                                        <stop offset="0%" style="stop-color:#00C853;stop-opacity:0.6"/>
-                                                        <stop offset="100%" style="stop-color:#00C853;stop-opacity:0"/>
-                                                    </linearGradient>
-                                                </defs>
-                                                <path d="M0,100 L20,90 L40,70 L60,75 L80,60 L100,55 L120,40 L140,45 L160,30 L180,35 L200,25" fill="none" stroke="#00C853" stroke-width="2"/>
-                                                <path d="M0,100 L20,90 L40,70 L60,75 L80,60 L100,55 L120,40 L140,45 L160,30 L180,35 L200,25 L200,120 L0,120 Z" fill="url(#graphGrad1)"/>
-                                            </svg>
-                                        </div>
-                                        <div class="green-graph" style="top: 30%; animation-delay: 7s;">
-                                            <svg viewBox="0 0 200 120" preserveAspectRatio="none">
-                                                <defs>
-                                                    <linearGradient id="graphGrad2" x1="0%" y1="0%" x2="0%" y2="100%">
-                                                        <stop offset="0%" style="stop-color:#00C853;stop-opacity:0.5"/>
-                                                        <stop offset="100%" style="stop-color:#00C853;stop-opacity:0"/>
-                                                    </linearGradient>
-                                                </defs>
-                                                <path d="M0,110 L30,95 L50,80 L70,85 L90,70 L110,65 L130,50 L150,55 L170,40 L200,30" fill="none" stroke="#00C853" stroke-width="2"/>
-                                                <path d="M0,110 L30,95 L50,80 L70,85 L90,70 L110,65 L130,50 L150,55 L170,40 L200,30 L200,120 L0,120 Z" fill="url(#graphGrad2)"/>
-                                            </svg>
-                                        </div>
-                                        <div class="green-graph" style="top: 50%; animation-delay: 14s;">
-                                            <svg viewBox="0 0 200 120" preserveAspectRatio="none">
-                                                <defs>
-                                                    <linearGradient id="graphGrad3" x1="0%" y1="0%" x2="0%" y2="100%">
-                                                        <stop offset="0%" style="stop-color:#00C853;stop-opacity:0.4"/>
-                                                        <stop offset="100%" style="stop-color:#00C853;stop-opacity:0"/>
-                                                    </linearGradient>
-                                                </defs>
-                                                <path d="M0,100 L25,85 L45,70 L65,75 L85,60 L105,55 L125,40 L145,45 L165,30 L200,20" fill="none" stroke="#00C853" stroke-width="2"/>
-                                                <path d="M0,100 L25,85 L45,70 L65,75 L85,60 L105,55 L125,40 L145,45 L165,30 L200,20 L200,120 L0,120 Z" fill="url(#graphGrad3)"/>
-                                            </svg>
-                                        </div>
-                                        <div class="green-graph" style="top: 70%; animation-delay: 10s;">
-                                            <svg viewBox="0 0 200 120" preserveAspectRatio="none">
-                                                <defs>
-                                                    <linearGradient id="graphGrad4" x1="0%" y1="0%" x2="0%" y2="100%">
-                                                        <stop offset="0%" style="stop-color:#00C853;stop-opacity:0.5"/>
-                                                        <stop offset="100%" style="stop-color:#00C853;stop-opacity:0"/>
-                                                    </linearGradient>
-                                                </defs>
-                                                <path d="M0,105 L35,90 L55,75 L75,80 L95,65 L115,60 L135,45 L155,50 L175,35 L200,25" fill="none" stroke="#00C853" stroke-width="2"/>
-                                                <path d="M0,105 L35,90 L55,75 L75,80 L95,65 L115,60 L135,45 L155,50 L175,35 L200,25 L200,120 L0,120 Z" fill="url(#graphGrad4)"/>
-                                            </svg>
-                                        </div>
                                     </div>
                                     <div class="cube-wrapper">
                                         <div class="cube-aura"></div>
