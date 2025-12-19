@@ -743,10 +743,18 @@
         }
 
         .mobile-cta {
-            background: var(--gradient-primary) !important;
-            color: #060d18 !important;
-            font-weight: 600 !important;
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(20px) saturate(180%) !important;
+            -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+            color: #121212 !important;
+            font-weight: 500 !important;
             margin-top: 1rem;
+            border: none !important;
+            border-radius: 50px !important;
+            box-shadow: 
+                0 4px 20px rgba(255, 255, 255, 0.2),
+                0 0 0 0 rgba(255, 255, 255, 0.1) inset !important;
+            animation: smoothBubble 4s ease-in-out infinite !important;
         }
 
         .mobile-menu-close {
@@ -1026,18 +1034,18 @@
 
         /* Buttons - Gradient with Glow */
         .btn-primary {
-            background: linear-gradient(135deg, rgba(100, 181, 246, 0.85), rgba(77, 166, 255, 0.9));
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px) saturate(180%);
             -webkit-backdrop-filter: blur(20px) saturate(180%);
-            color: #ffffff;
+            color: #121212;
             padding: 1rem 2.5rem;
-            border: 1.5px solid rgba(255, 255, 255, 0.3);
-            border-radius: 12px;
+            border: none;
+            border-radius: 50px;
             font-family: 'Space Grotesk', sans-serif;
-            font-weight: 600;
-            font-size: 0.85rem;
+            font-weight: 500;
+            font-size: 0.9rem;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
             text-decoration: none;
             display: inline-flex;
             align-items: center;
@@ -1045,108 +1053,117 @@
             gap: 0.75rem;
             position: relative;
             overflow: hidden;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.3px;
             box-shadow: 
-                0 8px 32px rgba(100, 181, 246, 0.3),
-                0 0 0 1px rgba(255, 255, 255, 0.1) inset,
-                inset 0 1px 1px rgba(255, 255, 255, 0.2);
-            animation: bubbleFloat 3s ease-in-out infinite;
+                0 4px 20px rgba(255, 255, 255, 0.2),
+                0 0 0 0 rgba(255, 255, 255, 0.1) inset;
+            animation: smoothBubble 4s ease-in-out infinite;
         }
 
-        @keyframes bubbleFloat {
+        @keyframes smoothBubble {
             0%, 100% {
                 transform: translateY(0) scale(1);
                 box-shadow: 
-                    0 8px 32px rgba(100, 181, 246, 0.3),
-                    0 0 0 1px rgba(255, 255, 255, 0.1) inset,
-                    inset 0 1px 1px rgba(255, 255, 255, 0.2);
+                    0 4px 20px rgba(255, 255, 255, 0.2),
+                    0 0 0 0 rgba(255, 255, 255, 0.1) inset;
             }
             50% {
-                transform: translateY(-2px) scale(1.01);
+                transform: translateY(-3px) scale(1.02);
                 box-shadow: 
-                    0 12px 40px rgba(100, 181, 246, 0.4),
-                    0 0 0 1px rgba(255, 255, 255, 0.15) inset,
-                    inset 0 1px 2px rgba(255, 255, 255, 0.3);
+                    0 8px 30px rgba(255, 255, 255, 0.3),
+                    0 0 0 2px rgba(255, 255, 255, 0.15) inset;
             }
         }
 
         .btn-primary::before {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
-            animation: bubbleShimmer 4s ease-in-out infinite;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
             pointer-events: none;
         }
 
-        @keyframes bubbleShimmer {
-            0%, 100% {
-                transform: translate(-50%, -50%) scale(0.8);
-                opacity: 0.3;
-            }
-            50% {
-                transform: translate(-50%, -50%) scale(1.2);
-                opacity: 0.6;
-            }
-        }
-
-        .btn-primary::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
-            transition: left 0.6s ease;
-        }
-
         .btn-primary:hover {
-            transform: translateY(-4px) scale(1.03);
-            background: linear-gradient(135deg, rgba(100, 181, 246, 0.95), rgba(77, 166, 255, 1));
-            border-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-5px) scale(1.05);
+            background: rgba(255, 255, 255, 1);
             box-shadow: 
-                0 16px 48px rgba(100, 181, 246, 0.5),
-                0 0 0 1px rgba(255, 255, 255, 0.2) inset,
-                inset 0 2px 3px rgba(255, 255, 255, 0.4),
-                0 0 60px rgba(100, 181, 246, 0.3);
+                0 12px 40px rgba(255, 255, 255, 0.4),
+                0 0 0 3px rgba(255, 255, 255, 0.2) inset;
             animation: none;
         }
 
-        .btn-primary:hover::after {
-            left: 100%;
+        .btn-primary:hover::before {
+            width: 300px;
+            height: 300px;
         }
 
         .btn-primary:active {
-            transform: translateY(-2px) scale(0.98);
+            transform: translateY(-2px) scale(1.02);
         }
 
         .btn-secondary {
-            background: rgba(255, 255, 255, 0.03);
-            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            color: #121212;
             padding: 1rem 2.5rem;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
+            border: none;
+            border-radius: 50px;
             font-family: 'Space Grotesk', sans-serif;
             font-weight: 500;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
             text-decoration: none;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 0.75rem;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.3px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 
+                0 4px 20px rgba(255, 255, 255, 0.2),
+                0 0 0 0 rgba(255, 255, 255, 0.1) inset;
+            animation: smoothBubble 4s ease-in-out infinite;
+        }
+
+        .btn-secondary::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+            pointer-events: none;
         }
 
         .btn-secondary:hover {
-            border-color: var(--accent-cyan);
-            background: rgba(0, 212, 255, 0.08);
-            box-shadow: 0 0 30px rgba(0, 212, 255, 0.1);
+            transform: translateY(-5px) scale(1.05);
+            background: rgba(255, 255, 255, 1);
+            box-shadow: 
+                0 12px 40px rgba(255, 255, 255, 0.4),
+                0 0 0 3px rgba(255, 255, 255, 0.2) inset;
+            animation: none;
+        }
+
+        .btn-secondary:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-secondary:active {
+            transform: translateY(-2px) scale(1.02);
         }
 
         /* Profit/Growth Badge */
@@ -2709,46 +2726,38 @@
             overflow: hidden;
         }
 
-        /* Dollar Notes Animation - Smooth Leaf-like Floating */
-        .dollar-note {
+        /* Dollar Sign Animation - Simple and Spacious */
+        .dollar-sign {
             position: fixed;
-            width: clamp(40px, 5vw, 80px);
-            height: clamp(20px, 2.5vw, 40px);
+            font-size: clamp(3rem, 6vw, 5rem);
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.15);
             pointer-events: none;
             user-select: none;
-            animation: floatLeaf 25s ease-in-out infinite;
+            animation: floatDollar 30s ease-in-out infinite;
             opacity: 0;
             z-index: 1;
-            filter: drop-shadow(0 0 8px rgba(76, 175, 80, 0.6)) drop-shadow(0 0 12px rgba(76, 175, 80, 0.4)) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+            font-family: 'Space Grotesk', sans-serif;
+            letter-spacing: 0;
         }
 
-        .dollar-note svg {
-            width: 100%;
-            height: 100%;
-        }
-
-        @keyframes floatLeaf {
+        @keyframes floatDollar {
             0% {
-                transform: translateY(calc(100vh + 150px)) translateX(0) rotate(0deg);
+                transform: translateY(calc(100vh + 200px)) translateX(0) rotate(0deg);
                 opacity: 0;
             }
-            5% {
-                opacity: 0.4;
-            }
-            20% {
-                transform: translateY(calc(80vh)) translateX(calc(var(--drift-x, 0) * 0.3px)) rotate(calc(var(--max-rot, 0) * 0.3deg));
+            10% {
+                opacity: 0.3;
             }
             50% {
                 transform: translateY(50vh) translateX(calc(var(--drift-x, 0) * 1px)) rotate(calc(var(--max-rot, 0) * 1deg));
+                opacity: 0.2;
             }
-            80% {
-                transform: translateY(calc(20vh)) translateX(calc(var(--drift-x, 0) * 1.5px)) rotate(calc(var(--max-rot, 0) * 1.2deg));
-            }
-            95% {
-                opacity: 0.4;
+            90% {
+                opacity: 0.3;
             }
             100% {
-                transform: translateY(-200px) translateX(calc(var(--drift-x, 0) * 1.8px)) rotate(calc(var(--max-rot, 0) * 1.3deg));
+                transform: translateY(-300px) translateX(calc(var(--drift-x, 0) * 1.5px)) rotate(calc(var(--max-rot, 0) * 1.2deg));
                 opacity: 0;
             }
         }
@@ -3433,97 +3442,10 @@
             home: `
                 <!-- Page-wide Animations (Fixed to viewport) -->
                 <div class="page-animations">
-                    <!-- Dollar Notes Floating Smoothly Like Leaves - Cartoonish Design -->
-                    <div class="dollar-note" style="left: 15%; --drift-x: 50; --max-rot: 30; animation-delay: 0s;">
-                        <svg viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg">
-                            <defs>
-                                <linearGradient id="billGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" style="stop-color:#fff9c4;stop-opacity:1"/>
-                                    <stop offset="100%" style="stop-color:#fff59d;stop-opacity:1"/>
-                                </linearGradient>
-                            </defs>
-                            <rect width="120" height="60" rx="8" fill="url(#billGrad1)" stroke="#4caf50" stroke-width="2.5" opacity="0.9"/>
-                            <circle cx="20" cy="15" r="8" fill="#4caf50" opacity="0.3"/>
-                            <circle cx="100" cy="15" r="8" fill="#4caf50" opacity="0.3"/>
-                            <circle cx="20" cy="45" r="8" fill="#4caf50" opacity="0.3"/>
-                            <circle cx="100" cy="45" r="8" fill="#4caf50" opacity="0.3"/>
-                            <text x="60" y="25" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#2e7d32" text-anchor="middle">$</text>
-                            <text x="60" y="38" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#1b5e20" text-anchor="middle">1</text>
-                            <circle cx="60" cy="30" r="12" fill="none" stroke="#4caf50" stroke-width="1.5" opacity="0.4"/>
-                        </svg>
-                    </div>
-                    <div class="dollar-note" style="left: 35%; --drift-x: -45; --max-rot: -25; animation-delay: 5s;">
-                        <svg viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg">
-                            <defs>
-                                <linearGradient id="billGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" style="stop-color:#fff9c4;stop-opacity:1"/>
-                                    <stop offset="100%" style="stop-color:#fff59d;stop-opacity:1"/>
-                                </linearGradient>
-                            </defs>
-                            <rect width="120" height="60" rx="8" fill="url(#billGrad2)" stroke="#4caf50" stroke-width="2.5" opacity="0.9"/>
-                            <circle cx="20" cy="15" r="8" fill="#4caf50" opacity="0.3"/>
-                            <circle cx="100" cy="15" r="8" fill="#4caf50" opacity="0.3"/>
-                            <circle cx="20" cy="45" r="8" fill="#4caf50" opacity="0.3"/>
-                            <circle cx="100" cy="45" r="8" fill="#4caf50" opacity="0.3"/>
-                            <text x="60" y="25" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#2e7d32" text-anchor="middle">$</text>
-                            <text x="60" y="38" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#1b5e20" text-anchor="middle">1</text>
-                            <circle cx="60" cy="30" r="12" fill="none" stroke="#4caf50" stroke-width="1.5" opacity="0.4"/>
-                        </svg>
-                    </div>
-                    <div class="dollar-note" style="left: 55%; --drift-x: 55; --max-rot: 28; animation-delay: 10s;">
-                        <svg viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg">
-                            <defs>
-                                <linearGradient id="billGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" style="stop-color:#fff9c4;stop-opacity:1"/>
-                                    <stop offset="100%" style="stop-color:#fff59d;stop-opacity:1"/>
-                                </linearGradient>
-                            </defs>
-                            <rect width="120" height="60" rx="8" fill="url(#billGrad3)" stroke="#4caf50" stroke-width="2.5" opacity="0.9"/>
-                            <circle cx="20" cy="15" r="8" fill="#4caf50" opacity="0.3"/>
-                            <circle cx="100" cy="15" r="8" fill="#4caf50" opacity="0.3"/>
-                            <circle cx="20" cy="45" r="8" fill="#4caf50" opacity="0.3"/>
-                            <circle cx="100" cy="45" r="8" fill="#4caf50" opacity="0.3"/>
-                            <text x="60" y="25" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#2e7d32" text-anchor="middle">$</text>
-                            <text x="60" y="38" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#1b5e20" text-anchor="middle">1</text>
-                            <circle cx="60" cy="30" r="12" fill="none" stroke="#4caf50" stroke-width="1.5" opacity="0.4"/>
-                        </svg>
-                    </div>
-                    <div class="dollar-note" style="left: 75%; --drift-x: -50; --max-rot: -27; animation-delay: 3s;">
-                        <svg viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg">
-                            <defs>
-                                <linearGradient id="billGrad4" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" style="stop-color:#fff9c4;stop-opacity:1"/>
-                                    <stop offset="100%" style="stop-color:#fff59d;stop-opacity:1"/>
-                                </linearGradient>
-                            </defs>
-                            <rect width="120" height="60" rx="8" fill="url(#billGrad4)" stroke="#4caf50" stroke-width="2.5" opacity="0.9"/>
-                            <circle cx="20" cy="15" r="8" fill="#4caf50" opacity="0.3"/>
-                            <circle cx="100" cy="15" r="8" fill="#4caf50" opacity="0.3"/>
-                            <circle cx="20" cy="45" r="8" fill="#4caf50" opacity="0.3"/>
-                            <circle cx="100" cy="45" r="8" fill="#4caf50" opacity="0.3"/>
-                            <text x="60" y="25" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#2e7d32" text-anchor="middle">$</text>
-                            <text x="60" y="38" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#1b5e20" text-anchor="middle">1</text>
-                            <circle cx="60" cy="30" r="12" fill="none" stroke="#4caf50" stroke-width="1.5" opacity="0.4"/>
-                        </svg>
-                    </div>
-                    <div class="dollar-note" style="left: 25%; --drift-x: 48; --max-rot: 26; animation-delay: 7s;">
-                        <svg viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg">
-                            <defs>
-                                <linearGradient id="billGrad5" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" style="stop-color:#fff9c4;stop-opacity:1"/>
-                                    <stop offset="100%" style="stop-color:#fff59d;stop-opacity:1"/>
-                                </linearGradient>
-                            </defs>
-                            <rect width="120" height="60" rx="8" fill="url(#billGrad5)" stroke="#4caf50" stroke-width="2.5" opacity="0.9"/>
-                            <circle cx="20" cy="15" r="8" fill="#4caf50" opacity="0.3"/>
-                            <circle cx="100" cy="15" r="8" fill="#4caf50" opacity="0.3"/>
-                            <circle cx="20" cy="45" r="8" fill="#4caf50" opacity="0.3"/>
-                            <circle cx="100" cy="45" r="8" fill="#4caf50" opacity="0.3"/>
-                            <text x="60" y="25" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#2e7d32" text-anchor="middle">$</text>
-                            <text x="60" y="38" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#1b5e20" text-anchor="middle">1</text>
-                            <circle cx="60" cy="30" r="12" fill="none" stroke="#4caf50" stroke-width="1.5" opacity="0.4"/>
-                        </svg>
-                    </div>
+                    <!-- Dollar Signs Floating - Simple and Spacious -->
+                    <div class="dollar-sign" style="left: 20%; --drift-x: 40; --max-rot: 15; animation-delay: 0s;">$</div>
+                    <div class="dollar-sign" style="left: 50%; --drift-x: -35; --max-rot: -12; animation-delay: 8s;">$</div>
+                    <div class="dollar-sign" style="left: 80%; --drift-x: 45; --max-rot: 18; animation-delay: 16s;">$</div>
                 </div>
                 
                 <div class="page-content">
@@ -3989,7 +3911,7 @@
                                         </svg>
                                         <p style="position: absolute; bottom: 0; right: 0; font-size: 0.7rem; color: var(--text-secondary); margin: 0;">18 Months Performance</p>
                                     </div>
-                                    <button class="btn-primary" onclick="navigateTo('goldFxDetails')" style="width: 100%; background: linear-gradient(135deg, #ffd700, #ff9500);">👑 View Full Analysis</button>
+                                    <button class="btn-primary" onclick="navigateTo('goldFxDetails')" style="width: 100%;">👑 View Full Analysis</button>
                                 </div>
                                 
                                 <!-- GoldClutch EA -->
@@ -4032,7 +3954,7 @@
                                         </svg>
                                         <p style="position: absolute; bottom: 0; right: 0; font-size: 0.7rem; color: var(--text-secondary); margin: 0;">Jan-Dec 2025</p>
                                     </div>
-                                    <button class="btn-primary" onclick="navigateTo('goldClutch')" style="width: 100%; background: linear-gradient(135deg, #ffb300, #ff8c00);">🤜 View Full Analysis</button>
+                                    <button class="btn-primary" onclick="navigateTo('goldClutch')" style="width: 100%;">🤜 View Full Analysis</button>
                                 </div>
                                 
                                 <!-- GoldShort EA -->
@@ -4118,7 +4040,7 @@
                                         </svg>
                                         <p style="position: absolute; bottom: 0; right: 0; font-size: 0.7rem; color: var(--text-secondary); margin: 0;">Jan-Dec 2025</p>
                                     </div>
-                                    <button class="btn-primary" onclick="navigateTo('goldShortSL')" style="width: 100%; background: linear-gradient(135deg, #a855f7, #7c3aed);">🛡️ View Full Analysis</button>
+                                    <button class="btn-primary" onclick="navigateTo('goldShortSL')" style="width: 100%;">🛡️ View Full Analysis</button>
                                 </div>
                             </div>
                         </div>
@@ -4150,7 +4072,7 @@
                                         <li style="display: flex; align-items: center; gap: 0.75rem; color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.75rem;"><i class="fas fa-check-circle" style="color: var(--success-green);"></i> Risk Assessment</li>
                                         <li style="display: flex; align-items: center; gap: 0.75rem; color: var(--text-secondary); font-size: 0.9rem;"><i class="fas fa-check-circle" style="color: var(--success-green);"></i> Portfolio Optimization</li>
                                     </ul>
-                                    <button class="btn-primary" onclick="navigateTo('consultation')" style="width: 100%; background: linear-gradient(135deg, #22c55e, #16a34a);">📞 Book Consultation</button>
+                                    <button class="btn-primary" onclick="navigateTo('consultation')" style="width: 100%;">📞 Book Consultation</button>
                                 </div>
                                 
                                 <!-- Custom Development -->
@@ -4170,7 +4092,7 @@
                                         <li style="display: flex; align-items: center; gap: 0.75rem; color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.75rem;"><i class="fas fa-check-circle" style="color: var(--success-green);"></i> Indicator Programming</li>
                                         <li style="display: flex; align-items: center; gap: 0.75rem; color: var(--text-secondary); font-size: 0.9rem;"><i class="fas fa-check-circle" style="color: var(--success-green);"></i> Strategy Backtesting</li>
                                     </ul>
-                                    <button class="btn-primary" onclick="navigateTo('customDev')" style="width: 100%; background: linear-gradient(135deg, #a855f7, #7c3aed);">🔧 Request Quote</button>
+                                    <button class="btn-primary" onclick="navigateTo('customDev')" style="width: 100%;">🔧 Request Quote</button>
                                 </div>
                             </div>
                         </div>
