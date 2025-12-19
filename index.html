@@ -1026,11 +1026,13 @@
 
         /* Buttons - Gradient with Glow */
         .btn-primary {
-            background: var(--gradient-primary);
-            color: #000000;
+            background: linear-gradient(135deg, rgba(100, 181, 246, 0.85), rgba(77, 166, 255, 0.9));
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            color: #ffffff;
             padding: 1rem 2.5rem;
-            border: none;
-            border-radius: 8px;
+            border: 1.5px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
             font-family: 'Space Grotesk', sans-serif;
             font-weight: 600;
             font-size: 0.85rem;
@@ -1044,29 +1046,82 @@
             position: relative;
             overflow: hidden;
             letter-spacing: 0.5px;
-            box-shadow: 0 4px 25px rgba(0, 212, 255, 0.25);
+            box-shadow: 
+                0 8px 32px rgba(100, 181, 246, 0.3),
+                0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+                inset 0 1px 1px rgba(255, 255, 255, 0.2);
+            animation: bubbleFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes bubbleFloat {
+            0%, 100% {
+                transform: translateY(0) scale(1);
+                box-shadow: 
+                    0 8px 32px rgba(100, 181, 246, 0.3),
+                    0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+                    inset 0 1px 1px rgba(255, 255, 255, 0.2);
+            }
+            50% {
+                transform: translateY(-2px) scale(1.01);
+                box-shadow: 
+                    0 12px 40px rgba(100, 181, 246, 0.4),
+                    0 0 0 1px rgba(255, 255, 255, 0.15) inset,
+                    inset 0 1px 2px rgba(255, 255, 255, 0.3);
+            }
         }
 
         .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+            animation: bubbleShimmer 4s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes bubbleShimmer {
+            0%, 100% {
+                transform: translate(-50%, -50%) scale(0.8);
+                opacity: 0.3;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.2);
+                opacity: 0.6;
+            }
+        }
+
+        .btn-primary::after {
             content: '';
             position: absolute;
             top: 0;
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            transition: left 0.5s ease;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+            transition: left 0.6s ease;
         }
 
         .btn-primary:hover {
-            transform: translateY(-3px) scale(1.02);
+            transform: translateY(-4px) scale(1.03);
+            background: linear-gradient(135deg, rgba(100, 181, 246, 0.95), rgba(77, 166, 255, 1));
+            border-color: rgba(255, 255, 255, 0.4);
             box-shadow: 
-                0 10px 40px rgba(0, 212, 255, 0.35),
-                0 0 80px rgba(168, 85, 247, 0.15);
+                0 16px 48px rgba(100, 181, 246, 0.5),
+                0 0 0 1px rgba(255, 255, 255, 0.2) inset,
+                inset 0 2px 3px rgba(255, 255, 255, 0.4),
+                0 0 60px rgba(100, 181, 246, 0.3);
+            animation: none;
         }
 
-        .btn-primary:hover::before {
+        .btn-primary:hover::after {
             left: 100%;
+        }
+
+        .btn-primary:active {
+            transform: translateY(-2px) scale(0.98);
         }
 
         .btn-secondary {
@@ -2642,6 +2697,68 @@
             animation-name: pulseTravelOutReverse;
         }
 
+        /* Dollar Notes Animation */
+        .dollar-note {
+            position: absolute;
+            font-size: 2rem;
+            color: rgba(0, 200, 83, 0.6);
+            font-weight: 700;
+            pointer-events: none;
+            user-select: none;
+            animation: floatDollar 15s linear infinite;
+            opacity: 0.7;
+            text-shadow: 0 0 10px rgba(0, 200, 83, 0.5);
+        }
+
+        @keyframes floatDollar {
+            0% {
+                transform: translateY(100vh) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-100px) translateX(50px) rotate(15deg);
+                opacity: 0;
+            }
+        }
+
+        /* Green Graph Animation */
+        .green-graph {
+            position: absolute;
+            width: 200px;
+            height: 120px;
+            opacity: 0.3;
+            pointer-events: none;
+            animation: moveGraph 20s linear infinite;
+        }
+
+        .green-graph svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        @keyframes moveGraph {
+            0% {
+                transform: translateX(-250px) translateY(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.3;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateX(calc(100vw + 250px)) translateY(-50px);
+                opacity: 0;
+            }
+        }
+
         /* Circuit Node Points - small glowing dots where lines meet */
         .circuit-node {
             position: absolute;
@@ -3048,6 +3165,9 @@
             <nav class="nav-links">
                 <a href="#home" onclick="navigateTo('home')">Home</a>
                 
+                <!-- Brochure -->
+                <a href="#brochure" onclick="navigateTo('brochure')">Brochure</a>
+                
                 <!-- Solutions Dropdown -->
                 <div class="nav-dropdown">
                     <a href="#offerings" class="nav-dropdown-trigger">Solutions <i class="fas fa-chevron-down"></i></a>
@@ -3123,9 +3243,6 @@
                     </div>
                 </div>
                 
-                <!-- Brochure -->
-                <a href="#brochure" onclick="navigateTo('brochure')">Brochure</a>
-                
                 <!-- About & How It Works Dropdown -->
                 <div class="nav-dropdown">
                     <a href="#about" class="nav-dropdown-trigger">About <i class="fas fa-chevron-down"></i></a>
@@ -3180,6 +3297,7 @@
         </button>
         <nav class="mobile-menu-links">
             <a href="#home" onclick="navigateTo('home'); closeMobileMenu();">🏠 Home</a>
+            <a href="#brochure" onclick="navigateTo('brochure'); closeMobileMenu();">Brochure</a>
             <div class="mobile-accordion">
                 <button class="mobile-accordion-trigger" onclick="toggleMobileAccordion(this)">Solutions <i class="fas fa-chevron-down"></i></button>
                 <div class="mobile-accordion-content">
@@ -3378,6 +3496,67 @@
                                         <div class="circuit-node n6"></div>
                                         <div class="circuit-node n7"></div>
                                         <div class="circuit-node n8"></div>
+                                        
+                                        <!-- Dollar Notes Floating -->
+                                        <div class="dollar-note" style="left: 10%; animation-delay: 0s;">$</div>
+                                        <div class="dollar-note" style="left: 20%; animation-delay: 2s;">$</div>
+                                        <div class="dollar-note" style="left: 30%; animation-delay: 4s;">$</div>
+                                        <div class="dollar-note" style="left: 40%; animation-delay: 1s;">$</div>
+                                        <div class="dollar-note" style="left: 50%; animation-delay: 3s;">$</div>
+                                        <div class="dollar-note" style="left: 60%; animation-delay: 5s;">$</div>
+                                        <div class="dollar-note" style="left: 70%; animation-delay: 2.5s;">$</div>
+                                        <div class="dollar-note" style="left: 80%; animation-delay: 4.5s;">$</div>
+                                        <div class="dollar-note" style="left: 90%; animation-delay: 1.5s;">$</div>
+                                        
+                                        <!-- Green Graph Animations -->
+                                        <div class="green-graph" style="top: 10%; animation-delay: 0s;">
+                                            <svg viewBox="0 0 200 120" preserveAspectRatio="none">
+                                                <defs>
+                                                    <linearGradient id="graphGrad1" x1="0%" y1="0%" x2="0%" y2="100%">
+                                                        <stop offset="0%" style="stop-color:#00C853;stop-opacity:0.6"/>
+                                                        <stop offset="100%" style="stop-color:#00C853;stop-opacity:0"/>
+                                                    </linearGradient>
+                                                </defs>
+                                                <path d="M0,100 L20,90 L40,70 L60,75 L80,60 L100,55 L120,40 L140,45 L160,30 L180,35 L200,25" fill="none" stroke="#00C853" stroke-width="2"/>
+                                                <path d="M0,100 L20,90 L40,70 L60,75 L80,60 L100,55 L120,40 L140,45 L160,30 L180,35 L200,25 L200,120 L0,120 Z" fill="url(#graphGrad1)"/>
+                                            </svg>
+                                        </div>
+                                        <div class="green-graph" style="top: 30%; animation-delay: 7s;">
+                                            <svg viewBox="0 0 200 120" preserveAspectRatio="none">
+                                                <defs>
+                                                    <linearGradient id="graphGrad2" x1="0%" y1="0%" x2="0%" y2="100%">
+                                                        <stop offset="0%" style="stop-color:#00C853;stop-opacity:0.5"/>
+                                                        <stop offset="100%" style="stop-color:#00C853;stop-opacity:0"/>
+                                                    </linearGradient>
+                                                </defs>
+                                                <path d="M0,110 L30,95 L50,80 L70,85 L90,70 L110,65 L130,50 L150,55 L170,40 L200,30" fill="none" stroke="#00C853" stroke-width="2"/>
+                                                <path d="M0,110 L30,95 L50,80 L70,85 L90,70 L110,65 L130,50 L150,55 L170,40 L200,30 L200,120 L0,120 Z" fill="url(#graphGrad2)"/>
+                                            </svg>
+                                        </div>
+                                        <div class="green-graph" style="top: 50%; animation-delay: 14s;">
+                                            <svg viewBox="0 0 200 120" preserveAspectRatio="none">
+                                                <defs>
+                                                    <linearGradient id="graphGrad3" x1="0%" y1="0%" x2="0%" y2="100%">
+                                                        <stop offset="0%" style="stop-color:#00C853;stop-opacity:0.4"/>
+                                                        <stop offset="100%" style="stop-color:#00C853;stop-opacity:0"/>
+                                                    </linearGradient>
+                                                </defs>
+                                                <path d="M0,100 L25,85 L45,70 L65,75 L85,60 L105,55 L125,40 L145,45 L165,30 L200,20" fill="none" stroke="#00C853" stroke-width="2"/>
+                                                <path d="M0,100 L25,85 L45,70 L65,75 L85,60 L105,55 L125,40 L145,45 L165,30 L200,20 L200,120 L0,120 Z" fill="url(#graphGrad3)"/>
+                                            </svg>
+                                        </div>
+                                        <div class="green-graph" style="top: 70%; animation-delay: 10s;">
+                                            <svg viewBox="0 0 200 120" preserveAspectRatio="none">
+                                                <defs>
+                                                    <linearGradient id="graphGrad4" x1="0%" y1="0%" x2="0%" y2="100%">
+                                                        <stop offset="0%" style="stop-color:#00C853;stop-opacity:0.5"/>
+                                                        <stop offset="100%" style="stop-color:#00C853;stop-opacity:0"/>
+                                                    </linearGradient>
+                                                </defs>
+                                                <path d="M0,105 L35,90 L55,75 L75,80 L95,65 L115,60 L135,45 L155,50 L175,35 L200,25" fill="none" stroke="#00C853" stroke-width="2"/>
+                                                <path d="M0,105 L35,90 L55,75 L75,80 L95,65 L115,60 L135,45 L155,50 L175,35 L200,25 L200,120 L0,120 Z" fill="url(#graphGrad4)"/>
+                                            </svg>
+                                        </div>
                                     </div>
                                     <div class="cube-wrapper">
                                         <div class="cube-aura"></div>
@@ -3725,7 +3904,7 @@
                                         <li style="display: flex; align-items: center; gap: 0.75rem; color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.75rem;"><i class="fas fa-check-circle" style="color: var(--success-green);"></i> Real-time Sync</li>
                                         <li style="display: flex; align-items: center; gap: 0.75rem; color: var(--text-secondary); font-size: 0.9rem;"><i class="fas fa-check-circle" style="color: var(--success-green);"></i> 24/7 Operation</li>
                                     </ul>
-                                    <button class="btn-primary" onclick="navigateTo('tradeCopier')" style="width: 100%; background: linear-gradient(135deg, #00d4ff, #0099ff);">⚡ View Demo</button>
+                                    <button class="btn-primary" onclick="navigateTo('tradeCopier')" style="width: 100%; background: linear-gradient(135deg, rgba(100, 181, 246, 0.85), rgba(77, 166, 255, 0.9)); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); border: 1.5px solid rgba(255, 255, 255, 0.3);">⚡ View Demo</button>
                                 </div>
                             </div>
                         </div>
@@ -4077,7 +4256,7 @@
                         
                         <div class="grid-2" style="max-width: 1200px; margin: 0 auto; gap: 3rem; align-items: start;">
                             <!-- Contact Form -->
-                            <div class="card-3d" style="position: relative; z-index: 1; height: 100%;">
+                            <div class="card-3d" style="position: relative; z-index: 1;">
                                 <h3 style="color: var(--primary-gold); margin-bottom: 2rem; font-size: 1.4rem; font-weight: 600; text-align: center;">Send Us a Message</h3>
                                 <form id="contactForm" style="position: relative; z-index: 10;">
                                     <div class="form-group">
@@ -4101,8 +4280,8 @@
                             </div>
 
                             <!-- Contact Info - Symmetrical Layout -->
-                            <div style="display: flex; flex-direction: column; gap: 1.5rem; height: 100%;">
-                                <div class="card-3d" style="flex: 1;">
+                            <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                                <div class="card-3d">
                                     <h3 style="color: var(--primary-gold); margin-bottom: 2rem; font-size: 1.4rem; font-weight: 600; text-align: center;">Contact Information</h3>
                                     <div style="display: flex; flex-direction: column; gap: 1.5rem;">
                                         <a href="mailto:jdvantagequant@gmail.com" style="display: flex; align-items: center; gap: 1.25rem; color: var(--text-secondary); text-decoration: none; transition: all 0.3s; padding: 1rem; border-radius: 12px; background: rgba(255, 215, 0, 0.03); border: 1px solid rgba(255, 215, 0, 0.1);">
@@ -4123,19 +4302,10 @@
                                                 <p style="color: var(--text-primary); font-size: 1rem; font-weight: 500;">+91 75758 58430</p>
                                             </div>
                                         </a>
-                                        <a href="https://jdvantagequant.com" target="_blank" style="display: flex; align-items: center; gap: 1.25rem; color: var(--text-secondary); text-decoration: none; transition: all 0.3s; padding: 1rem; border-radius: 12px; background: rgba(255, 215, 0, 0.03); border: 1px solid rgba(255, 215, 0, 0.1);">
-                                            <div style="width: 50px; height: 50px; background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.1)); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                                                <i class="fas fa-globe" style="color: var(--primary-gold); font-size: 1.2rem;"></i>
-                                            </div>
-                                            <div style="flex: 1;">
-                                                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.35rem; font-weight: 500;">Website</p>
-                                                <p style="color: var(--text-primary); font-size: 1rem; font-weight: 500;">jdvantagequant.com</p>
-                                            </div>
-                                        </a>
                                     </div>
                                 </div>
 
-                                <div class="card-3d" style="flex: 1;">
+                                <div class="card-3d">
                                     <h3 style="color: var(--primary-gold); margin-bottom: 2rem; font-size: 1.4rem; font-weight: 600; text-align: center;">Connect With Us</h3>
                                     <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1.5rem;">
                                         <a href="https://discord.gg/X6ppaUUjCy" target="_blank" rel="noopener" style="width: 60px; height: 60px; background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 215, 0, 0.05)); border: 1px solid rgba(255, 215, 0, 0.2); border-radius: 14px; display: flex; align-items: center; justify-content: center; color: var(--text-secondary); text-decoration: none; transition: all 0.3s; font-size: 1.3rem;" title="Discord" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 8px 20px rgba(255, 215, 0, 0.2)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
