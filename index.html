@@ -2712,14 +2712,14 @@
         /* Dollar Notes Animation - Smooth Leaf-like Floating */
         .dollar-note {
             position: fixed;
-            width: clamp(60px, 8vw, 120px);
-            height: clamp(28px, 3.5vw, 56px);
+            width: clamp(40px, 5vw, 80px);
+            height: clamp(20px, 2.5vw, 40px);
             pointer-events: none;
             user-select: none;
             animation: floatLeaf 25s ease-in-out infinite;
             opacity: 0;
             z-index: 1;
-            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+            filter: drop-shadow(0 0 8px rgba(76, 175, 80, 0.6)) drop-shadow(0 0 12px rgba(76, 175, 80, 0.4)) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
         }
 
         .dollar-note svg {
@@ -3433,157 +3433,95 @@
             home: `
                 <!-- Page-wide Animations (Fixed to viewport) -->
                 <div class="page-animations">
-                    <!-- Dollar Notes Floating Smoothly Like Leaves -->
-                    <div class="dollar-note" style="left: 12%; --drift-x: 50; --max-rot: 30; animation-delay: 0s;">
-                        <svg viewBox="0 0 156 66" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Dollar Notes Floating Smoothly Like Leaves - Cartoonish Design -->
+                    <div class="dollar-note" style="left: 15%; --drift-x: 50; --max-rot: 30; animation-delay: 0s;">
+                        <svg viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg">
                             <defs>
                                 <linearGradient id="billGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" style="stop-color:#c8e6c9;stop-opacity:1"/>
-                                    <stop offset="100%" style="stop-color:#a5d6a7;stop-opacity:1"/>
+                                    <stop offset="0%" style="stop-color:#fff9c4;stop-opacity:1"/>
+                                    <stop offset="100%" style="stop-color:#fff59d;stop-opacity:1"/>
                                 </linearGradient>
                             </defs>
-                            <rect width="156" height="66" rx="3" fill="url(#billGrad1)" stroke="#81c784" stroke-width="1"/>
-                            <rect x="8" y="8" width="140" height="50" rx="2" fill="none" stroke="#66bb6a" stroke-width="0.5" opacity="0.4"/>
-                            <circle cx="25" cy="20" r="6" fill="#66bb6a" opacity="0.2"/>
-                            <circle cx="131" cy="20" r="6" fill="#66bb6a" opacity="0.2"/>
-                            <circle cx="25" cy="46" r="6" fill="#66bb6a" opacity="0.2"/>
-                            <circle cx="131" cy="46" r="6" fill="#66bb6a" opacity="0.2"/>
-                            <text x="78" y="28" font-family="serif" font-size="10" fill="#2e7d32" text-anchor="middle" opacity="0.6">UNITED STATES</text>
-                            <text x="78" y="40" font-family="serif" font-size="14" font-weight="bold" fill="#1b5e20" text-anchor="middle">ONE</text>
-                            <text x="78" y="50" font-family="serif" font-size="8" fill="#2e7d32" text-anchor="middle" opacity="0.6">DOLLAR</text>
+                            <rect width="120" height="60" rx="8" fill="url(#billGrad1)" stroke="#4caf50" stroke-width="2.5" opacity="0.9"/>
+                            <circle cx="20" cy="15" r="8" fill="#4caf50" opacity="0.3"/>
+                            <circle cx="100" cy="15" r="8" fill="#4caf50" opacity="0.3"/>
+                            <circle cx="20" cy="45" r="8" fill="#4caf50" opacity="0.3"/>
+                            <circle cx="100" cy="45" r="8" fill="#4caf50" opacity="0.3"/>
+                            <text x="60" y="25" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#2e7d32" text-anchor="middle">$</text>
+                            <text x="60" y="38" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#1b5e20" text-anchor="middle">1</text>
+                            <circle cx="60" cy="30" r="12" fill="none" stroke="#4caf50" stroke-width="1.5" opacity="0.4"/>
                         </svg>
                     </div>
-                    <div class="dollar-note" style="left: 28%; --drift-x: -45; --max-rot: -25; animation-delay: 4s;">
-                        <svg viewBox="0 0 156 66" xmlns="http://www.w3.org/2000/svg">
+                    <div class="dollar-note" style="left: 35%; --drift-x: -45; --max-rot: -25; animation-delay: 5s;">
+                        <svg viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg">
                             <defs>
                                 <linearGradient id="billGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" style="stop-color:#c8e6c9;stop-opacity:1"/>
-                                    <stop offset="100%" style="stop-color:#a5d6a7;stop-opacity:1"/>
+                                    <stop offset="0%" style="stop-color:#fff9c4;stop-opacity:1"/>
+                                    <stop offset="100%" style="stop-color:#fff59d;stop-opacity:1"/>
                                 </linearGradient>
                             </defs>
-                            <rect width="156" height="66" rx="3" fill="url(#billGrad2)" stroke="#81c784" stroke-width="1"/>
-                            <rect x="8" y="8" width="140" height="50" rx="2" fill="none" stroke="#66bb6a" stroke-width="0.5" opacity="0.4"/>
-                            <circle cx="25" cy="20" r="6" fill="#66bb6a" opacity="0.2"/>
-                            <circle cx="131" cy="20" r="6" fill="#66bb6a" opacity="0.2"/>
-                            <circle cx="25" cy="46" r="6" fill="#66bb6a" opacity="0.2"/>
-                            <circle cx="131" cy="46" r="6" fill="#66bb6a" opacity="0.2"/>
-                            <text x="78" y="28" font-family="serif" font-size="10" fill="#2e7d32" text-anchor="middle" opacity="0.6">UNITED STATES</text>
-                            <text x="78" y="40" font-family="serif" font-size="14" font-weight="bold" fill="#1b5e20" text-anchor="middle">ONE</text>
-                            <text x="78" y="50" font-family="serif" font-size="8" fill="#2e7d32" text-anchor="middle" opacity="0.6">DOLLAR</text>
+                            <rect width="120" height="60" rx="8" fill="url(#billGrad2)" stroke="#4caf50" stroke-width="2.5" opacity="0.9"/>
+                            <circle cx="20" cy="15" r="8" fill="#4caf50" opacity="0.3"/>
+                            <circle cx="100" cy="15" r="8" fill="#4caf50" opacity="0.3"/>
+                            <circle cx="20" cy="45" r="8" fill="#4caf50" opacity="0.3"/>
+                            <circle cx="100" cy="45" r="8" fill="#4caf50" opacity="0.3"/>
+                            <text x="60" y="25" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#2e7d32" text-anchor="middle">$</text>
+                            <text x="60" y="38" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#1b5e20" text-anchor="middle">1</text>
+                            <circle cx="60" cy="30" r="12" fill="none" stroke="#4caf50" stroke-width="1.5" opacity="0.4"/>
                         </svg>
                     </div>
-                    <div class="dollar-note" style="left: 44%; --drift-x: 55; --max-rot: 28; animation-delay: 8s;">
-                        <svg viewBox="0 0 156 66" xmlns="http://www.w3.org/2000/svg">
+                    <div class="dollar-note" style="left: 55%; --drift-x: 55; --max-rot: 28; animation-delay: 10s;">
+                        <svg viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg">
                             <defs>
                                 <linearGradient id="billGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" style="stop-color:#c8e6c9;stop-opacity:1"/>
-                                    <stop offset="100%" style="stop-color:#a5d6a7;stop-opacity:1"/>
+                                    <stop offset="0%" style="stop-color:#fff9c4;stop-opacity:1"/>
+                                    <stop offset="100%" style="stop-color:#fff59d;stop-opacity:1"/>
                                 </linearGradient>
                             </defs>
-                            <rect width="156" height="66" rx="3" fill="url(#billGrad3)" stroke="#81c784" stroke-width="1"/>
-                            <rect x="8" y="8" width="140" height="50" rx="2" fill="none" stroke="#66bb6a" stroke-width="0.5" opacity="0.4"/>
-                            <circle cx="25" cy="20" r="6" fill="#66bb6a" opacity="0.2"/>
-                            <circle cx="131" cy="20" r="6" fill="#66bb6a" opacity="0.2"/>
-                            <circle cx="25" cy="46" r="6" fill="#66bb6a" opacity="0.2"/>
-                            <circle cx="131" cy="46" r="6" fill="#66bb6a" opacity="0.2"/>
-                            <text x="78" y="28" font-family="serif" font-size="10" fill="#2e7d32" text-anchor="middle" opacity="0.6">UNITED STATES</text>
-                            <text x="78" y="40" font-family="serif" font-size="14" font-weight="bold" fill="#1b5e20" text-anchor="middle">ONE</text>
-                            <text x="78" y="50" font-family="serif" font-size="8" fill="#2e7d32" text-anchor="middle" opacity="0.6">DOLLAR</text>
+                            <rect width="120" height="60" rx="8" fill="url(#billGrad3)" stroke="#4caf50" stroke-width="2.5" opacity="0.9"/>
+                            <circle cx="20" cy="15" r="8" fill="#4caf50" opacity="0.3"/>
+                            <circle cx="100" cy="15" r="8" fill="#4caf50" opacity="0.3"/>
+                            <circle cx="20" cy="45" r="8" fill="#4caf50" opacity="0.3"/>
+                            <circle cx="100" cy="45" r="8" fill="#4caf50" opacity="0.3"/>
+                            <text x="60" y="25" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#2e7d32" text-anchor="middle">$</text>
+                            <text x="60" y="38" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#1b5e20" text-anchor="middle">1</text>
+                            <circle cx="60" cy="30" r="12" fill="none" stroke="#4caf50" stroke-width="1.5" opacity="0.4"/>
                         </svg>
                     </div>
-                    <div class="dollar-note" style="left: 60%; --drift-x: -50; --max-rot: -27; animation-delay: 2s;">
-                        <svg viewBox="0 0 156 66" xmlns="http://www.w3.org/2000/svg">
+                    <div class="dollar-note" style="left: 75%; --drift-x: -50; --max-rot: -27; animation-delay: 3s;">
+                        <svg viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg">
                             <defs>
                                 <linearGradient id="billGrad4" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" style="stop-color:#c8e6c9;stop-opacity:1"/>
-                                    <stop offset="100%" style="stop-color:#a5d6a7;stop-opacity:1"/>
+                                    <stop offset="0%" style="stop-color:#fff9c4;stop-opacity:1"/>
+                                    <stop offset="100%" style="stop-color:#fff59d;stop-opacity:1"/>
                                 </linearGradient>
                             </defs>
-                            <rect width="156" height="66" rx="3" fill="url(#billGrad4)" stroke="#81c784" stroke-width="1"/>
-                            <rect x="8" y="8" width="140" height="50" rx="2" fill="none" stroke="#66bb6a" stroke-width="0.5" opacity="0.4"/>
-                            <circle cx="25" cy="20" r="6" fill="#66bb6a" opacity="0.2"/>
-                            <circle cx="131" cy="20" r="6" fill="#66bb6a" opacity="0.2"/>
-                            <circle cx="25" cy="46" r="6" fill="#66bb6a" opacity="0.2"/>
-                            <circle cx="131" cy="46" r="6" fill="#66bb6a" opacity="0.2"/>
-                            <text x="78" y="28" font-family="serif" font-size="10" fill="#2e7d32" text-anchor="middle" opacity="0.6">UNITED STATES</text>
-                            <text x="78" y="40" font-family="serif" font-size="14" font-weight="bold" fill="#1b5e20" text-anchor="middle">ONE</text>
-                            <text x="78" y="50" font-family="serif" font-size="8" fill="#2e7d32" text-anchor="middle" opacity="0.6">DOLLAR</text>
+                            <rect width="120" height="60" rx="8" fill="url(#billGrad4)" stroke="#4caf50" stroke-width="2.5" opacity="0.9"/>
+                            <circle cx="20" cy="15" r="8" fill="#4caf50" opacity="0.3"/>
+                            <circle cx="100" cy="15" r="8" fill="#4caf50" opacity="0.3"/>
+                            <circle cx="20" cy="45" r="8" fill="#4caf50" opacity="0.3"/>
+                            <circle cx="100" cy="45" r="8" fill="#4caf50" opacity="0.3"/>
+                            <text x="60" y="25" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#2e7d32" text-anchor="middle">$</text>
+                            <text x="60" y="38" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#1b5e20" text-anchor="middle">1</text>
+                            <circle cx="60" cy="30" r="12" fill="none" stroke="#4caf50" stroke-width="1.5" opacity="0.4"/>
                         </svg>
                     </div>
-                    <div class="dollar-note" style="left: 76%; --drift-x: 48; --max-rot: 26; animation-delay: 6s;">
-                        <svg viewBox="0 0 156 66" xmlns="http://www.w3.org/2000/svg">
+                    <div class="dollar-note" style="left: 25%; --drift-x: 48; --max-rot: 26; animation-delay: 7s;">
+                        <svg viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg">
                             <defs>
                                 <linearGradient id="billGrad5" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" style="stop-color:#c8e6c9;stop-opacity:1"/>
-                                    <stop offset="100%" style="stop-color:#a5d6a7;stop-opacity:1"/>
+                                    <stop offset="0%" style="stop-color:#fff9c4;stop-opacity:1"/>
+                                    <stop offset="100%" style="stop-color:#fff59d;stop-opacity:1"/>
                                 </linearGradient>
                             </defs>
-                            <rect width="156" height="66" rx="3" fill="url(#billGrad5)" stroke="#81c784" stroke-width="1"/>
-                            <rect x="8" y="8" width="140" height="50" rx="2" fill="none" stroke="#66bb6a" stroke-width="0.5" opacity="0.4"/>
-                            <circle cx="25" cy="20" r="6" fill="#66bb6a" opacity="0.2"/>
-                            <circle cx="131" cy="20" r="6" fill="#66bb6a" opacity="0.2"/>
-                            <circle cx="25" cy="46" r="6" fill="#66bb6a" opacity="0.2"/>
-                            <circle cx="131" cy="46" r="6" fill="#66bb6a" opacity="0.2"/>
-                            <text x="78" y="28" font-family="serif" font-size="10" fill="#2e7d32" text-anchor="middle" opacity="0.6">UNITED STATES</text>
-                            <text x="78" y="40" font-family="serif" font-size="14" font-weight="bold" fill="#1b5e20" text-anchor="middle">ONE</text>
-                            <text x="78" y="50" font-family="serif" font-size="8" fill="#2e7d32" text-anchor="middle" opacity="0.6">DOLLAR</text>
-                        </svg>
-                    </div>
-                    <div class="dollar-note" style="left: 20%; --drift-x: -48; --max-rot: -24; animation-delay: 10s;">
-                        <svg viewBox="0 0 156 66" xmlns="http://www.w3.org/2000/svg">
-                            <defs>
-                                <linearGradient id="billGrad6" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" style="stop-color:#c8e6c9;stop-opacity:1"/>
-                                    <stop offset="100%" style="stop-color:#a5d6a7;stop-opacity:1"/>
-                                </linearGradient>
-                            </defs>
-                            <rect width="156" height="66" rx="3" fill="url(#billGrad6)" stroke="#81c784" stroke-width="1"/>
-                            <rect x="8" y="8" width="140" height="50" rx="2" fill="none" stroke="#66bb6a" stroke-width="0.5" opacity="0.4"/>
-                            <circle cx="25" cy="20" r="6" fill="#66bb6a" opacity="0.2"/>
-                            <circle cx="131" cy="20" r="6" fill="#66bb6a" opacity="0.2"/>
-                            <circle cx="25" cy="46" r="6" fill="#66bb6a" opacity="0.2"/>
-                            <circle cx="131" cy="46" r="6" fill="#66bb6a" opacity="0.2"/>
-                            <text x="78" y="28" font-family="serif" font-size="10" fill="#2e7d32" text-anchor="middle" opacity="0.6">UNITED STATES</text>
-                            <text x="78" y="40" font-family="serif" font-size="14" font-weight="bold" fill="#1b5e20" text-anchor="middle">ONE</text>
-                            <text x="78" y="50" font-family="serif" font-size="8" fill="#2e7d32" text-anchor="middle" opacity="0.6">DOLLAR</text>
-                        </svg>
-                    </div>
-                    <div class="dollar-note" style="left: 52%; --drift-x: 52; --max-rot: 29; animation-delay: 12s;">
-                        <svg viewBox="0 0 156 66" xmlns="http://www.w3.org/2000/svg">
-                            <defs>
-                                <linearGradient id="billGrad7" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" style="stop-color:#c8e6c9;stop-opacity:1"/>
-                                    <stop offset="100%" style="stop-color:#a5d6a7;stop-opacity:1"/>
-                                </linearGradient>
-                            </defs>
-                            <rect width="156" height="66" rx="3" fill="url(#billGrad7)" stroke="#81c784" stroke-width="1"/>
-                            <rect x="8" y="8" width="140" height="50" rx="2" fill="none" stroke="#66bb6a" stroke-width="0.5" opacity="0.4"/>
-                            <circle cx="25" cy="20" r="6" fill="#66bb6a" opacity="0.2"/>
-                            <circle cx="131" cy="20" r="6" fill="#66bb6a" opacity="0.2"/>
-                            <circle cx="25" cy="46" r="6" fill="#66bb6a" opacity="0.2"/>
-                            <circle cx="131" cy="46" r="6" fill="#66bb6a" opacity="0.2"/>
-                            <text x="78" y="28" font-family="serif" font-size="10" fill="#2e7d32" text-anchor="middle" opacity="0.6">UNITED STATES</text>
-                            <text x="78" y="40" font-family="serif" font-size="14" font-weight="bold" fill="#1b5e20" text-anchor="middle">ONE</text>
-                            <text x="78" y="50" font-family="serif" font-size="8" fill="#2e7d32" text-anchor="middle" opacity="0.6">DOLLAR</text>
-                        </svg>
-                    </div>
-                    <div class="dollar-note" style="left: 88%; --drift-x: -46; --max-rot: -23; animation-delay: 14s;">
-                        <svg viewBox="0 0 156 66" xmlns="http://www.w3.org/2000/svg">
-                            <defs>
-                                <linearGradient id="billGrad8" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" style="stop-color:#c8e6c9;stop-opacity:1"/>
-                                    <stop offset="100%" style="stop-color:#a5d6a7;stop-opacity:1"/>
-                                </linearGradient>
-                            </defs>
-                            <rect width="156" height="66" rx="3" fill="url(#billGrad8)" stroke="#81c784" stroke-width="1"/>
-                            <rect x="8" y="8" width="140" height="50" rx="2" fill="none" stroke="#66bb6a" stroke-width="0.5" opacity="0.4"/>
-                            <circle cx="25" cy="20" r="6" fill="#66bb6a" opacity="0.2"/>
-                            <circle cx="131" cy="20" r="6" fill="#66bb6a" opacity="0.2"/>
-                            <circle cx="25" cy="46" r="6" fill="#66bb6a" opacity="0.2"/>
-                            <circle cx="131" cy="46" r="6" fill="#66bb6a" opacity="0.2"/>
-                            <text x="78" y="28" font-family="serif" font-size="10" fill="#2e7d32" text-anchor="middle" opacity="0.6">UNITED STATES</text>
-                            <text x="78" y="40" font-family="serif" font-size="14" font-weight="bold" fill="#1b5e20" text-anchor="middle">ONE</text>
-                            <text x="78" y="50" font-family="serif" font-size="8" fill="#2e7d32" text-anchor="middle" opacity="0.6">DOLLAR</text>
+                            <rect width="120" height="60" rx="8" fill="url(#billGrad5)" stroke="#4caf50" stroke-width="2.5" opacity="0.9"/>
+                            <circle cx="20" cy="15" r="8" fill="#4caf50" opacity="0.3"/>
+                            <circle cx="100" cy="15" r="8" fill="#4caf50" opacity="0.3"/>
+                            <circle cx="20" cy="45" r="8" fill="#4caf50" opacity="0.3"/>
+                            <circle cx="100" cy="45" r="8" fill="#4caf50" opacity="0.3"/>
+                            <text x="60" y="25" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#2e7d32" text-anchor="middle">$</text>
+                            <text x="60" y="38" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#1b5e20" text-anchor="middle">1</text>
+                            <circle cx="60" cy="30" r="12" fill="none" stroke="#4caf50" stroke-width="1.5" opacity="0.4"/>
                         </svg>
                     </div>
                 </div>
