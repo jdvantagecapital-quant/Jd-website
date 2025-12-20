@@ -571,24 +571,56 @@
         .dropdown-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
+            gap: 1.25rem;
+        }
+
+        .dropdown-section {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
         }
 
         .dropdown-section h4 {
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             text-transform: uppercase;
             letter-spacing: 1.5px;
-            color: var(--text-secondary);
-            margin-bottom: 0.75rem;
-            padding-left: 1rem;
-            font-weight: 600;
+            color: var(--accent-cyan);
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid rgba(0, 212, 255, 0.3);
+            font-weight: 700;
         }
 
         .dropdown-section a {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.75rem;
-            padding: 0.65rem 1rem;
+            display: block;
+            padding: 0;
+            text-decoration: none;
+        }
+        
+        .dropdown-item-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 0.875rem 1rem;
+            transition: all 0.2s ease;
+            margin-bottom: 0.5rem;
+        }
+        
+        .dropdown-item-box:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: var(--accent-cyan);
+            transform: translateX(4px);
+            box-shadow: 0 4px 12px rgba(0, 212, 255, 0.15);
+        }
+        
+        .dropdown-item-box.highlighted {
+            border-left: 3px solid var(--accent-cyan);
+            background: rgba(0, 212, 255, 0.05);
+        }
+        
+        .dropdown-item-box.highlighted-gold {
+            border-left: 3px solid #ffd700;
+            background: rgba(255, 215, 0, 0.05);
         }
 
         .dropdown-section a i {
@@ -596,25 +628,28 @@
             width: 20px;
         }
 
-        .dropdown-section a div {
+        .dropdown-item-box div {
             display: flex;
             flex-direction: column;
-            gap: 0.15rem;
+            gap: 0.25rem;
         }
 
-        .dropdown-section a span {
-            font-weight: 500;
+        .dropdown-item-box span {
+            font-weight: 600;
             color: var(--text-primary);
             font-size: 0.875rem;
+            display: block;
         }
 
-        .dropdown-section a small {
+        .dropdown-item-box small {
             font-size: 0.7rem;
             color: var(--text-secondary);
+            display: block;
+            line-height: 1.4;
         }
 
-        .dropdown-section a:hover span {
-            color: var(--accent-color);
+        .dropdown-item-box:hover span {
+            color: var(--accent-cyan);
         }
 
         .dropdown-footer {
@@ -3243,64 +3278,80 @@
                         <div class="dropdown-grid">
                             <div class="dropdown-section">
                                 <a href="#offerings" onclick="navigateTo('offerings'); closeDropdowns(); setTimeout(() => document.getElementById('trading-solutions')?.scrollIntoView({behavior: 'smooth'}), 300);" style="display: block; cursor: pointer;">
-                                    <h4 style="color: #ff6b35; transition: all 0.2s;">Trading Solutions</h4>
+                                    <h4>Trading Solutions</h4>
                                 </a>
                                 <a href="#quantAccess" onclick="navigateTo('quantAccess'); closeDropdowns();">
-                                    <div>
-                                        <span>Quant Access</span>
-                                        <small>Start from $300</small>
+                                    <div class="dropdown-item-box">
+                                        <div>
+                                            <span>Quant Access</span>
+                                            <small>Start from $300</small>
+                                        </div>
                                     </div>
                                 </a>
-                                <a href="#tradeCopier" onclick="navigateTo('tradeCopier'); closeDropdowns();" style="border-left: 2px solid var(--accent-cyan);">
-                                    <div>
-                                        <span style="color: var(--accent-cyan);">Trade Copier <span style="background: var(--gradient-primary); color: #060d18; padding: 0.1rem 0.4rem; border-radius: 3px; font-size: 0.55rem; margin-left: 0.25rem;">NEW</span></span>
-                                        <small>Ultra-fast MT5 copying</small>
+                                <a href="#tradeCopier" onclick="navigateTo('tradeCopier'); closeDropdowns();">
+                                    <div class="dropdown-item-box highlighted">
+                                        <div>
+                                            <span style="color: var(--accent-cyan);">Trade Copier <span style="background: var(--gradient-primary); color: #060d18; padding: 0.1rem 0.4rem; border-radius: 3px; font-size: 0.55rem; margin-left: 0.25rem; font-weight: 700;">NEW</span></span>
+                                            <small>Ultra-fast MT5 copying</small>
+                                        </div>
                                     </div>
                                 </a>
                             </div>
                             <div class="dropdown-section">
                                 <a href="#offerings" onclick="navigateTo('offerings'); closeDropdowns(); setTimeout(() => document.getElementById('expert-advisors')?.scrollIntoView({behavior: 'smooth'}), 300);" style="display: block; cursor: pointer;">
-                                    <h4 style="color: #ffd700; transition: all 0.2s;">Expert Advisors</h4>
+                                    <h4>Expert Advisors</h4>
                                 </a>
-                                <a href="#goldFxDetails" onclick="navigateTo('goldFxDetails'); closeDropdowns();" style="border-left: 2px solid #ffd700;">
-                                    <div>
-                                        <span style="color: #ffd700;">👑 GoldFX Pro</span>
-                                        <small>⭐ Flagship Strategy</small>
+                                <a href="#goldFxDetails" onclick="navigateTo('goldFxDetails'); closeDropdowns();">
+                                    <div class="dropdown-item-box highlighted-gold">
+                                        <div>
+                                            <span style="color: #ffd700;">GoldFX Pro</span>
+                                            <small>Flagship Strategy</small>
+                                        </div>
                                     </div>
                                 </a>
                                 <a href="#goldClutch" onclick="navigateTo('goldClutch'); closeDropdowns();">
-                                    <div>
-                                        <span>🤜 GoldClutch EA</span>
-                                        <small>Swing Trading XAUUSD</small>
+                                    <div class="dropdown-item-box">
+                                        <div>
+                                            <span>GoldClutch EA</span>
+                                            <small>Swing Trading XAUUSD</small>
+                                        </div>
                                     </div>
                                 </a>
                                 <a href="#goldShort" onclick="navigateTo('goldShort'); closeDropdowns();">
-                                    <div>
-                                        <span>⚡ GoldShort EA</span>
-                                        <small>High-frequency scalping</small>
+                                    <div class="dropdown-item-box">
+                                        <div>
+                                            <span>GoldShort EA</span>
+                                            <small>High-frequency scalping</small>
+                                        </div>
                                     </div>
                                 </a>
                                 <a href="#goldShortSL" onclick="navigateTo('goldShortSL'); closeDropdowns();">
-                                    <div>
-                                        <span>🛡️ GoldShort SL</span>
-                                        <small>Protected scalping</small>
+                                    <div class="dropdown-item-box">
+                                        <div>
+                                            <span>GoldShort SL</span>
+                                            <small>Protected scalping</small>
+                                        </div>
                                     </div>
                                 </a>
                             </div>
                             <div class="dropdown-section">
                                 <a href="#offerings" onclick="navigateTo('offerings'); closeDropdowns(); setTimeout(() => document.getElementById('services-section')?.scrollIntoView({behavior: 'smooth'}), 300);" style="display: block; cursor: pointer;">
-                                    <h4 style="color: #22c55e; transition: all 0.2s;">Services</h4>
+                                    <h4>Services</h4>
                                 </a>
                                 <a href="#consultation" onclick="navigateTo('consultation'); closeDropdowns();">
-                                    <div>
-                                        <span>Consultation</span>
-                                        <small>1-on-1 strategy sessions</small>
+                                    <div class="dropdown-item-box">
+                                        <div>
+                                            <span>Consultation</span>
+                                            <small>1-on-1 strategy sessions</small>
+                                        </div>
                                     </div>
                                 </a>
                                 <a href="#customDev" onclick="navigateTo('customDev'); closeDropdowns();">
-                                    <div>
-                                        <span>Custom Development</span>
-                                        <small>Bespoke algorithms</small>
+                                    <div class="dropdown-item-box">
+                                        <div>
+                                            <span>Custom Development</span>
+                                            <small>Bespoke algorithms</small>
+                                        </div>
                                     </div>
                                 </a>
                             </div>
@@ -3371,10 +3422,10 @@
                 <div class="mobile-accordion-content">
                     <a href="#quantAccess" onclick="navigateTo('quantAccess'); closeMobileMenu();">Quant Access</a>
                     <a href="#tradeCopier" onclick="navigateTo('tradeCopier'); closeMobileMenu();" style="color: var(--accent-cyan);">Trade Copier</a>
-                    <a href="#goldFxDetails" onclick="navigateTo('goldFxDetails'); closeMobileMenu();" style="color: #ffd700;">👑 GoldFX Pro ⭐</a>
-                    <a href="#goldClutch" onclick="navigateTo('goldClutch'); closeMobileMenu();" style="color: #ffb300;">🤜 GoldClutch EA</a>
-                    <a href="#goldShort" onclick="navigateTo('goldShort'); closeMobileMenu();">⚡ GoldShort EA</a>
-                    <a href="#goldShortSL" onclick="navigateTo('goldShortSL'); closeMobileMenu();" style="color: var(--accent-purple);">🛡️ GoldShort SL</a>
+                    <a href="#goldFxDetails" onclick="navigateTo('goldFxDetails'); closeMobileMenu();" style="color: #ffd700;">GoldFX Pro</a>
+                    <a href="#goldClutch" onclick="navigateTo('goldClutch'); closeMobileMenu();" style="color: #ffb300;">GoldClutch EA</a>
+                    <a href="#goldShort" onclick="navigateTo('goldShort'); closeMobileMenu();">GoldShort EA</a>
+                    <a href="#goldShortSL" onclick="navigateTo('goldShortSL'); closeMobileMenu();" style="color: var(--accent-purple);">GoldShort SL</a>
                     <a href="#consultation" onclick="navigateTo('consultation'); closeMobileMenu();">Consultation</a>
                     <a href="#customDev" onclick="navigateTo('customDev'); closeMobileMenu();">Custom Development</a>
                 </div>
