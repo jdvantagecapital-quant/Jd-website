@@ -3,7 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="J&D Vantage Quant - Professional Trading Solutions">
     <title>J&D Vantage Quant </title>
+    
+    <!-- Preconnect to external domains for faster loading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    
+    <!-- DNS Prefetch for additional performance -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
     
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -14,33 +26,27 @@
     <link rel="apple-touch-icon" sizes="192x192" href="favicon-192x192.png">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for icons - Load asynchronously -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
     
-    <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
-    
-    <!-- Anime.js CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
-    
-    <!-- Three.js for 3D effects -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    
-    <!-- Google Fonts - Professional Premium Typography -->
+    <!-- Google Fonts - Optimized with font-display swap -->
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     
-    <!-- EmailJS CDN -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    <script type="text/javascript">
-        (function() {
-            emailjs.init({
-                publicKey: "yGskjt_nKqYxtfG0w",
-            });
-        })();
-    </script>
+    <!-- Tailwind CSS CDN - Defer loading -->
+    <script src="https://cdn.tailwindcss.com" defer></script>
+    
+    <!-- Chart.js - Load only when needed -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js" defer></script>
+    
+    <!-- Anime.js CDN - Defer loading -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" defer></script>
+    
+    <!-- Three.js for 3D effects - Defer and load conditionally -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+    
+    <!-- EmailJS CDN - Defer loading -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" defer></script>
 
     <style>
         :root {
@@ -149,7 +155,7 @@
             overflow: hidden;
         }
 
-        /* Triangle Shape */
+        /* Triangle Shape - Optimized */
         .shape-1 {
             position: absolute;
             width: 0;
@@ -160,9 +166,11 @@
             top: 15%;
             left: 5%;
             animation: floatRotate 25s ease-in-out infinite;
+            will-change: transform;
+            transform: translateZ(0);
         }
 
-        /* Hexagon Shape */
+        /* Hexagon Shape - Optimized */
         .shape-2 {
             position: absolute;
             width: 120px;
@@ -172,9 +180,11 @@
             right: 10%;
             clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
             animation: floatRotate 30s ease-in-out infinite reverse;
+            will-change: transform;
+            transform: translateZ(0);
         }
 
-        /* Gradient Blob */
+        /* Gradient Blob - Optimized */
         .shape-3 {
             position: absolute;
             width: 250px;
@@ -184,9 +194,11 @@
             bottom: 15%;
             left: 8%;
             animation: morphBlob 20s ease-in-out infinite;
+            will-change: transform, border-radius;
+            transform: translateZ(0);
         }
 
-        /* Diamond Shape */
+        /* Diamond Shape - Optimized */
         .shape-4 {
             position: absolute;
             width: 60px;
@@ -194,11 +206,12 @@
             background: rgba(255, 107, 53, 0.05);
             top: 55%;
             right: 20%;
-            transform: rotate(45deg);
+            transform: rotate(45deg) translateZ(0);
             animation: floatRotate 18s ease-in-out infinite;
+            will-change: transform;
         }
 
-        /* Ring Shape */
+        /* Ring Shape - Optimized */
         .shape-5 {
             position: absolute;
             width: 100px;
@@ -208,6 +221,8 @@
             bottom: 30%;
             right: 5%;
             animation: spinSlow 40s linear infinite;
+            will-change: transform;
+            transform: translateZ(0);
         }
 
         @keyframes floatRotate {
@@ -228,10 +243,12 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Animated Gradient Lines */
+        /* Animated Gradient Lines - Optimized */
         .animated-line {
             position: fixed;
             height: 1px;
+            will-change: transform;
+            transform: translateZ(0);
             width: 300px;
             pointer-events: none;
             z-index: 0;
@@ -261,13 +278,15 @@
             100% { left: 100%; opacity: 0; }
         }
 
-        /* Multi-colored Glowing Orbs */
+        /* Multi-colored Glowing Orbs - Optimized */
         .glow-orb {
             position: fixed;
             border-radius: 50%;
             filter: blur(100px);
             pointer-events: none;
             z-index: 0;
+            will-change: transform;
+            transform: translateZ(0);
         }
 
         .orb-1 {
@@ -298,10 +317,14 @@
             50% { transform: translate(-40px, -20px) scale(1.15); opacity: 0.7; }
         }
 
-        /* 3D Background Canvas */
+        /* 3D Background Canvas - Optimized */
         #bg-canvas {
             position: fixed;
             top: 0;
+            will-change: transform;
+            transform: translateZ(0);
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
             left: 0;
             width: 100%;
             height: 100%;
@@ -843,10 +866,32 @@
             }
         }
 
-        /* Main Content */
+        /* Main Content - Optimized */
         main {
             margin-top: 80px;
             min-height: calc(100vh - 80px);
+            contain: layout style paint;
+        }
+
+        /* Optimize sections for better rendering performance */
+        section {
+            contain: layout style;
+        }
+
+        /* Improve scrolling performance */
+        * {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
         }
 
         /* Hero Section */
@@ -3103,6 +3148,42 @@
                 transition-duration: 0.01ms !important;
             }
         }
+
+        /* Mobile Performance Optimizations */
+        @media (max-width: 768px) {
+            /* Reduce animation complexity on mobile */
+            .floating-shapes .shape,
+            .glow-orb {
+                animation-duration: 40s !important;
+            }
+            
+            /* Reduce blur effects on mobile for better performance */
+            .glow-orb {
+                filter: blur(60px);
+            }
+            
+            /* Disable some heavy animations on very small screens */
+            @media (max-width: 480px) {
+                .animated-line {
+                    display: none;
+                }
+                
+                .floating-shapes .shape-3,
+                .floating-shapes .shape-4 {
+                    opacity: 0.3;
+                }
+            }
+        }
+
+        /* Low-end device optimizations */
+        @media (prefers-reduced-motion: no-preference) {
+            @media (max-width: 768px) and (max-resolution: 1.5dppx) {
+                .floating-shapes,
+                .glow-orb {
+                    display: none;
+                }
+            }
+        }
     </style>
 </head>
 <body>
@@ -3166,13 +3247,13 @@
                                 </a>
                                 <a href="#quantAccess" onclick="navigateTo('quantAccess'); closeDropdowns();">
                                     <div>
-                                        <span>🚀 Quant Access</span>
+                                        <span>Quant Access</span>
                                         <small>Start from $300</small>
                                     </div>
                                 </a>
                                 <a href="#tradeCopier" onclick="navigateTo('tradeCopier'); closeDropdowns();" style="border-left: 2px solid var(--accent-cyan);">
                                     <div>
-                                        <span style="color: var(--accent-cyan);">⚡ Trade Copier <span style="background: var(--gradient-primary); color: #060d18; padding: 0.1rem 0.4rem; border-radius: 3px; font-size: 0.55rem; margin-left: 0.25rem;">NEW</span></span>
+                                        <span style="color: var(--accent-cyan);">Trade Copier <span style="background: var(--gradient-primary); color: #060d18; padding: 0.1rem 0.4rem; border-radius: 3px; font-size: 0.55rem; margin-left: 0.25rem;">NEW</span></span>
                                         <small>Ultra-fast MT5 copying</small>
                                     </div>
                                 </a>
@@ -3212,13 +3293,13 @@
                                 </a>
                                 <a href="#consultation" onclick="navigateTo('consultation'); closeDropdowns();">
                                     <div>
-                                        <span>💬 Consultation</span>
+                                        <span>Consultation</span>
                                         <small>1-on-1 strategy sessions</small>
                                     </div>
                                 </a>
                                 <a href="#customDev" onclick="navigateTo('customDev'); closeDropdowns();">
                                     <div>
-                                        <span>⚙️ Custom Development</span>
+                                        <span>Custom Development</span>
                                         <small>Bespoke algorithms</small>
                                     </div>
                                 </a>
@@ -3283,19 +3364,19 @@
             <i class="fas fa-times"></i>
         </button>
         <nav class="mobile-menu-links">
-            <a href="#home" onclick="navigateTo('home'); closeMobileMenu();">🏠 Home</a>
+            <a href="#home" onclick="navigateTo('home'); closeMobileMenu();">Home</a>
             <a href="#brochure" onclick="navigateTo('brochure'); closeMobileMenu();">Brochure</a>
             <div class="mobile-accordion">
                 <button class="mobile-accordion-trigger" onclick="toggleMobileAccordion(this)">Solutions <i class="fas fa-chevron-down"></i></button>
                 <div class="mobile-accordion-content">
-                    <a href="#quantAccess" onclick="navigateTo('quantAccess'); closeMobileMenu();">🚀 Quant Access</a>
-                    <a href="#tradeCopier" onclick="navigateTo('tradeCopier'); closeMobileMenu();" style="color: var(--accent-cyan);">⚡ Trade Copier</a>
+                    <a href="#quantAccess" onclick="navigateTo('quantAccess'); closeMobileMenu();">Quant Access</a>
+                    <a href="#tradeCopier" onclick="navigateTo('tradeCopier'); closeMobileMenu();" style="color: var(--accent-cyan);">Trade Copier</a>
                     <a href="#goldFxDetails" onclick="navigateTo('goldFxDetails'); closeMobileMenu();" style="color: #ffd700;">👑 GoldFX Pro ⭐</a>
                     <a href="#goldClutch" onclick="navigateTo('goldClutch'); closeMobileMenu();" style="color: #ffb300;">🤜 GoldClutch EA</a>
                     <a href="#goldShort" onclick="navigateTo('goldShort'); closeMobileMenu();">⚡ GoldShort EA</a>
                     <a href="#goldShortSL" onclick="navigateTo('goldShortSL'); closeMobileMenu();" style="color: var(--accent-purple);">🛡️ GoldShort SL</a>
-                    <a href="#consultation" onclick="navigateTo('consultation'); closeMobileMenu();">💬 Consultation</a>
-                    <a href="#customDev" onclick="navigateTo('customDev'); closeMobileMenu();">⚙️ Custom Development</a>
+                    <a href="#consultation" onclick="navigateTo('consultation'); closeMobileMenu();">Consultation</a>
+                    <a href="#customDev" onclick="navigateTo('customDev'); closeMobileMenu();">Custom Development</a>
                 </div>
             </div>
             <div class="mobile-accordion">
@@ -3306,7 +3387,7 @@
                 </div>
             </div>
             <div class="mobile-accordion">
-                <button class="mobile-accordion-trigger" onclick="toggleMobileAccordion(this)">⚖️ Legal <i class="fas fa-chevron-down"></i></button>
+                <button class="mobile-accordion-trigger" onclick="toggleMobileAccordion(this)">Legal <i class="fas fa-chevron-down"></i></button>
                 <div class="mobile-accordion-content">
                     <a href="#terms" onclick="navigateTo('terms'); closeMobileMenu();">📋 Terms & Conditions</a>
                     <a href="#disclaimers" onclick="navigateTo('disclaimers'); closeMobileMenu();">⚠️ Risk Disclaimers</a>
@@ -3314,7 +3395,7 @@
                     <a href="#refund" onclick="navigateTo('refund'); closeMobileMenu();">🚫 Refund Policy</a>
                 </div>
             </div>
-            <a href="#contact" onclick="navigateTo('contact'); closeMobileMenu();" class="mobile-cta">📧 Contact Us</a>
+            <a href="#contact" onclick="navigateTo('contact'); closeMobileMenu();" class="mobile-cta">Contact Us</a>
         </nav>
     </div>
 
@@ -3362,44 +3443,121 @@
     </footer>
 
     <script>
-        // 3D Background Animation with Three.js
+        // Performance optimization utilities
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        function throttle(func, limit) {
+            let inThrottle;
+            return function(...args) {
+                if (!inThrottle) {
+                    func.apply(this, args);
+                    inThrottle = true;
+                    setTimeout(() => inThrottle = false, limit);
+                }
+            };
+        }
+
+        // Detect device capabilities
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        const isLowEndDevice = navigator.hardwareConcurrency <= 2 || navigator.deviceMemory <= 2;
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        // 3D Background Animation with Three.js - Optimized
         let scene, camera, renderer, particles;
+        let animationFrameId = null;
+        let is3DInitialized = false;
 
         function init3DBackground() {
-            const canvas = document.getElementById('bg-canvas');
-            scene = new THREE.Scene();
-            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: false });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-
-            // Create particles
-            const geometry = new THREE.BufferGeometry();
-            const particleCount = 500;
-            const positions = new Float32Array(particleCount * 3);
-
-            for (let i = 0; i < particleCount * 3; i++) {
-                positions[i] = (Math.random() - 0.5) * 1500;
+            // Skip 3D on low-end devices or if reduced motion is preferred
+            if (prefersReducedMotion || (isMobile && isLowEndDevice)) {
+                const canvas = document.getElementById('bg-canvas');
+                if (canvas) canvas.style.display = 'none';
+                return;
             }
 
-            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            // Wait for Three.js to load
+            if (typeof THREE === 'undefined') {
+                setTimeout(init3DBackground, 100);
+                return;
+            }
 
-            const material = new THREE.PointsMaterial({
-                color: 0x00d4ff,
-                size: 1.0,
-                transparent: true,
-                opacity: 0.2
-            });
+            const canvas = document.getElementById('bg-canvas');
+            if (!canvas) return;
 
-            particles = new THREE.Points(geometry, material);
-            scene.add(particles);
+            try {
+                scene = new THREE.Scene();
+                camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+                renderer = new THREE.WebGLRenderer({ 
+                    canvas: canvas, 
+                    alpha: true, 
+                    antialias: false,
+                    powerPreference: 'high-performance'
+                });
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Limit pixel ratio for performance
 
-            camera.position.z = 1000;
+                // Adaptive particle count based on device
+                const particleCount = isMobile ? 150 : (isLowEndDevice ? 250 : 500);
+                const geometry = new THREE.BufferGeometry();
+                const positions = new Float32Array(particleCount * 3);
 
-            animate3D();
+                for (let i = 0; i < particleCount * 3; i++) {
+                    positions[i] = (Math.random() - 0.5) * 1500;
+                }
+
+                geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+                const material = new THREE.PointsMaterial({
+                    color: 0x00d4ff,
+                    size: isMobile ? 0.8 : 1.0,
+                    transparent: true,
+                    opacity: isMobile ? 0.15 : 0.2
+                });
+
+                particles = new THREE.Points(geometry, material);
+                scene.add(particles);
+
+                camera.position.z = 1000;
+                is3DInitialized = true;
+
+                // Use intersection observer to pause when not visible
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting && is3DInitialized) {
+                            animate3D();
+                        } else if (animationFrameId) {
+                            cancelAnimationFrame(animationFrameId);
+                            animationFrameId = null;
+                        }
+                    });
+                }, { threshold: 0 });
+
+                observer.observe(canvas);
+                
+                // Start animation if canvas is visible
+                if (canvas.offsetParent !== null) {
+                    animate3D();
+                }
+            } catch (e) {
+                console.warn('3D background initialization failed:', e);
+                if (canvas) canvas.style.display = 'none';
+            }
         }
 
         function animate3D() {
-            requestAnimationFrame(animate3D);
+            if (!is3DInitialized || !particles || !renderer || !scene || !camera) return;
+            
+            animationFrameId = requestAnimationFrame(animate3D);
             
             particles.rotation.x += 0.0003;
             particles.rotation.y += 0.0006;
@@ -3407,13 +3565,15 @@
             renderer.render(scene, camera);
         }
 
-        // Resize handler
-        window.addEventListener('resize', () => {
+        // Optimized resize handler with debouncing
+        const handleResize = debounce(() => {
             if (!camera || !renderer) return;
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
-        });
+        }, 150);
+
+        window.addEventListener('resize', handleResize, { passive: true });
 
         // Page content definitions
         const pages = {
@@ -6592,19 +6752,45 @@
             }
         }
 
-        // Initialize application
+        // Initialize EmailJS when available
+        function initEmailJS() {
+            if (typeof emailjs !== 'undefined') {
+                try {
+                    emailjs.init({
+                        publicKey: "yGskjt_nKqYxtfG0w",
+                    });
+                } catch (e) {
+                    console.warn('EmailJS initialization failed:', e);
+                }
+            } else {
+                // Retry after a delay if EmailJS hasn't loaded yet
+                setTimeout(initEmailJS, 500);
+            }
+        }
+
+        // Initialize application - Optimized
         function initApp() {
-            // Hide loading overlay
+            // Hide loading overlay faster on mobile
+            const loadDelay = isMobile ? 400 : 600;
             setTimeout(() => {
                 const overlay = document.getElementById('loadingOverlay');
-                overlay.style.opacity = '0';
-                setTimeout(() => {
-                    overlay.style.display = 'none';
-                }, 300);
-            }, 800);
+                if (overlay) {
+                    overlay.style.opacity = '0';
+                    setTimeout(() => {
+                        overlay.style.display = 'none';
+                    }, 300);
+                }
+            }, loadDelay);
 
-            // Initialize 3D background
-            init3DBackground();
+            // Initialize 3D background with delay for better perceived performance
+            if (!prefersReducedMotion) {
+                setTimeout(() => {
+                    init3DBackground();
+                }, isMobile ? 500 : 300);
+            }
+
+            // Initialize EmailJS
+            initEmailJS();
 
             // Load initial page
             const hash = window.location.hash.substring(1);
@@ -6616,17 +6802,26 @@
                 if (newHash && pages[newHash]) {
                     navigateTo(newHash);
                 }
-            });
+            }, { passive: true });
 
-            // Add scroll effects
-            window.addEventListener('scroll', () => {
-                const header = document.querySelector('header');
-                                 if (window.scrollY > 100) {
-                    header.classList.add('scrolled');
-                 } else {
-                    header.classList.remove('scrolled');
+            // Optimized scroll effects with throttling
+            const header = document.querySelector('header');
+            let lastScrollY = window.scrollY;
+            
+            const handleScroll = throttle(() => {
+                const currentScrollY = window.scrollY;
+                // Only update if scroll position changed significantly
+                if (Math.abs(currentScrollY - lastScrollY) > 5) {
+                    if (currentScrollY > 100) {
+                        header.classList.add('scrolled');
+                    } else {
+                        header.classList.remove('scrolled');
+                    }
+                    lastScrollY = currentScrollY;
                 }
-            });
+            }, 16); // ~60fps
+
+            window.addEventListener('scroll', handleScroll, { passive: true });
 
             // Cube face click handler - uses data-page attribute (delegated for dynamic content)
             document.addEventListener('click', function(e) {
@@ -6892,15 +7087,44 @@
             }
         }
 
-        // Start the application when DOM is loaded
-        document.addEventListener('DOMContentLoaded', () => {
+        // Start the application when DOM is loaded - Optimized
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                initApp();
+                
+                // Defer non-critical responsive systems initialization
+                requestIdleCallback(() => {
+                    new ResponsiveManager();
+                    new FluidResponsive();
+                    new AdaptiveLoading();
+                }, { timeout: 2000 });
+            });
+        } else {
+            // DOM already loaded
             initApp();
-            
-            // Initialize alternative responsive systems
-            new ResponsiveManager();
-            new FluidResponsive();
-            new AdaptiveLoading();
-        });
+            requestIdleCallback(() => {
+                new ResponsiveManager();
+                new FluidResponsive();
+                new AdaptiveLoading();
+            }, { timeout: 2000 });
+        }
+
+        // Polyfill for requestIdleCallback
+        if (!window.requestIdleCallback) {
+            window.requestIdleCallback = function(callback, options) {
+                const timeout = options?.timeout || 0;
+                const start = Date.now();
+                return setTimeout(() => {
+                    callback({
+                        didTimeout: false,
+                        timeRemaining: () => Math.max(0, 50 - (Date.now() - start))
+                    });
+                }, 1);
+            };
+            window.cancelIdleCallback = function(id) {
+                clearTimeout(id);
+            };
+        }
     </script>
 </body>
 </html>
