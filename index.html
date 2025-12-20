@@ -657,12 +657,17 @@
             z-index: 1000;
             opacity: 0;
             visibility: hidden;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateZ(0);
+            will-change: opacity, visibility;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .mobile-menu.active {
             opacity: 1;
             visibility: visible;
+            transform: translateZ(0);
         }
 
         .mobile-menu-links {
@@ -673,6 +678,8 @@
             width: 100%;
             max-width: 400px;
             padding-bottom: 2rem;
+            transform: translateZ(0);
+            will-change: transform;
         }
 
         .mobile-menu-links a {
@@ -682,8 +689,10 @@
             font-size: 1.1rem;
             font-weight: 500;
             padding: 1rem 2rem;
-            transition: all 0.3s ease;
+            transition: color 0.2s ease, background-color 0.2s ease;
             border-radius: 8px;
+            transform: translateZ(0);
+            will-change: color, background-color;
         }
 
         .mobile-menu-links a:hover {
@@ -709,7 +718,8 @@
             justify-content: center;
             gap: 0.5rem;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: color 0.2s ease;
+            transform: translateZ(0);
         }
 
         .mobile-accordion-trigger:hover {
@@ -718,27 +728,32 @@
 
         .mobile-accordion-trigger i {
             font-size: 0.7rem;
-            transition: transform 0.3s ease;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateZ(0);
+            will-change: transform;
         }
 
         .mobile-accordion-trigger.active i {
-            transform: rotate(180deg);
+            transform: rotate(180deg) translateZ(0);
         }
 
         .mobile-accordion-content {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.4s ease;
+            transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             flex-direction: column;
             gap: 0.25rem;
             padding: 0 1rem;
+            transform: translateZ(0);
+            will-change: max-height;
         }
 
         .mobile-accordion-content.active {
             max-height: 500px;
             padding-bottom: 1rem;
             overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .mobile-accordion-content a {
@@ -746,6 +761,8 @@
             padding: 0.75rem 1.5rem;
             border-radius: 8px;
             background: rgba(100, 181, 246, 0.05);
+            transform: translateZ(0);
+            transition: color 0.2s ease, background-color 0.2s ease;
         }
 
         .mobile-cta {
@@ -773,11 +790,30 @@
             cursor: pointer;
             padding: 0.5rem;
             border-radius: 8px;
-            transition: all 0.2s ease;
+            transition: background-color 0.2s ease;
+            transform: translateZ(0);
+            will-change: background-color;
+            z-index: 1001;
         }
 
         .mobile-menu-close:hover {
             background: rgba(44, 44, 44, 0.1);
+        }
+
+        /* Prevent flickering on mobile devices */
+        @media (max-width: 768px) {
+            .mobile-menu {
+                -webkit-transform: translateZ(0);
+                transform: translateZ(0);
+                -webkit-perspective: 1000;
+                perspective: 1000;
+            }
+            
+            .mobile-menu-links,
+            .mobile-accordion-content {
+                -webkit-transform: translateZ(0);
+                transform: translateZ(0);
+            }
         }
 
         /* Mobile Menu Responsive */
@@ -3254,20 +3290,14 @@
                 <div class="mobile-accordion-content">
                     <a href="#quantAccess" onclick="navigateTo('quantAccess'); closeMobileMenu();">🚀 Quant Access</a>
                     <a href="#tradeCopier" onclick="navigateTo('tradeCopier'); closeMobileMenu();" style="color: var(--accent-cyan);">⚡ Trade Copier</a>
-                    <a href="#consultation" onclick="navigateTo('consultation'); closeMobileMenu();">💬 Consultation</a>
-                    <a href="#customDev" onclick="navigateTo('customDev'); closeMobileMenu();">⚙️ Custom Development</a>
-                </div>
-            </div>
-            <div class="mobile-accordion">
-                <button class="mobile-accordion-trigger" onclick="toggleMobileAccordion(this)">Expert Advisors <i class="fas fa-chevron-down"></i></button>
-                <div class="mobile-accordion-content">
                     <a href="#goldFxDetails" onclick="navigateTo('goldFxDetails'); closeMobileMenu();" style="color: #ffd700;">👑 GoldFX Pro ⭐</a>
                     <a href="#goldClutch" onclick="navigateTo('goldClutch'); closeMobileMenu();" style="color: #ffb300;">🤜 GoldClutch EA</a>
                     <a href="#goldShort" onclick="navigateTo('goldShort'); closeMobileMenu();">⚡ GoldShort EA</a>
                     <a href="#goldShortSL" onclick="navigateTo('goldShortSL'); closeMobileMenu();" style="color: var(--accent-purple);">🛡️ GoldShort SL</a>
+                    <a href="#consultation" onclick="navigateTo('consultation'); closeMobileMenu();">💬 Consultation</a>
+                    <a href="#customDev" onclick="navigateTo('customDev'); closeMobileMenu();">⚙️ Custom Development</a>
                 </div>
             </div>
-            <a href="#brochure" onclick="navigateTo('brochure'); closeMobileMenu();">Brochure</a>
             <div class="mobile-accordion">
                 <button class="mobile-accordion-trigger" onclick="toggleMobileAccordion(this)">About <i class="fas fa-chevron-down"></i></button>
                 <div class="mobile-accordion-content">
@@ -6541,9 +6571,25 @@
         }
 
         function toggleMobileAccordion(button) {
-            button.classList.toggle('active');
+            const isActive = button.classList.contains('active');
             const content = button.nextElementSibling;
-            content.classList.toggle('active');
+            
+            // Close all other accordions for better UX
+            document.querySelectorAll('.mobile-accordion-trigger.active').forEach(trigger => {
+                if (trigger !== button) {
+                    trigger.classList.remove('active');
+                    trigger.nextElementSibling.classList.remove('active');
+                }
+            });
+            
+            // Toggle current accordion
+            if (isActive) {
+                button.classList.remove('active');
+                content.classList.remove('active');
+            } else {
+                button.classList.add('active');
+                content.classList.add('active');
+            }
         }
 
         // Initialize application
