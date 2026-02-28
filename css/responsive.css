@@ -385,7 +385,8 @@
     }
 
     .hero-bg-accent {
-        display: none;
+        filter: blur(80px);
+        opacity: 0.4;
     }
 
     /* ---- Fold 2 Mobile ---- */
@@ -914,6 +915,17 @@
         display: none;
     }
 
+    /* Disable hover transforms on touch devices */
+    .ea-card-v2:hover,
+    .fold2-nav-card:hover,
+    .fold2-stat-card:hover,
+    .trust-card-v2:hover,
+    .featured-strategy-card:hover,
+    .btn-primary:hover,
+    .btn-hero-primary:hover {
+        transform: none;
+    }
+
 }
 
 /* ---- Small Mobile (max-width: 480px) ---- */
@@ -1290,22 +1302,26 @@
 @media (max-width: 768px) {
     .hero-bg-accent {
         filter: blur(80px);
+        opacity: 0.5;
     }
 
     .glow-orb {
         opacity: 0.5;
     }
 
-    .hero::before,
-    .fold2::before {
+    .hero::before {
         display: none;
+    }
+
+    .fold2::before {
+        opacity: 0.3;
     }
 
     body::before {
         opacity: 0.2;
     }
 
-    .snap-panel:nth-child(odd)::after {
-        display: none;
+    body {
+        background-attachment: scroll;
     }
 }

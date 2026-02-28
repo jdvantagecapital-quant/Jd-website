@@ -70,6 +70,8 @@ function navigateTo(pageName) {
         initHeroAnimations();
         animateBarCharts();
         initSnapScroll(pageName);
+        initScrollIndicatorFade();
+        initCountUpStats();
     }, 100);
 
     // Update browser URL (hash-based routing)
@@ -378,6 +380,84 @@ function animateBarCharts() {
             }, index * 60);
         }
     });
+}
+
+// ---- Scroll Indicator Fade ---- //
+function initScrollIndicatorFade() {
+    const indicator = document.querySelector('.hero-scroll-indicator');
+    if (!indicator) return;
+
+    let faded = false;
+    const onScroll = () => {
+        if (window.scrollY > 100 && !faded) {
+            faded = true;
+            indicator.style.transition = 'opacity 0.5s ease';
+            indicator.style.opacity = '0';
+            indicator.style.pointerEvents = 'none';
+        } else if (window.scrollY <= 100 && faded) {
+            faded = false;
+            indicator.style.opacity = '1';
+            indicator.style.pointerEvents = '';
+        }
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+}
+
+// ---- Count-Up Animation for Stats ---- //
+function initCountUpStats() {
+    const statValues = document.querySelectorAll('.fold2-stat-value');
+    if (statValues.length === 0) return;
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                animateValue(entry.target);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.5 });
+
+    statValues.forEach(el => observer.observe(el));
+}
+
+function animateValue(el) {
+    const text = el.textContent.trim();
+    const prefix = text.match(/^[+$]*/)?.[0] || '';
+    const suffix = text.match(/[%]*$/)?.[0] || '';
+    const core = text.replace(prefix, '').replace(suffix, '');
+
+    // Handle fraction format like "18/18"
+    if (core.includes('/')) {
+        const [num, den] = core.split('/').map(Number);
+        let current = 0;
+        const duration = 1200;
+        const startTime = performance.now();
+        const step = (now) => {
+            const progress = Math.min((now - startTime) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+            current = Math.round(eased * num);
+            el.textContent = `${prefix}${current}/${den}${suffix}`;
+            if (progress < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+        return;
+    }
+
+    const numValue = parseFloat(core);
+    if (isNaN(numValue)) return;
+
+    const isInt = !core.includes('.');
+    const duration = 1400;
+    const startTime = performance.now();
+
+    const step = (now) => {
+        const progress = Math.min((now - startTime) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const current = eased * numValue;
+        el.textContent = `${prefix}${isInt ? Math.round(current) : current.toFixed(core.split('.')[1]?.length || 0)}${suffix}`;
+        if (progress < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
 }
 
 // ---- Initialize Application ---- //
