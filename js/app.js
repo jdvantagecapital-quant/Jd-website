@@ -206,6 +206,7 @@ let fpActive = false;
 let fpSections = [];
 let fpCurrentIndex = 0;
 let fpAnimating = false;
+let fpAnimEndTime = 0;
 let fpWheelHandler = null;
 let fpKeyHandler = null;
 let fpTouchStartY = 0;
@@ -249,30 +250,30 @@ function setupFullpage() {
     // Wheel handler — robust debounce for both mouse wheel and trackpad
     let fpAccumulatedDelta = 0;
     let fpLastWheelTime = 0;
-    let fpLastScrollTrigger = 0;
     const FP_DELTA_THRESHOLD = 80;
-    const FP_COOLDOWN_AFTER_ANIM = 600; // ms cooldown after animation completes
+    const FP_COOLDOWN_AFTER_ANIM = 800; // ms cooldown AFTER animation ends
 
     fpWheelHandler = (e) => {
         e.preventDefault();
         if (!fpActive) return;
 
         const now = Date.now();
-        const delta = e.deltaY;
 
-        // Block ALL input while animating — also flush accumulated delta
+        // Block ALL input while animating — flush everything
         if (fpAnimating) {
             fpAccumulatedDelta = 0;
             fpLastWheelTime = now;
             return;
         }
 
-        // Cooldown period after last scroll trigger to absorb inertia
-        if (now - fpLastScrollTrigger < FP_COOLDOWN_AFTER_ANIM) {
+        // Cooldown period AFTER animation completes to absorb inertia
+        if (fpAnimEndTime && now - fpAnimEndTime < FP_COOLDOWN_AFTER_ANIM) {
             fpAccumulatedDelta = 0;
             fpLastWheelTime = now;
             return;
         }
+
+        const delta = e.deltaY;
 
         // Reset accumulation if too much time passed (new gesture)
         if (now - fpLastWheelTime > 300) {
@@ -285,10 +286,9 @@ function setupFullpage() {
 
         if (Math.abs(fpAccumulatedDelta) < FP_DELTA_THRESHOLD) return;
 
-        // Reset accumulator and record trigger time
+        // Reset accumulator
         const direction = fpAccumulatedDelta > 0 ? 1 : -1;
         fpAccumulatedDelta = 0;
-        fpLastScrollTrigger = now;
 
         if (direction > 0) {
             // Scrolling DOWN
@@ -305,6 +305,7 @@ function setupFullpage() {
                     smoothScrollTo(docBottom, 900, () => {
                         fpAnimating = false;
                         document.documentElement.classList.remove('fp-animating');
+                        fpAnimEndTime = Date.now();
                     });
                 }
             }
@@ -335,9 +336,10 @@ function setupFullpage() {
                     fpCurrentIndex = fpSections.length;
                     fpAnimating = true;
                     document.documentElement.classList.add('fp-animating');
-                    smoothScrollTo(docBottom, 750, () => {
+                    smoothScrollTo(docBottom, 900, () => {
                         fpAnimating = false;
                         document.documentElement.classList.remove('fp-animating');
+                        fpAnimEndTime = Date.now();
                     });
                 }
             }
@@ -396,6 +398,8 @@ function scrollToSection(index) {
     smoothScrollTo(target, 900, () => {
         fpAnimating = false;
         document.documentElement.classList.remove('fp-animating');
+        // Record when animation actually ended — cooldown starts HERE
+        fpAnimEndTime = Date.now();
     });
 }
 
