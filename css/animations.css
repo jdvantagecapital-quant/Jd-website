@@ -272,10 +272,11 @@
 /* ---- Scroll Reveal (base) ---- */
 .reveal {
     opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1),
-                transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+    transform: translateY(30px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     will-change: opacity, transform;
+    backface-visibility: hidden;
 }
 
 .reveal.revealed {
@@ -285,10 +286,11 @@
 
 .reveal-left {
     opacity: 0;
-    transform: translateX(-20px);
-    transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1),
-                transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+    transform: translateX(-25px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     will-change: opacity, transform;
+    backface-visibility: hidden;
 }
 
 .reveal-left.revealed {
@@ -298,10 +300,11 @@
 
 .reveal-right {
     opacity: 0;
-    transform: translateX(20px);
-    transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1),
-                transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+    transform: translateX(25px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     will-change: opacity, transform;
+    backface-visibility: hidden;
 }
 
 .reveal-right.revealed {
@@ -311,10 +314,11 @@
 
 .reveal-scale {
     opacity: 0;
-    transform: scale(0.95);
-    transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1),
-                transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+    transform: scale(0.96);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     will-change: opacity, transform;
+    backface-visibility: hidden;
 }
 
 .reveal-scale.revealed {

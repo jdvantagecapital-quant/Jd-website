@@ -245,19 +245,35 @@ function setupFullpage() {
     });
     fpCurrentIndex = closest;
 
-    // Wheel handler
+    // Wheel handler — accumulate delta for smooth trackpad support
+    let fpAccumulatedDelta = 0;
+    let fpLastWheelTime = 0;
+    const FP_DELTA_THRESHOLD = 60;
+    const FP_COOLDOWN = 100; // ms between accepted scroll events
+
     fpWheelHandler = (e) => {
-        if (!fpActive || fpAnimating) {
-            e.preventDefault();
-            return;
-        }
-
-        const delta = e.deltaY;
-        if (Math.abs(delta) < 15) return; // ignore tiny trackpad micro-scrolls
-
         e.preventDefault();
+        if (!fpActive || fpAnimating) return;
 
-        if (delta > 0) {
+        const now = Date.now();
+        const delta = e.deltaY;
+
+        // Reset accumulation if too much time passed (new gesture)
+        if (now - fpLastWheelTime > 300) {
+            fpAccumulatedDelta = 0;
+        }
+        fpLastWheelTime = now;
+
+        // Accumulate delta for trackpad inertia
+        fpAccumulatedDelta += delta;
+
+        if (Math.abs(fpAccumulatedDelta) < FP_DELTA_THRESHOLD) return;
+
+        // Reset accumulator
+        const direction = fpAccumulatedDelta > 0 ? 1 : -1;
+        fpAccumulatedDelta = 0;
+
+        if (direction > 0) {
             // Scrolling DOWN
             if (fpCurrentIndex < fpSections.length - 1) {
                 fpCurrentIndex++;
@@ -266,19 +282,18 @@ function setupFullpage() {
                 // Past last panel — scroll to page bottom (footer)
                 const docBottom = document.documentElement.scrollHeight - window.innerHeight;
                 if (Math.abs(window.scrollY - docBottom) > 10) {
-                    fpCurrentIndex = fpSections.length; // virtual "footer" index
+                    fpCurrentIndex = fpSections.length;
                     fpAnimating = true;
                     document.documentElement.classList.add('fp-animating');
-                    smoothScrollTo(docBottom, 750, () => {
+                    smoothScrollTo(docBottom, 900, () => {
                         fpAnimating = false;
                         document.documentElement.classList.remove('fp-animating');
                     });
                 }
             }
-        } else if (delta < 0) {
+        } else {
             // Scrolling UP
             if (fpCurrentIndex >= fpSections.length) {
-                // Coming back from footer to last panel
                 fpCurrentIndex = fpSections.length - 1;
                 scrollToSection(fpCurrentIndex);
             } else if (fpCurrentIndex > 0) {
@@ -321,8 +336,29 @@ function setupFullpage() {
         }
     };
 
+    // Touch handlers for trackpad swipe gestures
+    fpTouchHandler = (e) => {
+        fpTouchStartY = e.touches[0].clientY;
+    };
+    fpTouchEndHandler = (e) => {
+        if (!fpActive || fpAnimating) return;
+        const touchEndY = e.changedTouches[0].clientY;
+        const swipeDist = fpTouchStartY - touchEndY;
+        if (Math.abs(swipeDist) < 50) return; // min swipe distance
+
+        if (swipeDist > 0 && fpCurrentIndex < fpSections.length - 1) {
+            fpCurrentIndex++;
+            scrollToSection(fpCurrentIndex);
+        } else if (swipeDist < 0 && fpCurrentIndex > 0) {
+            fpCurrentIndex--;
+            scrollToSection(fpCurrentIndex);
+        }
+    };
+
     window.addEventListener('wheel', fpWheelHandler, { passive: false });
     window.addEventListener('keydown', fpKeyHandler);
+    window.addEventListener('touchstart', fpTouchHandler, { passive: true });
+    window.addEventListener('touchend', fpTouchEndHandler, { passive: true });
 }
 
 function scrollToSection(index) {
@@ -333,8 +369,8 @@ function scrollToSection(index) {
 
     const target = fpSections[index].offsetTop;
 
-    // Use smooth scroll with custom easing via JS
-    smoothScrollTo(target, 750, () => {
+    // Use smooth scroll with premium easing
+    smoothScrollTo(target, 900, () => {
         fpAnimating = false;
         document.documentElement.classList.remove('fp-animating');
     });
@@ -343,18 +379,19 @@ function scrollToSection(index) {
 function smoothScrollTo(targetY, duration, callback) {
     const startY = window.scrollY;
     const diff = targetY - startY;
+    if (Math.abs(diff) < 2) { if (callback) callback(); return; }
     let startTime = null;
 
-    // Smooth ease-out cubic — gentle deceleration, no harsh snap
-    function easeOutCubic(t) {
-        return 1 - Math.pow(1 - t, 3);
+    // Premium ease-in-out quart — smooth acceleration & deceleration
+    function easeInOutQuart(t) {
+        return t < 0.5 ? 8 * t * t * t * t : 1 - Math.pow(-2 * t + 2, 4) / 2;
     }
 
     function step(timestamp) {
         if (!startTime) startTime = timestamp;
         const elapsed = timestamp - startTime;
         const progress = Math.min(elapsed / duration, 1);
-        const eased = easeOutCubic(progress);
+        const eased = easeInOutQuart(progress);
 
         window.scrollTo(0, startY + diff * eased);
 
@@ -380,6 +417,14 @@ function destroyFullpage() {
     if (fpKeyHandler) {
         window.removeEventListener('keydown', fpKeyHandler);
         fpKeyHandler = null;
+    }
+    if (fpTouchHandler) {
+        window.removeEventListener('touchstart', fpTouchHandler);
+        fpTouchHandler = null;
+    }
+    if (fpTouchEndHandler) {
+        window.removeEventListener('touchend', fpTouchEndHandler);
+        fpTouchEndHandler = null;
     }
 
     fpSections = [];

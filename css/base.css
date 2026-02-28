@@ -30,6 +30,7 @@ body {
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
     position: relative;
+    overscroll-behavior: none;
 }
 
 /* ---- Fullpage Sections (desktop, home page) ---- */
@@ -39,6 +40,9 @@ body {
     flex-direction: column;
     justify-content: center;
     position: relative;
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
 }
 
 /* Compact padding on snap-panel sections — centering handles vertical placement */
