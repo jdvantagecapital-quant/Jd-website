@@ -365,6 +365,10 @@ function animateBarCharts() {
 
 // ---- Initialize Application ---- //
 function initApp() {
+    // Ensure scroll is never blocked on init
+    document.body.style.overflow = '';
+    document.documentElement.style.overflow = '';
+
     // Initialize header scroll
     initHeaderScroll();
     

@@ -16,7 +16,7 @@ html {
     font-size: 16px;
     -webkit-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%;
-    overflow-x: hidden;
+    /* only hide horizontal overflow on body, not html — avoids dual-overflow spec issue */
 }
 
 body {
@@ -26,11 +26,11 @@ body {
     line-height: var(--leading-normal);
     min-height: 100vh;
     overflow-x: hidden;
+    overflow-y: auto;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
     position: relative;
-    overscroll-behavior: none;
 }
 
 /* ---- Sections ---- */
