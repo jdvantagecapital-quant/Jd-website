@@ -37,17 +37,7 @@
     z-index: 0;
 }
 
-/* Hero aurora glow line */
-.hero::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent 5%, rgba(124, 58, 237, 0.4) 30%, rgba(34, 211, 238, 0.3) 50%, rgba(16, 185, 129, 0.4) 70%, transparent 95%);
-    z-index: 1;
-}
+
 
 /* Split hero layout */
 .hero-split {
