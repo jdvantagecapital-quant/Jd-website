@@ -251,7 +251,7 @@ function setupFullpage() {
     let fpAccumulatedDelta = 0;
     let fpLastWheelTime = 0;
     const FP_DELTA_THRESHOLD = 80;
-    const FP_COOLDOWN_AFTER_ANIM = 800; // ms cooldown AFTER animation ends
+    const FP_COOLDOWN_AFTER_ANIM = 1000; // ms cooldown AFTER animation ends
 
     fpWheelHandler = (e) => {
         e.preventDefault();
@@ -286,6 +286,9 @@ function setupFullpage() {
 
         if (Math.abs(fpAccumulatedDelta) < FP_DELTA_THRESHOLD) return;
 
+        // Lock immediately — prevent any more triggers until animation cycle completes
+        fpAnimating = true;
+
         // Reset accumulator
         const direction = fpAccumulatedDelta > 0 ? 1 : -1;
         fpAccumulatedDelta = 0;
@@ -300,13 +303,14 @@ function setupFullpage() {
                 const docBottom = document.documentElement.scrollHeight - window.innerHeight;
                 if (Math.abs(window.scrollY - docBottom) > 10) {
                     fpCurrentIndex = fpSections.length;
-                    fpAnimating = true;
                     document.documentElement.classList.add('fp-animating');
                     smoothScrollTo(docBottom, 900, () => {
                         fpAnimating = false;
                         document.documentElement.classList.remove('fp-animating');
                         fpAnimEndTime = Date.now();
                     });
+                } else {
+                    fpAnimating = false; // nowhere to go, unlock
                 }
             }
         } else {
@@ -317,6 +321,8 @@ function setupFullpage() {
             } else if (fpCurrentIndex > 0) {
                 fpCurrentIndex--;
                 scrollToSection(fpCurrentIndex);
+            } else {
+                fpAnimating = false; // already at top, unlock
             }
         }
     };
