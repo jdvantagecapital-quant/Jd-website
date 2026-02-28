@@ -1265,11 +1265,6 @@
         transform: none;
     }
 
-    .hero-bg-accent,
-    .glow-orb {
-        animation: none !important;
-    }
-
     body::before {
         display: none;
     }
@@ -1278,12 +1273,10 @@
 /* ---- Performance: simplify bg effects on small screens ---- */
 @media (max-width: 768px) {
     .hero-bg-accent {
-        animation: none !important;
         filter: blur(80px);
     }
 
     .glow-orb {
-        animation: none !important;
         opacity: 0.5;
     }
 

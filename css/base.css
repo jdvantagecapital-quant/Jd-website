@@ -53,8 +53,9 @@ body::before {
     position: relative;
 }
 
-/* Section glow divider — subtle purple line between sections */
-.snap-panel + .snap-panel::before {
+/* Section glow divider — subtle purple line between sections (all pages) */
+.snap-panel + .snap-panel::before,
+#app-content > .section + .section::before {
     content: '';
     position: absolute;
     top: 0;
@@ -66,14 +67,16 @@ body::before {
 }
 
 /* Alternating section ambient glow: even sections get a centered radial glow */
-.snap-panel:nth-child(even) {
+.snap-panel:nth-child(even),
+#app-content > .section:nth-child(even) {
     background:
         radial-gradient(ellipse 80% 50% at 50% 50%, rgba(124, 58, 237, 0.03) 0%, transparent 60%),
         var(--color-bg-alt);
 }
 
 /* Odd sections: subtle bottom-corner accent */
-.snap-panel:nth-child(odd)::after {
+.snap-panel:nth-child(odd)::after,
+#app-content > .section:nth-child(odd)::after {
     content: '';
     position: absolute;
     bottom: -80px;
@@ -196,6 +199,7 @@ strong {
     padding: var(--space-24) 0;
     position: relative;
     z-index: var(--z-base);
+    overflow: hidden;
 }
 
 .section-sm {
@@ -756,19 +760,13 @@ strong {
 .relative { position: relative; }
 .overflow-hidden { overflow: hidden; }
 
-/* ---- Glow Accent Orbs ---- */
+/* ---- Glow Accent Orbs — Static ---- */
 .glow-orb {
     position: absolute;
     border-radius: 50%;
     filter: blur(100px);
     pointer-events: none;
     z-index: var(--z-behind);
-    animation: orbPulse 12s ease-in-out infinite alternate;
-}
-
-@keyframes orbPulse {
-    0% { opacity: 0.6; transform: scale(1); }
-    100% { opacity: 1; transform: scale(1.1); }
 }
 
 .glow-orb-purple {

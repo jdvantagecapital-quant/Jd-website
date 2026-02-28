@@ -441,14 +441,13 @@
    HOME PAGE REDESIGN v2 — New Classes
    ============================================ */
 
-/* ---- Hero Background Accents — Animated Floating Orbs ---- */
+/* ---- Hero Background Accents — Static Orbs ---- */
 .hero-bg-accent {
     position: absolute;
     border-radius: 50%;
     filter: blur(100px);
     pointer-events: none;
     z-index: -1;
-    will-change: transform;
 }
 
 .hero-bg-accent-1 {
@@ -457,7 +456,6 @@
     top: -15%;
     left: -5%;
     background: radial-gradient(circle, rgba(124, 58, 237, 0.18) 0%, rgba(124, 58, 237, 0) 70%);
-    animation: floatOrb1 20s ease-in-out infinite;
 }
 
 .hero-bg-accent-2 {
@@ -466,7 +464,6 @@
     top: 40%;
     right: -5%;
     background: radial-gradient(circle, rgba(34, 211, 238, 0.10) 0%, rgba(34, 211, 238, 0) 70%);
-    animation: floatOrb2 25s ease-in-out infinite;
 }
 
 .hero-bg-accent-3 {
@@ -475,23 +472,6 @@
     bottom: -5%;
     left: 25%;
     background: radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, rgba(16, 185, 129, 0) 70%);
-    animation: floatOrb3 18s ease-in-out infinite;
-}
-
-@keyframes floatOrb1 {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    33% { transform: translate(30px, 20px) scale(1.05); }
-    66% { transform: translate(-20px, -10px) scale(0.95); }
-}
-@keyframes floatOrb2 {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    33% { transform: translate(-25px, 15px) scale(1.08); }
-    66% { transform: translate(15px, -20px) scale(0.96); }
-}
-@keyframes floatOrb3 {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    33% { transform: translate(20px, -15px) scale(1.04); }
-    66% { transform: translate(-15px, 25px) scale(0.97); }
 }
 
 
@@ -1616,7 +1596,7 @@
     pointer-events: none;
 }
 
-/* CTA animated accent border glow */
+/* CTA static accent border glow */
 .cta-card-v2::before {
     content: '';
     position: absolute;
@@ -1624,18 +1604,11 @@
     border-radius: var(--radius-2xl);
     padding: 1px;
     background: linear-gradient(135deg, rgba(124, 58, 237, 0.3), rgba(34, 211, 238, 0.15), rgba(16, 185, 129, 0.2), rgba(124, 58, 237, 0.3));
-    background-size: 300% 300%;
-    animation: ctaBorderGlow 8s ease infinite;
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     pointer-events: none;
     z-index: 0;
-}
-
-@keyframes ctaBorderGlow {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
 }
 
 .cta-card-v2-content {
