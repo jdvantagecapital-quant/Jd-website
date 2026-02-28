@@ -245,18 +245,33 @@ function setupFullpage() {
     });
     fpCurrentIndex = closest;
 
-    // Wheel handler — accumulate delta for smooth trackpad support
+    // Wheel handler — robust debounce for both mouse wheel and trackpad
     let fpAccumulatedDelta = 0;
     let fpLastWheelTime = 0;
-    const FP_DELTA_THRESHOLD = 60;
-    const FP_COOLDOWN = 100; // ms between accepted scroll events
+    let fpLastScrollTrigger = 0;
+    const FP_DELTA_THRESHOLD = 80;
+    const FP_COOLDOWN_AFTER_ANIM = 600; // ms cooldown after animation completes
 
     fpWheelHandler = (e) => {
         e.preventDefault();
-        if (!fpActive || fpAnimating) return;
+        if (!fpActive) return;
 
         const now = Date.now();
         const delta = e.deltaY;
+
+        // Block ALL input while animating — also flush accumulated delta
+        if (fpAnimating) {
+            fpAccumulatedDelta = 0;
+            fpLastWheelTime = now;
+            return;
+        }
+
+        // Cooldown period after last scroll trigger to absorb inertia
+        if (now - fpLastScrollTrigger < FP_COOLDOWN_AFTER_ANIM) {
+            fpAccumulatedDelta = 0;
+            fpLastWheelTime = now;
+            return;
+        }
 
         // Reset accumulation if too much time passed (new gesture)
         if (now - fpLastWheelTime > 300) {
@@ -269,9 +284,10 @@ function setupFullpage() {
 
         if (Math.abs(fpAccumulatedDelta) < FP_DELTA_THRESHOLD) return;
 
-        // Reset accumulator
+        // Reset accumulator and record trigger time
         const direction = fpAccumulatedDelta > 0 ? 1 : -1;
         fpAccumulatedDelta = 0;
+        fpLastScrollTrigger = now;
 
         if (direction > 0) {
             // Scrolling DOWN
@@ -364,6 +380,12 @@ function setupFullpage() {
 function scrollToSection(index) {
     if (!fpSections[index]) return;
 
+    // Cancel any in-flight animation
+    if (fpScrollRAF) {
+        cancelAnimationFrame(fpScrollRAF);
+        fpScrollRAF = null;
+    }
+
     fpAnimating = true;
     document.documentElement.classList.add('fp-animating');
 
@@ -376,11 +398,19 @@ function scrollToSection(index) {
     });
 }
 
+let fpScrollRAF = null;
+
 function smoothScrollTo(targetY, duration, callback) {
     const startY = window.scrollY;
     const diff = targetY - startY;
     if (Math.abs(diff) < 2) { if (callback) callback(); return; }
     let startTime = null;
+
+    // Cancel previous animation frame
+    if (fpScrollRAF) {
+        cancelAnimationFrame(fpScrollRAF);
+        fpScrollRAF = null;
+    }
 
     // Premium ease-in-out quart — smooth acceleration & deceleration
     function easeInOutQuart(t) {
@@ -396,13 +426,14 @@ function smoothScrollTo(targetY, duration, callback) {
         window.scrollTo(0, startY + diff * eased);
 
         if (progress < 1) {
-            requestAnimationFrame(step);
+            fpScrollRAF = requestAnimationFrame(step);
         } else {
+            fpScrollRAF = null;
             if (callback) callback();
         }
     }
 
-    requestAnimationFrame(step);
+    fpScrollRAF = requestAnimationFrame(step);
 }
 
 function destroyFullpage() {
