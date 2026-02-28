@@ -245,7 +245,8 @@ function getHomePage() {
     </section>
 
     <!-- ======== STRATEGY CARDS ======== -->
-    <section class="section snap-panel" style="background: var(--color-bg-alt);">
+    <section class="section snap-panel section-decorated">
+        <div class="glow-orb glow-orb-purple" style="width:400px;height:400px;top:-10%;right:-8%;"></div>
         <div class="container">
             <div class="section-header reveal">
                 <span class="section-label">
@@ -415,7 +416,8 @@ function getHomePage() {
     </section>
 
     <!-- ======== COMPARISON TABLE ======== -->
-    <section class="section snap-panel" style="background: var(--color-bg-alt);">
+    <section class="section snap-panel section-decorated">
+        <div class="glow-orb glow-orb-cyan" style="width:300px;height:300px;bottom:-10%;left:-5%;"></div>
         <div class="container">
             <div class="section-header reveal">
                 <span class="section-label">
@@ -626,7 +628,9 @@ function getHomePage() {
     </section>
 
     <!-- ======== WHY CHOOSE US / TRUST ======== -->
-    <section class="section snap-panel" style="background: var(--color-bg-alt);">
+    <section class="section snap-panel section-decorated">
+        <div class="glow-orb glow-orb-purple" style="width:350px;height:350px;top:10%;left:-10%;"></div>
+        <div class="glow-orb glow-orb-cyan" style="width:250px;height:250px;bottom:10%;right:-8%;"></div>
         <div class="container">
             <div class="section-header reveal">
                 <span class="section-label">

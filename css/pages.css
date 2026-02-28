@@ -16,6 +16,37 @@
     align-items: center;
     justify-content: center;
     z-index: var(--z-base);
+    background:
+        radial-gradient(ellipse 80% 50% at 50% 0%, rgba(124, 58, 237, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse 60% 40% at 80% 60%, rgba(34, 211, 238, 0.06) 0%, transparent 50%),
+        radial-gradient(ellipse 50% 50% at 20% 80%, rgba(16, 185, 129, 0.05) 0%, transparent 50%);
+}
+
+/* Hero subtle grid overlay */
+.hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(124, 58, 237, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(124, 58, 237, 0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 20%, transparent 70%);
+    -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 20%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Hero aurora glow line */
+.hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 5%, rgba(124, 58, 237, 0.4) 30%, rgba(34, 211, 238, 0.3) 50%, rgba(16, 185, 129, 0.4) 70%, transparent 95%);
+    z-index: 1;
 }
 
 /* Split hero layout */
@@ -410,37 +441,57 @@
    HOME PAGE REDESIGN v2 — New Classes
    ============================================ */
 
-/* ---- Hero Background Accents (legacy) ---- */
+/* ---- Hero Background Accents — Animated Floating Orbs ---- */
 .hero-bg-accent {
     position: absolute;
     border-radius: 50%;
-    filter: blur(120px);
+    filter: blur(100px);
     pointer-events: none;
     z-index: -1;
+    will-change: transform;
 }
 
 .hero-bg-accent-1 {
-    width: 600px;
-    height: 600px;
-    top: -200px;
-    left: -100px;
-    background: rgba(124, 58, 237, 0.12);
+    width: 500px;
+    height: 500px;
+    top: -15%;
+    left: -5%;
+    background: radial-gradient(circle, rgba(124, 58, 237, 0.18) 0%, rgba(124, 58, 237, 0) 70%);
+    animation: floatOrb1 20s ease-in-out infinite;
 }
 
 .hero-bg-accent-2 {
-    width: 400px;
-    height: 400px;
-    top: 50%;
-    right: -100px;
-    background: rgba(34, 211, 238, 0.06);
+    width: 350px;
+    height: 350px;
+    top: 40%;
+    right: -5%;
+    background: radial-gradient(circle, rgba(34, 211, 238, 0.10) 0%, rgba(34, 211, 238, 0) 70%);
+    animation: floatOrb2 25s ease-in-out infinite;
 }
 
 .hero-bg-accent-3 {
-    width: 300px;
-    height: 300px;
-    bottom: -100px;
-    left: 30%;
-    background: rgba(16, 185, 129, 0.05);
+    width: 280px;
+    height: 280px;
+    bottom: -5%;
+    left: 25%;
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, rgba(16, 185, 129, 0) 70%);
+    animation: floatOrb3 18s ease-in-out infinite;
+}
+
+@keyframes floatOrb1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(30px, 20px) scale(1.05); }
+    66% { transform: translate(-20px, -10px) scale(0.95); }
+}
+@keyframes floatOrb2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(-25px, 15px) scale(1.08); }
+    66% { transform: translate(15px, -20px) scale(0.96); }
+}
+@keyframes floatOrb3 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(20px, -15px) scale(1.04); }
+    66% { transform: translate(-15px, 25px) scale(0.97); }
 }
 
 
@@ -806,8 +857,26 @@
     padding: var(--space-16) 0;
     position: relative;
     z-index: var(--z-base);
-    border-top: 1px solid var(--border-color);
-    background: var(--color-bg);
+    border-top: none;
+    background:
+        radial-gradient(ellipse 60% 40% at 20% 20%, rgba(124, 58, 237, 0.06) 0%, transparent 50%),
+        radial-gradient(ellipse 50% 40% at 80% 80%, rgba(34, 211, 238, 0.04) 0%, transparent 50%),
+        var(--color-bg);
+    overflow: hidden;
+}
+
+/* Fold2 dot grid accent */
+.fold2::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle at 1px 1px, rgba(124, 58, 237, 0.08) 1px, transparent 0);
+    background-size: 40px 40px;
+    mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, black, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, black, transparent 75%);
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.6;
 }
 
 .fold2-header {
@@ -1540,9 +1609,33 @@
 .cta-card-v2-bg {
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse at 50% 0%, rgba(124, 58, 237, 0.12) 0%, transparent 60%),
-                radial-gradient(ellipse at 80% 100%, rgba(34, 211, 238, 0.06) 0%, transparent 50%);
+    background:
+        radial-gradient(ellipse at 50% 0%, rgba(124, 58, 237, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 100%, rgba(34, 211, 238, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 20% 80%, rgba(16, 185, 129, 0.05) 0%, transparent 50%);
     pointer-events: none;
+}
+
+/* CTA animated accent border glow */
+.cta-card-v2::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: var(--radius-2xl);
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.3), rgba(34, 211, 238, 0.15), rgba(16, 185, 129, 0.2), rgba(124, 58, 237, 0.3));
+    background-size: 300% 300%;
+    animation: ctaBorderGlow 8s ease infinite;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    z-index: 0;
+}
+
+@keyframes ctaBorderGlow {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
 }
 
 .cta-card-v2-content {

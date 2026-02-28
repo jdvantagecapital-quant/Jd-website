@@ -1264,4 +1264,39 @@
         opacity: 1;
         transform: none;
     }
+
+    .hero-bg-accent,
+    .glow-orb {
+        animation: none !important;
+    }
+
+    body::before {
+        display: none;
+    }
+}
+
+/* ---- Performance: simplify bg effects on small screens ---- */
+@media (max-width: 768px) {
+    .hero-bg-accent {
+        animation: none !important;
+        filter: blur(80px);
+    }
+
+    .glow-orb {
+        animation: none !important;
+        opacity: 0.5;
+    }
+
+    .hero::before,
+    .fold2::before {
+        display: none;
+    }
+
+    body::before {
+        opacity: 0.2;
+    }
+
+    .snap-panel:nth-child(odd)::after {
+        display: none;
+    }
 }
