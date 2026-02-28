@@ -24,7 +24,7 @@ function getReferralPage() {
                 <p class="onboard-desc">Register with Vantage Markets through our partnership links below. Use code <strong class="text-purple">jdvantagequant</strong> during sign-up for optimized trading conditions.</p>
 
                 <div class="onboard-accounts">
-                    <a href="https://vigco.co/la-com-inv/jdvantagequant" target="_blank" rel="noopener" class="onboard-account-card onboard-account-live">
+                    <a href="https://vigco.co/la-com-inv/jdvantagequant" target="_blank" rel="noopener noreferrer" class="onboard-account-card onboard-account-live">
                         <div class="onboard-account-icon">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
                         </div>
@@ -35,7 +35,7 @@ function getReferralPage() {
                         <svg class="onboard-account-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                     </a>
 
-                    <a href="https://vigco.co/da-com-inv/jdvantagequant" target="_blank" rel="noopener" class="onboard-account-card">
+                    <a href="https://vigco.co/da-com-inv/jdvantagequant" target="_blank" rel="noopener noreferrer" class="onboard-account-card">
                         <div class="onboard-account-icon onboard-icon-cyan">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
                         </div>
@@ -47,12 +47,12 @@ function getReferralPage() {
                     </a>
 
                     <div class="onboard-extras">
-                        <a href="https://vigco.co/hp-com-inv/jdvantagequant" target="_blank" rel="noopener" class="onboard-extra-link">
+                        <a href="https://vigco.co/hp-com-inv/jdvantagequant" target="_blank" rel="noopener noreferrer" class="onboard-extra-link">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
                             Vantage Markets Portal
                         </a>
                         <span class="onboard-extra-dot"></span>
-                        <a href="https://vigco.co/app-com1-inv/jdvantagequant" target="_blank" rel="noopener" class="onboard-extra-link">
+                        <a href="https://vigco.co/app-com1-inv/jdvantagequant" target="_blank" rel="noopener noreferrer" class="onboard-extra-link">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
                             Download Mobile App
                         </a>

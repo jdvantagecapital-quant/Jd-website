@@ -543,7 +543,9 @@
 /* ---- Mobile Nav ---- */
 
 .mobile-nav {
-    display: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
     position: fixed;
     top: 72px;
     left: 0;
@@ -555,7 +557,9 @@
     overflow-y: auto;
     transform: translateY(-10px);
     opacity: 0;
-    transition: all var(--transition-base);
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
 }
 
 
@@ -567,9 +571,8 @@
 }
 
 .mobile-nav.open {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
+    visibility: visible;
+    pointer-events: auto;
     padding-top: var(--space-8);
     transform: translateY(0);
     opacity: 1;

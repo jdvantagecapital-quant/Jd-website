@@ -258,11 +258,27 @@
         gap: var(--space-6);
     }
 
-    /* Hide Brand, Quick Links, Legal columns on mobile — show only Contact */
-    .footer-brand,
-    .footer-grid > div:nth-child(2),
-    .footer-grid > div:nth-child(3) {
+    /* Simplify footer on mobile: hide brand desc, keep nav columns in 2-col grid */
+    .footer-brand {
         display: none;
+    }
+
+    .footer-grid > div:nth-child(2),
+    .footer-grid > div:nth-child(3),
+    .footer-grid > div:nth-child(4) {
+        display: block;
+    }
+
+    /* Re-flow link columns into a compact 2-column grid */
+    .footer-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-4) var(--space-6);
+    }
+
+    /* Contact column spans full width */
+    .footer-grid > div:nth-child(4) {
+        grid-column: 1 / -1;
     }
 
     .footer-bottom {

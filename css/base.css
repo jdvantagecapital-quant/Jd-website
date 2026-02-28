@@ -40,7 +40,7 @@ body::before {
     inset: 0;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
     pointer-events: none;
-    z-index: 9999;
+    z-index: 50;
     opacity: 0.4;
     mix-blend-mode: overlay;
 }
@@ -199,7 +199,7 @@ strong {
     padding: var(--space-24) 0;
     position: relative;
     z-index: var(--z-base);
-    overflow: hidden;
+    overflow: clip;
 }
 
 .section-sm {
@@ -784,4 +784,53 @@ strong {
 /* ---- Decorated Sections ---- */
 .section-decorated {
     overflow: hidden;
+}
+
+/* ---- Skip to Content (Accessibility) ---- */
+.skip-to-content {
+    position: fixed;
+    top: -100%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10000;
+    padding: var(--space-3) var(--space-6);
+    background: var(--color-purple);
+    color: var(--text-white);
+    font-size: var(--text-sm);
+    font-weight: var(--font-semibold);
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    text-decoration: none;
+    transition: top 0.2s ease;
+    outline: none;
+}
+
+.skip-to-content:focus {
+    top: 0;
+}
+
+/* ---- Focus Visible (Keyboard Navigation) ---- */
+:focus-visible {
+    outline: 2px solid var(--color-purple-light);
+    outline-offset: 2px;
+}
+
+/* Remove outline on mouse focus */
+:focus:not(:focus-visible) {
+    outline: none;
+}
+
+.nav-link:focus-visible,
+.nav-cta:focus-visible,
+.mega-item:focus-visible,
+.nav-dropdown-item:focus-visible {
+    outline: 2px solid var(--color-purple-light);
+    outline-offset: -2px;
+    border-radius: var(--radius-lg);
+}
+
+.btn:focus-visible,
+.footer-link:focus-visible,
+.footer-social-link:focus-visible {
+    outline: 2px solid var(--color-purple-light);
+    outline-offset: 2px;
 }

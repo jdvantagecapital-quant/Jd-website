@@ -30,18 +30,35 @@ function navigateTo(pageName) {
     // Update current page
     currentPage = pageName;
 
-    // Render page content
+    // Scroll to top instantly BEFORE swapping content (prevents seeing old page scroll)
+    window.scrollTo(0, 0);
+
+    // Render page content with a brief fade transition
     const appContainer = document.getElementById('app-content');
     if (appContainer) {
+        if (!isInitialLoad) {
+            appContainer.style.opacity = '0';
+            appContainer.style.transform = 'translateY(12px)';
+        }
         appContainer.innerHTML = pageRegistry[pageName]();
+        
+        if (!isInitialLoad) {
+            // Trigger reflow then animate in
+            void appContainer.offsetHeight;
+            appContainer.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
+            appContainer.style.opacity = '1';
+            appContainer.style.transform = 'translateY(0)';
+            // Clean up inline styles after animation
+            setTimeout(() => {
+                appContainer.style.transition = '';
+                appContainer.style.opacity = '';
+                appContainer.style.transform = '';
+            }, 400);
+        }
     }
 
-    // Scroll to top — instant on first load, smooth on navigation
     if (isInitialLoad) {
-        window.scrollTo(0, 0);
         isInitialLoad = false;
-    } else {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     // Update active nav link
