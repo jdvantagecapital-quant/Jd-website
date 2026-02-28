@@ -201,25 +201,10 @@ function initScrollReveal() {
     }
 }
 
-// ---- Fullpage Smooth Scroll (home page only, desktop) ---- //
-let fpActive = false;
-let fpSections = [];
-let fpCurrentIndex = 0;
-let fpAnimating = false;
-let fpAnimEndTime = 0;
-let fpWheelHandler = null;
-let fpKeyHandler = null;
-let fpTouchStartY = 0;
-let fpTouchHandler = null;
-let fpTouchEndHandler = null;
-
+// ---- Fullpage Smooth Scroll — DISABLED (using normal scroll) ---- //
 function initSnapScroll(pageName) {
-    // Cleanup previous
-    destroyFullpage();
-
-    if (pageName === 'home' && window.innerWidth > 1024) {
-        setupFullpage();
-    }
+    // Normal scrolling — no snap/fullpage behavior
+    return;
 }
 
 function setupFullpage() {

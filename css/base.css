@@ -40,9 +40,6 @@ body {
     flex-direction: column;
     justify-content: center;
     position: relative;
-    will-change: transform;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
 }
 
 /* Compact padding on snap-panel sections — centering handles vertical placement */
@@ -53,16 +50,6 @@ body {
 
 .snap-panel .section-header {
     margin-bottom: var(--space-8);
-}
-
-/* Smooth transition lockout */
-html.fp-animating {
-    overflow: hidden !important;
-}
-
-/* Disable CSS smooth scroll when fullpage JS is driving the animation */
-html.fp-active {
-    scroll-behavior: auto !important;
 }
 
 /* ---- Scrollbar ---- */
