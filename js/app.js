@@ -231,6 +231,7 @@ function setupFullpage() {
     fpActive = true;
     fpCurrentIndex = 0;
     fpAnimating = false;
+    document.documentElement.classList.add('fp-active');
 
     // Find which section is currently closest
     const scrollY = window.scrollY;
@@ -440,6 +441,7 @@ function destroyFullpage() {
     fpActive = false;
     fpAnimating = false;
     document.documentElement.classList.remove('fp-animating');
+    document.documentElement.classList.remove('fp-active');
 
     if (fpWheelHandler) {
         window.removeEventListener('wheel', fpWheelHandler);

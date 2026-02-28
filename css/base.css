@@ -60,6 +60,11 @@ html.fp-animating {
     overflow: hidden !important;
 }
 
+/* Disable CSS smooth scroll when fullpage JS is driving the animation */
+html.fp-active {
+    scroll-behavior: auto !important;
+}
+
 /* ---- Scrollbar ---- */
 ::-webkit-scrollbar {
     width: 8px;
